@@ -1,0 +1,28 @@
+body {
+    font-family: 'Farro', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    font-family: 'Almendra SC', serif;
+    font-size: 2em;
+    background-color: #566dba;
+    color: white;
+    margin: auto;
+    text-align: center;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+#page {
+    margin: 10px;
+}
+
+.header-icon {
+    display: inline;
+    width: 25px;
+    margin: auto 5px;
+}

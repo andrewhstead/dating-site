@@ -1,0 +1,42 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>
+        {% block name %}
+	    {% endblock %}
+         | Christian Dating
+    </title>
+
+	<link href="https://fonts.googleapis.com/css?family=Farro&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Almendra+SC&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="{% static 'css/default.css' %}">
+
+</head>
+<body>
+
+    <header>
+
+        <div class="header-icon">
+            L
+        </div>
+
+        Christian Dating
+
+        <div class="header-icon">
+            &#8801;
+        </div>
+
+    </header>
+
+    <div id="page">
+    	{% block page %}
+	    {% endblock %}
+    </div>
+
+</body>
+</html>
