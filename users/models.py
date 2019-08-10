@@ -8,6 +8,26 @@ ETHNICITY = (
     ('asian', "Asian"),
 )
 
+# Options for hair colour of user.
+HAIR = (
+    ('black', "Black"),
+    ('brown', "Brown"),
+    ('blonde', "Blonde"),
+    ('red', "Red"),
+    ('grey', "Grey"),
+    ('bald', "Bald"),
+    ('other', "Other"),
+)
+
+# Options for eye colour of user.
+EYES = (
+    ('brown', "Brown"),
+    ('blue', "Blue"),
+    ('green', "Green"),
+    ('grey', "Grey"),
+    ('other', "Other"),
+)
+
 # Options for denomination of user.
 DENOMINATION = (
     ('catholic', "Catholic"),
@@ -47,17 +67,20 @@ class User(AbstractUser):
     subscription_ends = models.DateTimeField(blank=True, null=True)
     subscription_renews = models.BooleanField(default=False)
     subscription_plan = models.CharField(max_length=25, blank=True, null=True)
-    date_of_birth = models.DateField(blank=True, null=True)
-    ethnicity = models.CharField(max_length=25, choices=ETHNICITY, blank=True, null=True)
-    denomination = models.CharField(max_length=25, choices=DENOMINATION, blank=True, null=True)
-    diet = models.CharField(max_length=25, choices=DIET, blank=True, null=True)
-    gender = models.CharField(max_length=25, choices=GENDER, blank=True, null=True)
-    looking_for = models.CharField(max_length=25, choices=GENDER, blank=True, null=True)
-    relationship = models.CharField(max_length=25, choices=RELATIONSHIP, blank=True, null=True)
-    profile_picture = models.ImageField(upload_to="images/users", blank=True, null=True)
     city = models.CharField(max_length=50, blank=True, null=True)
     postcode = models.CharField(max_length=10, blank=True, null=True)
     country = models.CharField(max_length=50, blank=True, null=True)
+    date_of_birth = models.DateField(blank=True, null=True)
+    ethnicity = models.CharField(max_length=25, choices=ETHNICITY, blank=True, null=True)
+    hair = models.CharField(max_length=25, choices=HAIR, blank=True, null=True)
+    eyes = models.CharField(max_length=25, choices=EYES, blank=True, null=True)
+    gender = models.CharField(max_length=25, choices=GENDER, blank=True, null=True)
+    looking_for = models.CharField(max_length=25, choices=GENDER, blank=True, null=True)
+    relationship = models.CharField(max_length=25, choices=RELATIONSHIP, blank=True, null=True)
+    denomination = models.CharField(max_length=25, choices=DENOMINATION, blank=True, null=True)
+    occupation = models.CharField(max_length=50, blank=True, null=True)
+    diet = models.CharField(max_length=25, choices=DIET, blank=True, null=True)
+    profile_picture = models.ImageField(upload_to="images/users", blank=True, null=True)
     intro = models.CharField(max_length=250, blank=True, null=True)
     text = models.CharField(max_length=5000, blank=True, null=True)
 
