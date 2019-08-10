@@ -1,3 +1,4 @@
+/* Site-wide styling */
 body {
     font-family: 'Farro', sans-serif;
     margin: 0;
@@ -6,8 +7,8 @@ body {
 
 header {
     font-family: 'Almendra SC', serif;
-    font-size: 2em;
     background-color: #566dba;
+    font-size: 2em;
     color: white;
     margin: auto;
     text-align: center;
@@ -25,4 +26,32 @@ header {
     display: inline;
     width: 25px;
     margin: auto 5px;
+}
+
+/* Styles for the main menu */
+#main-menu {
+    display: none;
+    position: relative;
+}
+.menu-link {
+    font-family: 'Almendra SC', serif;
+    text-align: center;
+	background-color: #e1e5f2;
+    border-bottom: 1px solid #566dba;
+    font-size: 1.25em;
+    color: #566dba;
+    width: 100%;
+    display: block;
+    padding: none;
+    text-decoration: none;
+    box-sizing: border-box;
+    white-space: nowrap;
+}
+.menu-link:last-of-type {
+	box-shadow: 0 2px 2px 2px #566dba;
+}
+.menu-link:hover {
+	background-color: #566dba;
+	color: white;
+    transition: 0.25s;
 }
