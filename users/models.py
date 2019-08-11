@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
+from world.models import Country
 
 # Options for ethnicity of user.
 ETHNICITY = (
@@ -70,7 +71,7 @@ class User(AbstractUser):
     subscription_plan = models.CharField(max_length=25, blank=True, null=True)
     city = models.CharField(max_length=50, blank=True, null=True)
     postcode = models.CharField(max_length=10, blank=True, null=True)
-    country = models.CharField(max_length=50, blank=True, null=True)
+    country = models.ForeignKey(Country, related_name='users', on_delete=models.CASCADE)
     date_of_birth = models.DateField(blank=True, null=True)
     ethnicity = models.CharField(max_length=25, choices=ETHNICITY, blank=True, null=True)
     hair = models.CharField(max_length=25, choices=HAIR, blank=True, null=True)

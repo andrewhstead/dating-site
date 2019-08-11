@@ -12,10 +12,10 @@ header {
     color: white;
     margin: auto;
     text-align: center;
-    position: -webkit-sticky;
+/*    position: -webkit-sticky;
     position: sticky;
     top: 0;
-    z-index: 999;
+    z-index: 999;*/
 }
 
 #page {
@@ -29,7 +29,7 @@ header {
 }
 
 .page-header {
-    text-align: center;
+    text-align: left;
     font-size: 1.5em;
     font-weight: bold;
     color: #566dba;
@@ -79,6 +79,11 @@ input {
 .standard-link:hover {
     text-decoration: underline;
     color: #788fdc;
+}
+.banner-link {
+    text-decoration: none;
+    color: white;
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* Styling additional navigating links */
@@ -148,4 +153,10 @@ input {
 }
 .activate {
 	display: block;
+}
+
+/* Styles for the user profiles */
+.user-flag {
+    height: 30px;
+    float: right;
 }

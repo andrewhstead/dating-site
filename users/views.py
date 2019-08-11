@@ -169,3 +169,15 @@ def change_password(request):
     }
     args.update(csrf(request))
     return render(request, 'change_password.html', args)
+
+
+# Logged in users can view the profiles of others.
+@login_required(login_url='/login/')
+def view_profile(request, user_id):
+    profile = get_object_or_404(User, pk=user_id)
+    page_name = profile.username + "'s Profile"
+
+    return render(request, 'view_profile.html', {
+        'profile': profile,
+        'page_name': page_name
+    })

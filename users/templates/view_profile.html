@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="page-header">
+        {{ profile.username }}
+        <img class="user-flag" src="{{profile.country.flag.url}}" />
+    </div>
+
+    <p>
+        <strong>Member since:</strong><br />
+        {{ profile.date_joined|date:'d M Y, H:i' }}
+    </p>
+
+    <p>
+        <strong>Last login:</strong><br />
+        {{ profile.last_login|date:'d M Y, H:i' }}
+    </p>
+
+{% endblock %}
