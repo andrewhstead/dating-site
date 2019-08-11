@@ -8,7 +8,8 @@
 
 	<title>
         {% block name %}
-	    {% endblock %}
+            {{ page_name }}
+        {% endblock %}
          | Christian Dating
     </title>
 
@@ -22,7 +23,7 @@
 
     <header>
 
-        <div class="header-icon">
+        <div id="site-logo" class="header-icon">
             L
         </div>
 
@@ -47,13 +48,13 @@
 	        <a class="menu-link" href="">Messages</a>
             <a class="menu-link" href="">Log Out</a>
         {% else %}
-            <a class="menu-link" href="">Register</a>
+            <a class="menu-link" href="{% url 'register' %}">Register</a>
             <a class="menu-link" href="">Log In</a>
         {% endif %}
     </nav>
 
     <div id="page">
-    	{% block page %}
+    	{% block content %}
 	    {% endblock %}
     </div>
 

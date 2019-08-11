@@ -1,12 +1,10 @@
 {% extends "base.html" %}
 
-{% block name %}
+{% block content %}
 
-	{{ page_name }}
-
-{% endblock %}
-
-{% block page %}
+    {% if user.is_authenticated %}
+        Hello, {{user.username }}!
+    {% endif %}
 
     Text for the Home Page.
 

@@ -28,6 +28,44 @@ header {
     margin: auto 5px;
 }
 
+.page-header {
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #566dba;
+}
+
+.helptext, .errorlist {
+    font-size: 0.8em;
+    color: #566dba;
+}
+
+label {
+    color: #566dba;
+}
+
+input {
+    display: block;
+    padding: 2px;
+    border: none;
+    border-bottom: 1px solid #566dba;
+    width: 100%;
+}
+
+.default-button {
+    text-align: center;
+}
+
+#site-logo {
+    position: absolute;
+    left: 0;
+}
+
+#menu-button {
+    position: absolute;
+    right: 0;
+}
+
 /* Styles for the main menu */
 #main-menu {
     display: none;

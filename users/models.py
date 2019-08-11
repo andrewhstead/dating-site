@@ -63,6 +63,7 @@ RELATIONSHIP = (
 # Additional fields are added to the AbstractUser model.
 class User(AbstractUser):
     objects = UserManager()
+    email = models.EmailField(unique=True)
     stripe_id = models.CharField(max_length=40, default='', blank=True, null=True)
     subscription_ends = models.DateTimeField(blank=True, null=True)
     subscription_renews = models.BooleanField(default=False)
