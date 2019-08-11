@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="page-header">
+        EDIT YOUR PROFILE
+    </div>
+
+    <form id="default-form" enctype="multipart/form-data" role="form" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="default-button" type="submit">{{ button_text }}</button>
+    </form>
+
+    <!-- Links to change account password or delete account. -->
+    <div class="full-details">
+        <a class="standard-link" href="{% url 'change_password' %}">[Change Password]</a>
+        <a class="standard-link" href="{% url 'delete_account' %}">[Delete Account]</a>
+    </div>
+
+{% endblock %}

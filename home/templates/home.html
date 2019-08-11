@@ -3,7 +3,9 @@
 {% block content %}
 
     {% if user.is_authenticated %}
-        Hello, {{user.username }}!
+        <div class="page-info">
+            Hello, {{user.username }}!
+        </div>
     {% endif %}
 
     Text for the Home Page.

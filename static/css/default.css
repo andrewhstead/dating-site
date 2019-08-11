@@ -35,6 +35,11 @@ header {
     color: #566dba;
 }
 
+.page-info {
+    margin: 10px;
+    color: #566dba;
+}
+
 .helptext, .errorlist {
     font-size: 0.8em;
     color: #566dba;
@@ -66,6 +71,25 @@ input {
     right: 0;
 }
 
+/* Styles for links */
+.standard-link {
+    text-decoration: none;
+    color: #566dba;
+}
+.standard-link:hover {
+    text-decoration: underline;
+    color: #788fdc;
+}
+
+/* Styling additional navigating links */
+.full-details {
+    font-size: 0.75em;
+    display: block;
+    text-align: center;
+    clear: both;
+    margin: 10px;
+}
+
 /* Styles for the main menu */
 #main-menu {
     display: none;
@@ -92,4 +116,36 @@ input {
 	background-color: #566dba;
 	color: white;
     transition: 0.25s;
+}
+
+/* Styles for message alerts */
+.success {
+    font-size: 0.75em;
+    background-color: #ccffcc;
+    border: 1px solid #339933;
+    color: #339933;
+    border-radius: 10px;
+    margin: 0 auto 10px auto;
+    padding: 5px;
+    text-align: center;
+    width: fit-content;
+}
+.error {
+    font-size: 0.75em;
+    background-color: #ffcccc;
+    border: 1px solid #993333;
+    color: #993333;
+    border-radius: 10px;
+    margin: 0 auto 10px auto;
+    padding: 5px;
+    text-align: center;
+    width: fit-content;
+}
+
+/* Classes to toggle content based on user action */
+.hidden {
+    display: none;
+}
+.activate {
+	display: block;
 }

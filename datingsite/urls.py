@@ -21,5 +21,10 @@ from users import views as user_views
 urlpatterns = [
     path(r'', home_views.home_page, name='home'),
     path('admin/', admin.site.urls),
+    path('login/', user_views.login, name="login"),
+    path('logout/', user_views.logout, name="logout"),
+    path('profile/edit/', user_views.user_profile, name='user_profile'),
+    path('profile/delete/', user_views.delete_account, name='delete_account'),
+    path('profile/password/', user_views.change_password, name='change_password'),
     path('register/', user_views.register, name='register'),
 ]

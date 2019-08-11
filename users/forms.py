@@ -6,12 +6,6 @@ from .models import User
 
 # Form to register a new user.
 class RegistrationForm(UserCreationForm):
-    first_name = forms.CharField(
-        label='First Name'
-    )
-    last_name = forms.CharField(
-        label='Last Name'
-    )
     password1 = forms.CharField(
         label='Choose a Password',
         widget=forms.PasswordInput
@@ -27,11 +21,14 @@ class RegistrationForm(UserCreationForm):
             'username': None,
             'email': None,
         }
+        labels = {
+            'first_name': 'First Name',
+            'last_name': 'Last Name',
+        }
         fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
 
     def __init__(self, *args, **kwargs):
         super(RegistrationForm, self).__init__(*args, **kwargs)
-        kwargs.setdefault('label_suffix', '')
         self.fields['email'].required = True
         self.fields['first_name'].required = True
         self.fields['last_name'].required = True
@@ -50,3 +47,76 @@ class RegistrationForm(UserCreationForm):
         instance = super(RegistrationForm, self).save()
 
         return instance
+
+
+# Simple username and password login.
+class LoginForm(forms.Form):
+    username = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput)
+
+
+# Form for a user to edit their profile. Password field is not needed and so can be excluded.
+class EditProfileForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email']
+        exclude = ['password']
+        help_texts = {
+            'username': None,
+            'email': None,
+        }
+        labels = {
+            'first_name': 'First Name',
+            'last_name': 'Last Name',
+        }
+
+
+# Form for user to delete their account. Password is required to delete a user's account.
+class DeletionForm(forms.ModelForm):
+
+    password = forms.CharField(
+        widget=forms.PasswordInput
+    )
+
+    class Meta:
+        model = User
+        fields = ['password']
+
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+
+        return password
+
+
+# Form for a user to change their password.
+# Old password is needed to make a change, new password must then be entered and confirmed.
+class ChangePasswordForm(forms.ModelForm):
+    password1 = forms.CharField(
+        label='Choose New Password',
+        widget=forms.PasswordInput
+    )
+    password2 = forms.CharField(
+        label='Confirm New Password',
+        widget=forms.PasswordInput
+    )
+
+    class Meta:
+        model = User
+        fields = ['password', 'password1', 'password2']
+        labels = {
+            'password': 'Current Password',
+        }
+        widgets = {
+            'password': forms.PasswordInput
+        }
+
+    def clean_password2(self):
+        password1 = self.cleaned_data.get('password1')
+        password2 = self.cleaned_data.get('password2')
+
+        if password1 and password2 and password1 != password2:
+            password_error = "Your passwords do not match. Please try again."
+            raise ValidationError(password_error)
+
+        return password2
