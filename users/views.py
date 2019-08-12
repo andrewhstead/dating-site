@@ -176,8 +176,10 @@ def change_password(request):
 def view_profile(request, user_id):
     profile = get_object_or_404(User, pk=user_id)
     page_name = profile.username + "'s Profile"
+    user = request.user
 
     return render(request, 'view_profile.html', {
         'profile': profile,
-        'page_name': page_name
+        'page_name': page_name,
+        'user': user,
     })

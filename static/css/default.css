@@ -5,6 +5,10 @@ body {
     padding: 0;
 }
 
+p {
+    text-align: justify;
+}
+
 header {
     font-family: 'Almendra SC', serif;
     background-color: #566dba;
@@ -22,13 +26,22 @@ header {
     margin: 10px;
 }
 
+.flex-container {
+    display: flex;
+    clear: both;
+}
+
+.columns {
+    flex: 1;
+}
+
 .header-icon {
     display: inline;
     width: 25px;
     margin: auto 5px;
 }
 
-.page-header {
+#page-header {
     text-align: left;
     font-size: 1.5em;
     font-weight: bold;
@@ -159,4 +172,17 @@ input {
 .user-flag {
     height: 30px;
     float: right;
+}
+.profile-picture {
+    height: 100px;
+    width: 100px;
+    border: 1px solid #566dba;
+    overflow: hidden;
+    vertical-align: bottom;
+    border-radius: 20px;
+    margin-right: 10px;
+    object-fit: cover;
+}
+#profile-header {
+    margin: 10px 0;
 }

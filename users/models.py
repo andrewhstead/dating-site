@@ -83,8 +83,8 @@ class User(AbstractUser):
     occupation = models.CharField(max_length=50, blank=True, null=True)
     diet = models.CharField(max_length=25, choices=DIET, blank=True, null=True)
     profile_picture = models.ImageField(upload_to="images/users", blank=True, null=True)
-    intro = models.CharField(max_length=250, blank=True, null=True)
-    text = models.CharField(max_length=5000, blank=True, null=True)
+    intro = models.TextField(max_length=100, blank=True, null=True)
+    text = models.TextField(max_length=1000, blank=True, null=True)
 
     def __unicode__(self):
         return self.username

@@ -60,7 +60,7 @@ class EditProfileForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email']
+        fields = ['username', 'first_name', 'last_name', 'email', 'profile_picture', 'intro', 'text']
         exclude = ['password']
         help_texts = {
             'username': None,
@@ -69,6 +69,9 @@ class EditProfileForm(forms.ModelForm):
         labels = {
             'first_name': 'First Name',
             'last_name': 'Last Name',
+            'profile_picture': 'Profile Picture',
+            'intro': 'Introduction (max 100 characters)',
+            'text': 'Profile Text (max 1000 characters)',
         }
 
 

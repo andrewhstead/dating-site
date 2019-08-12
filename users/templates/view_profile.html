@@ -2,19 +2,50 @@
 
 {% block content %}
 
-    <div class="page-header">
-        {{ profile.username }}
+    <section id="page-header">
+        {% if profile.id == user.id %}
+            YOUR PROFILE
+        {% else %}
+            {{ profile.username }}
+        {% endif %}
         <img class="user-flag" src="{{profile.country.flag.url}}" />
-    </div>
+    </section>
+
+    <section id="profile-header" class="flex-container">
+        <div>
+            {% if profile.profile_picture %}
+                <img class="profile-picture" src="{{ profile.profile_picture.url }}" />
+            {% endif %}
+        </div>
+        <div>
+            {% if profile.intro %}
+                {{ profile.intro }}
+            {% endif %}
+        </div>
+    </section>
 
     <p>
-        <strong>Member since:</strong><br />
-        {{ profile.date_joined|date:'d M Y, H:i' }}
+        {% if profile.text %}
+            {{ profile.text }}
+        {% endif %}
     </p>
 
-    <p>
-        <strong>Last login:</strong><br />
-        {{ profile.last_login|date:'d M Y, H:i' }}
-    </p>
+    <section id="user-details" class="flex-container">
+        <div class="columns">
+            <strong>Member since:</strong><br />
+            {{ profile.date_joined|date:'d M y, H:i' }}
+        </div>
+        <div class="columns">
+            <strong>Last login:</strong><br />
+            {{ profile.last_login|date:'d M y, H:i' }}
+        </div>
+    </section>
+
+    <!-- If the user is viewing their own profile, link to the editing page. -->
+    {% if profile.id == user.id %}
+        <div class="full-details">
+            <a class="standard-link" href="{% url 'user_profile' %}">[Edit Your Profile]</a>
+        </div>
+    {% endif %}
 
 {% endblock %}
