@@ -30,13 +30,65 @@
         {% endif %}
     </section>
 
-    <section id="profile-info" class="flex-container">
+    <section id="profile-info">
+        <ul>
+            <li>
+                <strong>Country:</strong> {{ profile.country }}
+            </li>
+        </ul>
         <ul>
             <li>
                 <strong>Age:</strong> {{ age }}
             </li>
             <li>
-                <strong>Country:</strong> {{ profile.country }}
+                <strong>Gender:</strong>
+                {% if profile.gender %}
+                    {{ profile.gender }}
+                {% else %}
+                    Not Set
+                {% endif %}
+            </li>
+            <li>
+                <strong>Looking For:</strong>
+                {% if profile.looking_for %}
+                    {{ profile.looking_for }}
+                {% else %}
+                    Not Set
+                {% endif %}
+            </li>
+            <li>
+                <strong>Seeking:</strong>
+                {% if profile.relationship %}
+                    {{ profile.relationship }}
+                {% else %}
+                    Not Set
+                {% endif %}
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <strong>Ethnicity:</strong>
+                {% if profile.ethnicity %}
+                    {{ profile.ethnicity }}
+                {% else %}
+                    Not Set
+                {% endif %}
+            </li>
+            <li>
+                <strong>Hair Colour:</strong>
+                {% if profile.hair %}
+                    {{ profile.hair }}
+                {% else %}
+                    Not Set
+                {% endif %}
+            </li>
+            <li>
+                <strong>Eye Colour:</strong>
+                {% if profile.eyes %}
+                    {{ profile.eyes }}
+                {% else %}
+                    Not Set
+                {% endif %}
             </li>
         </ul>
     </section>

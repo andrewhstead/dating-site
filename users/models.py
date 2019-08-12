@@ -6,37 +6,37 @@ from django.shortcuts import get_object_or_404
 
 # Options for ethnicity of user.
 ETHNICITY = (
-    ('black', "Black"),
-    ('white', "White"),
-    ('asian', "Asian"),
+    ('Black', "Black"),
+    ('White', "White"),
+    ('Asian', "Asian"),
 )
 
 # Options for hair colour of user.
 HAIR = (
-    ('black', "Black"),
-    ('brown', "Brown"),
-    ('blonde', "Blonde"),
-    ('red', "Red"),
-    ('grey', "Grey"),
-    ('bald', "Bald"),
-    ('other', "Other"),
+    ('Black', "Black"),
+    ('Brown', "Brown"),
+    ('Blonde', "Blonde"),
+    ('Red', "Red"),
+    ('Grey', "Grey"),
+    ('Bald', "Bald"),
+    ('Other', "Other"),
 )
 
 # Options for eye colour of user.
 EYES = (
-    ('brown', "Brown"),
-    ('blue', "Blue"),
-    ('green', "Green"),
-    ('grey', "Grey"),
-    ('other', "Other"),
+    ('Brown', "Brown"),
+    ('Blue', "Blue"),
+    ('Green', "Green"),
+    ('Grey', "Grey"),
+    ('Other', "Other"),
 )
 
 # Options for denomination of user.
 DENOMINATION = (
-    ('catholic', "Catholic"),
-    ('anglican', "Anglican"),
-    ('methodist', "Methodist"),
-    ('baptist', "Baptist"),
+    ('Catholic', "Catholic"),
+    ('Anglican', "Anglican"),
+    ('Methodist', "Methodist"),
+    ('Baptist', "Baptist"),
 )
 
 # Options for diet of user.
@@ -50,15 +50,15 @@ DIET = (
 
 # Options for gender of user and person being sought.
 GENDER = (
-    ('M', "Male"),
-    ('F', "Female"),
+    ('Male', "Male"),
+    ('Female', "Female"),
 )
 
 # Options for type of relationship being sought.
 RELATIONSHIP = (
-    ('friendship', "Friendship"),
-    ('fellowship', "Fellowship"),
-    ('marriage', "Marriage"),
+    ('Friendship', "Friendship"),
+    ('Fellowship', "Fellowship"),
+    ('Marriage', "Marriage"),
 )
 
 

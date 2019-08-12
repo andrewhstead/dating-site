@@ -26,13 +26,14 @@ class RegistrationForm(UserCreationForm):
             'first_name': 'First Name',
             'last_name': 'Last Name',
         }
-        fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
+        fields = ['username', 'first_name', 'last_name', 'email', 'country', 'password1', 'password2']
 
     def __init__(self, *args, **kwargs):
         super(RegistrationForm, self).__init__(*args, **kwargs)
         self.fields['email'].required = True
         self.fields['first_name'].required = True
         self.fields['last_name'].required = True
+        self.fields['country'].required = True
 
     def clean_password2(self):
         password1 = self.cleaned_data.get('password1')
@@ -62,7 +63,9 @@ class EditProfileForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', 'profile_picture',
-                  'intro', 'text', 'date_of_birth', 'country']
+                  'intro', 'text', 'date_of_birth', 'country',
+                  'hair', 'eyes', 'ethnicity',
+                  'gender', 'looking_for', 'relationship']
         exclude = ['password']
         help_texts = {
             'username': None,
@@ -75,6 +78,9 @@ class EditProfileForm(forms.ModelForm):
             'intro': 'Introduction (max 100 characters)',
             'text': 'Profile Text (max 1000 characters)',
             'date_of_birth': 'Date of Birth',
+            'looking_for': 'Looking For',
+            'hair': 'Hair Colour',
+            'eyes': 'Eye Colour'
         }
         widgets = {
             'date_of_birth': TextInput(attrs={'type': 'date'}),
