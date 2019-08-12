@@ -1,11 +1,11 @@
-from django.shortcuts import render
+from datetime import date
 from django.contrib import auth, messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from .forms import RegistrationForm, LoginForm, EditProfileForm, DeletionForm, ChangePasswordForm
-from .models import User
+from .models import User, user_age
 
 # Create your views here.
 
@@ -76,7 +76,7 @@ def logout(request):
     return redirect(reverse('login'))
 
 
-# Logged in users can view and edit their own profile.
+# Logged in users can edit their own profile.
 @login_required(login_url='/login/')
 def user_profile(request):
     page_name = "Edit Your Profile"
@@ -88,7 +88,7 @@ def user_profile(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Your profile has been updated.')
-            return redirect(reverse('user_profile'))
+            return redirect(reverse('own_profile'))
         else:
             messages.error(request, 'Sorry, we were unable to update your details. Please try again.')
 
@@ -175,11 +175,38 @@ def change_password(request):
 @login_required(login_url='/login/')
 def view_profile(request, user_id):
     profile = get_object_or_404(User, pk=user_id)
-    page_name = profile.username + "'s Profile"
     user = request.user
+
+    # Get the age of the user from their date of birth.
+    age = user_age(profile)
+
+    if user.id == profile.id:
+        page_name = "Your Profile"
+        return redirect('/profile/')
+    else:
+        page_name = profile.username + "'s Profile"
 
     return render(request, 'view_profile.html', {
         'profile': profile,
         'page_name': page_name,
         'user': user,
+        'age': age,
+    })
+
+
+# Logged in users can also view their own profile.
+@login_required(login_url='/login/')
+def own_profile(request):
+    user = request.user
+    profile = get_object_or_404(User, pk=user.id)
+    page_name = "Your Profile"
+
+    # Get the age of the user from their date of birth.
+    age = user_age(user)
+
+    return render(request, 'view_profile.html', {
+        'profile': profile,
+        'page_name': page_name,
+        'user': user,
+        'age': age,
     })

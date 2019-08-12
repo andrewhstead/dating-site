@@ -14,7 +14,7 @@
     <section id="profile-header" class="flex-container">
         <div>
             {% if profile.profile_picture %}
-                <img class="profile-picture" src="{{ profile.profile_picture.url }}" />
+                <img class="profile-picture" alt="{{ profile.username }}" src="{{ profile.profile_picture.url }}" />
             {% endif %}
         </div>
         <div>
@@ -24,11 +24,22 @@
         </div>
     </section>
 
-    <p>
+    <section id="profile-text">
         {% if profile.text %}
             {{ profile.text }}
         {% endif %}
-    </p>
+    </section>
+
+    <section id="profile-info" class="flex-container">
+        <ul>
+            <li>
+                <strong>Age:</strong> {{ age }}
+            </li>
+            <li>
+                <strong>Country:</strong> {{ profile.country }}
+            </li>
+        </ul>
+    </section>
 
     <section id="user-details" class="flex-container">
         <div class="columns">

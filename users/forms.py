@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 from .models import User
+from django.forms.widgets import TextInput
 
 
 # Form to register a new user.
@@ -60,7 +61,8 @@ class EditProfileForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'profile_picture', 'intro', 'text']
+        fields = ['username', 'first_name', 'last_name', 'email', 'profile_picture',
+                  'intro', 'text', 'date_of_birth', 'country']
         exclude = ['password']
         help_texts = {
             'username': None,
@@ -72,6 +74,10 @@ class EditProfileForm(forms.ModelForm):
             'profile_picture': 'Profile Picture',
             'intro': 'Introduction (max 100 characters)',
             'text': 'Profile Text (max 1000 characters)',
+            'date_of_birth': 'Date of Birth',
+        }
+        widgets = {
+            'date_of_birth': TextInput(attrs={'type': 'date'}),
         }
 
 

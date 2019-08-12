@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
 from world.models import Country
+from datetime import date
+from django.shortcuts import get_object_or_404
 
 # Options for ethnicity of user.
 ETHNICITY = (
@@ -58,21 +60,35 @@ RELATIONSHIP = (
     ('fellowship', "Fellowship"),
     ('marriage', "Marriage"),
 )
+
+
+# A function to calculate a user's age from their date of birth.
+def user_age(user):
+    today = date.today()
+    profile = get_object_or_404(User, pk=user.id)
+    dob = profile.date_of_birth
+
+    if dob:
+        age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
+    else:
+        age = "Not Set"
+
+    return age
+
+
 # Create your models here.
-
-
 # Additional fields are added to the AbstractUser model.
 class User(AbstractUser):
     objects = UserManager()
     email = models.EmailField(unique=True)
+    date_of_birth = models.DateField(blank=True, null=True)
+    country = models.ForeignKey(Country, related_name='users', on_delete=models.CASCADE)
+    city = models.CharField(max_length=50, blank=True, null=True)
+    postcode = models.CharField(max_length=10, blank=True, null=True)
     stripe_id = models.CharField(max_length=40, default='', blank=True, null=True)
     subscription_ends = models.DateTimeField(blank=True, null=True)
     subscription_renews = models.BooleanField(default=False)
     subscription_plan = models.CharField(max_length=25, blank=True, null=True)
-    city = models.CharField(max_length=50, blank=True, null=True)
-    postcode = models.CharField(max_length=10, blank=True, null=True)
-    country = models.ForeignKey(Country, related_name='users', on_delete=models.CASCADE)
-    date_of_birth = models.DateField(blank=True, null=True)
     ethnicity = models.CharField(max_length=25, choices=ETHNICITY, blank=True, null=True)
     hair = models.CharField(max_length=25, choices=HAIR, blank=True, null=True)
     eyes = models.CharField(max_length=25, choices=EYES, blank=True, null=True)

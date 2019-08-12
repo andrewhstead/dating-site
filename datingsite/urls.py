@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', user_views.login, name="login"),
     path('logout/', user_views.logout, name="logout"),
+    path('profile/', user_views.own_profile, name='own_profile'),
     path('profile/<int:user_id>/', user_views.view_profile, name='view_profile'),
     path('profile/edit/', user_views.user_profile, name='user_profile'),
     path('profile/delete/', user_views.delete_account, name='delete_account'),
