@@ -66,7 +66,8 @@ class EditProfileForm(forms.ModelForm):
         fields = ['username', 'first_name', 'last_name', 'email', 'profile_picture',
                   'intro', 'text', 'date_of_birth', 'country',
                   'hair', 'eyes', 'ethnicity',
-                  'gender', 'looking_for', 'relationship']
+                  'gender', 'looking_for', 'relationship', 'marital_status',
+                  'drinks', 'smokes', 'diet', 'has_children', 'wants_children']
         exclude = ['password']
         help_texts = {
             'username': None,
@@ -81,7 +82,10 @@ class EditProfileForm(forms.ModelForm):
             'date_of_birth': 'Date of Birth',
             'looking_for': 'Looking For',
             'hair': 'Hair Colour',
-            'eyes': 'Eye Colour'
+            'eyes': 'Eye Colour',
+            'marital_status': 'Marital Status',
+            'has_children': 'Has Children',
+            'wants_children': 'Wants Children'
         }
         widgets = {
             'date_of_birth': TextInput(attrs={'type': 'date'}),

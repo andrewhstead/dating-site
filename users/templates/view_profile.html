@@ -49,6 +49,14 @@
                 {% endif %}
             </li>
             <li>
+                <strong>Status:</strong>
+                {% if profile.marital_status %}
+                    {{ profile.marital_status }}
+                {% else %}
+                    Not Set
+                {% endif %}
+            </li>
+            <li>
                 <strong>Looking For:</strong>
                 {% if profile.looking_for %}
                     {{ profile.looking_for }}
@@ -86,6 +94,48 @@
                 <strong>Eye Colour:</strong>
                 {% if profile.eyes %}
                     {{ profile.eyes }}
+                {% else %}
+                    Not Set
+                {% endif %}
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <strong>Has Children:</strong>
+                {% if profile.has_children %}
+                    {{ profile.has_children }}
+                {% else %}
+                    Not Set
+                {% endif %}
+            </li>
+            <li>
+                <strong>Wants Children:</strong>
+                {% if profile.wants_children %}
+                    {{ profile.wants_children }}
+                {% else %}
+                    Not Set
+                {% endif %}
+            </li>
+            <li>
+                <strong>Drinks:</strong>
+                {% if profile.drinks %}
+                    {{ profile.drinks }}
+                {% else %}
+                    Not Set
+                {% endif %}
+            </li>
+            <li>
+                <strong>Smokes:</strong>
+                {% if profile.smokes %}
+                    {{ profile.smokes }}
+                {% else %}
+                    Not Set
+                {% endif %}
+            </li>
+            <li>
+                <strong>Diet:</strong>
+                {% if profile.diet %}
+                    {{ profile.diet }}
                 {% else %}
                     Not Set
                 {% endif %}
