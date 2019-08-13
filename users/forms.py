@@ -63,11 +63,8 @@ class EditProfileForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'profile_picture',
-                  'intro', 'text', 'date_of_birth', 'country',
-                  'hair', 'eyes', 'ethnicity',
-                  'gender', 'looking_for', 'relationship', 'marital_status',
-                  'drinks', 'smokes', 'diet', 'has_children', 'wants_children']
+        fields = ['username', 'first_name', 'last_name', 'email', 'date_of_birth', 'country',
+                  'profile_picture', 'intro', 'text']
         exclude = ['password']
         help_texts = {
             'username': None,
@@ -80,16 +77,46 @@ class EditProfileForm(forms.ModelForm):
             'intro': 'Introduction (max 100 characters)',
             'text': 'Profile Text (max 1000 characters)',
             'date_of_birth': 'Date of Birth',
-            'looking_for': 'Looking For',
-            'hair': 'Hair Colour',
-            'eyes': 'Eye Colour',
-            'marital_status': 'Marital Status',
-            'has_children': 'Has Children',
-            'wants_children': 'Wants Children'
         }
         widgets = {
             'date_of_birth': TextInput(attrs={'type': 'date'}),
             'profile_picture': ThumbnailWidget(),
+        }
+
+
+# Form for a user to edit the relationship section of their profile.
+class RelationshipForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ['gender', 'marital_status', 'looking_for', 'relationship']
+        labels = {
+            'looking_for': 'Looking For',
+            'marital_status': 'Marital Status',
+        }
+
+
+# Form for a user to edit the appearance section of their profile.
+class AppearanceForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ['ethnicity', 'hair', 'eyes']
+        labels = {
+            'hair': 'Hair Colour',
+            'eyes': 'Eye Colour',
+        }
+
+
+# Form for a user to edit the lifestyle section of their profile.
+class LifestyleForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ['drinks', 'smokes', 'diet', 'has_children', 'wants_children']
+        labels = {
+            'has_children': 'Has Children',
+            'wants_children': 'Wants Children'
         }
 
 

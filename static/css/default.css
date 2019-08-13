@@ -67,7 +67,8 @@ input {
 }
 
 .default-button {
-    text-align: center;
+    margin: 10px auto;
+    display: block;
 }
 
 #site-logo {
@@ -186,14 +187,16 @@ input {
     margin: 10px 0;
     text-align: justify;
 }
-#profile-info {
+.profile-info {
     margin: 10px 0;
 }
-#profile-info ul {
+.profile-info ul {
     margin: 5px 0 0 0;
     padding: 0;
     list-style-type: none;
 }
+
+/* Styles for the profile editing forms */
 .form-thumbnail {
     height: 100px;
     width: 100px;
@@ -210,4 +213,10 @@ input {
 }
 label[for=id_profile_picture] {
     display: block;
+}
+#default-form li {
+    list-style-type: none;
+}
+.form-section {
+    margin: 10px 0;
 }

@@ -30,12 +30,15 @@
         {% endif %}
     </section>
 
-    <section id="profile-info">
+    <section class="profile-info" id="location">
         <ul>
             <li>
                 <strong>Country:</strong> {{ profile.country }}
             </li>
         </ul>
+    </section>
+
+    <section class="profile-info" id="details">
         <ul>
             <li>
                 <strong>Age:</strong> {{ age }}
@@ -73,6 +76,9 @@
                 {% endif %}
             </li>
         </ul>
+    </section>
+
+    <section class="profile-info" id="appearance">
         <ul>
             <li>
                 <strong>Ethnicity:</strong>
@@ -99,6 +105,9 @@
                 {% endif %}
             </li>
         </ul>
+    </section>
+
+    <section class="profile-info" id="lifestyle">
         <ul>
             <li>
                 <strong>Has Children:</strong>

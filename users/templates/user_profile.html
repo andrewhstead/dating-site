@@ -9,6 +9,22 @@
     <form id="default-form" enctype="multipart/form-data" role="form" method="post">
         {% csrf_token %}
         {{ form.as_p }}
+
+        <section class="form-section" id="relationship-form">
+            RELATIONSHIP DETAILS
+            {{ relationship.as_ul }}
+        </section>
+
+        <section class="form-section" id="appearance-form">
+            APPEARANCE
+            {{ appearance.as_ul }}
+        </section>
+
+        <section class="form-section" id="lifestyle-form">
+            LIFESTYLE
+            {{ lifestyle.as_ul }}
+        </section>
+
         <button class="default-button" type="submit">{{ button_text }}</button>
     </form>
 

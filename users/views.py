@@ -4,7 +4,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.template.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from .forms import RegistrationForm, LoginForm, EditProfileForm, DeletionForm, ChangePasswordForm
+from .forms import RegistrationForm, LoginForm, EditProfileForm, DeletionForm, \
+    ChangePasswordForm, LifestyleForm, AppearanceForm, RelationshipForm
 from .models import User, user_age
 
 # Create your views here.
@@ -85,8 +86,14 @@ def user_profile(request):
 
     if request.method == 'POST':
         form = EditProfileForm(request.POST, request.FILES, instance=user)
-        if form.is_valid():
+        lifestyle = LifestyleForm(request.POST, request.FILES, instance=user)
+        appearance = AppearanceForm(request.POST, request.FILES, instance=user)
+        relationship = RelationshipForm(request.POST, request.FILES, instance=user)
+        if form.is_valid() and lifestyle.is_valid() and appearance.is_valid() and relationship.is_valid():
             form.save()
+            lifestyle.save()
+            appearance.save()
+            relationship.save()
             messages.success(request, 'Your profile has been updated.')
             return redirect(reverse('own_profile'))
         else:
@@ -94,9 +101,15 @@ def user_profile(request):
 
     else:
         form = EditProfileForm(instance=user)
+        lifestyle = LifestyleForm(instance=user)
+        appearance = AppearanceForm(instance=user)
+        relationship = RelationshipForm(instance=user)
 
     args = {
         'form': form,
+        'lifestyle': lifestyle,
+        'appearance': appearance,
+        'relationship': relationship,
         'button_text': 'Update Profile',
         'page_name': page_name,
     }
