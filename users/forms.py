@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 from .models import User
 from django.forms.widgets import TextInput
+from .widgets import ThumbnailWidget
 
 
 # Form to register a new user.
@@ -84,6 +85,7 @@ class EditProfileForm(forms.ModelForm):
         }
         widgets = {
             'date_of_birth': TextInput(attrs={'type': 'date'}),
+            'profile_picture': ThumbnailWidget(),
         }
 
 

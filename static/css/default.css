@@ -194,3 +194,20 @@ input {
     padding: 0;
     list-style-type: none;
 }
+.form-thumbnail {
+    height: 100px;
+    width: 100px;
+    border: 1px solid #566dba;
+    overflow: hidden;
+    display: block;
+    border-radius: 20px;
+    object-fit: cover;
+}
+#profile_picture-clear_id {
+    width: 13px;
+    margin: 0;
+    display: inline;
+}
+label[for=id_profile_picture] {
+    display: block;
+}
