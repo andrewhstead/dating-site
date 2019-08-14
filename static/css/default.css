@@ -84,24 +84,39 @@ input {
 /* Styles for the page header */
 #notifications {
     font-family: 'Almendra SC', serif;
-    background-color: #566dba;
+    background-color: #788fdc;
     color: white;
     margin: auto;
     text-align: center;
     position: -webkit-sticky;
     position: sticky;
     top: 0;
-    z-index: 999;
+    z-index: 2;
 }
 img.icon {
-    height: 25px;
+    height: 20px;
     width: auto;
     margin: 0;
 }
 .notification-icon {
     flex: 1;
     margin: 5px;
-    height: 25px;
+    height: 20px;
+    display: inline-block;
+}
+.notification-number {
+    font-family: 'Farro', serif;
+    background-color: #cc0000;
+    border-radius: 50%;
+    height: 15px;
+    min-width: 15px;
+    display: inline-block;
+    font-size: 0.75em;
+    font-weight: bold;
+    padding: 2px;
+    position: absolute;
+    top: 0:
+    right: 0;
 }
 
 /* Styles for links */
@@ -198,7 +213,7 @@ img.icon {
     width: 100px;
     border: 1px solid #566dba;
     overflow: hidden;
-    vertical-align: bottom;
+    display: block;
     border-radius: 20px;
     margin-right: 10px;
     object-fit: cover;
