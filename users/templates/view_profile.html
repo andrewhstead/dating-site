@@ -170,4 +170,20 @@
         </div>
     {% endif %}
 
+    <!-- If the user is viewing another profile, show links to allow them to add as a favourite,
+    wave or send a message. -->
+    {% if profile.id != user.id %}
+        <section id="contact-links" class="flex-container">
+            <div class="contact-button">
+                <a class="contact-link" href="">Favourite</a>
+            </div>
+            <div class="contact-button">
+                <a class="contact-link" href="">Wave</a>
+            </div>
+            <div class="contact-button">
+                <a class="contact-link" href="">Message</a>
+            </div>
+        </section>
+    {% endif %}
+
 {% endblock %}
