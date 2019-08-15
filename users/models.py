@@ -146,6 +146,14 @@ class User(AbstractUser):
     smokes = models.CharField(max_length=25, choices=SMOKES, blank=True, null=True)
     has_children = models.CharField(max_length=25, choices=HAS_CHILDREN, blank=True, null=True)
     wants_children = models.CharField(max_length=25, choices=WANTS_CHILDREN, blank=True, null=True)
+    new_messages = models.IntegerField(default=0)
+    total_messages = models.IntegerField(default=0)
+    new_waves = models.IntegerField(default=0)
+    total_waves = models.IntegerField(default=0)
+    new_favourited = models.IntegerField(default=0)
+    total_favourited = models.IntegerField(default=0)
+    new_views = models.IntegerField(default=0)
+    total_views = models.IntegerField(default=0)
 
     def __unicode__(self):
         return self.username

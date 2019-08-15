@@ -39,30 +39,38 @@
 
         <div class="notification-icon">
             <img class="icon" src="/media/images/icons/eye.png" />
-<!--            <div class="notification-number">
-                12
-            </div>-->
+            {% if user.new_views > 0 %}
+                <div class="notification-number">
+                    {{ user.new_views }}
+                </div>
+            {% endif %}
         </div>
 
         <div class="notification-icon">
             <img class="icon" src="/media/images/icons/star.png" />
-<!--            <div class="notification-number">
-                5
-            </div>-->
+            {% if user.new_favourited > 0 %}
+                <div class="notification-number">
+                    {{ user.new_favourited }}
+                </div>
+            {% endif %}
         </div>
 
         <div class="notification-icon">
             <img class="icon" src="/media/images/icons/wave.png" />
-<!--            <div class="notification-number">
-                2
-            </div>-->
+            {% if user.new_waves > 0 %}
+                <div class="notification-number">
+                    {{ user.new_waves }}
+                </div>
+            {% endif %}
         </div>
 
         <div class="notification-icon">
             <img class="icon" src="/media/images/icons/mail.png" />
-<!--            <div class="notification-number">
-                1
-            </div>-->
+            {% if user.new_messages > 0 %}
+                <div class="notification-number">
+                    {{ user.new_messages }}
+                </div>
+            {% endif %}
         </div>
 
     </div>
