@@ -191,8 +191,11 @@ def view_profile(request, user_id):
     profile = get_object_or_404(User, pk=user_id)
     user = request.user
 
-    thread = MessageThread.objects\
-        .get(person_1__in=[user.id, profile.id], person_2__in=[user.id, profile.id])
+    try:
+        thread = MessageThread.objects \
+            .get(person_1__in=[user.id, profile.id], person_2__in=[user.id, profile.id])
+    except MessageThread.DoesNotExist:
+        thread = None
 
     if thread:
         thread_exists = True

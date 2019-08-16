@@ -3,15 +3,52 @@
 {% block content %}
 
     <div id="page-header">
-        MESSAGES: {{ other_person }}
+        MESSAGES: <a class="standard-link" href="{% url 'view_profile' other_person.id %}">{{ other_person.username }}</a>
     </div>
 
-    <section id="posts">
+    <section id="messages">
 
         <!-- List all the posts in turn. -->
         {% for message in all_messages %}
 
-            {{ message.content }}
+            {% if user == message.sender %}
+
+                <div class="sent-message">
+
+                    <img class="sent-message-picture" alt="Profile Picture" src="{{ message.sender.profile_picture.url }}" />
+
+                    <div class="sent-message-text">
+                        {{ message.content }}
+                    </div>
+
+                    <div class="sent-message-details">
+                        Sent: {{ message.created_date|date:'d M y, H:i' }}
+                        {% if message.is_read == False %}
+                            <strong>
+                                Unread
+                            </strong>
+                        {% endif %}
+                    </div>
+
+                </div>
+
+            {% else %}
+
+                <div class="received-message">
+
+                    <img class="received-message-picture" alt="Profile Picture" src="{{ message.sender.profile_picture.url }}" />
+
+                    <div class="received-message-text">
+                        {{ message.content }}
+                    </div>
+
+                    <div class="received-message-details">
+                        Sent: {{ message.created_date|date:'d M y, H:i' }}
+                    </div>
+
+                </div>
+
+            {% endif %}
 
         {% endfor %}
 

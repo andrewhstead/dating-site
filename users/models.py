@@ -111,7 +111,7 @@ def user_age(user):
     if dob:
         age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
     else:
-        age = "Not Set"
+        age = "-"
 
     return age
 
