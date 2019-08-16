@@ -26,6 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', user_views.login, name="login"),
     path('logout/', user_views.logout, name="logout"),
+    path('messages/<int:person_1>/<int:person_2>/', conversation_views.message_thread, name='message_thread'),
     path('messages/new/<int:person_1>/<int:person_2>/', conversation_views.new_thread, name='new_thread'),
     path('profile/', user_views.own_profile, name='own_profile'),
     path('profile/<int:user_id>/', user_views.view_profile, name='view_profile'),

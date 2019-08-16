@@ -14,8 +14,6 @@ from django.contrib import messages
 @login_required(login_url='/login/')
 def new_thread(request, person_1, person_2):
 
-    page_name = "Your Profile"
-
     person_1 = get_object_or_404(User, pk=person_1)
     person_2 = get_object_or_404(User, pk=person_2)
 
@@ -37,8 +35,13 @@ def new_thread(request, person_1, person_2):
             message.thread = thread
             message.save()
 
+            # Add one to the recipient's new message and total message count.
+            person_2.new_messages += 1
+            person_2.total_messages += 1
+            person_2.save()
+
             messages.success(request, "Your thread was created!")
-            return redirect(reverse('home'))
+            return redirect(reverse('message_thread', kwargs={'person_1':person_1.pk, 'person_2':person_2.pk}))
 
     else:
         message_form = MessageForm(request.POST)
@@ -51,3 +54,26 @@ def new_thread(request, person_1, person_2):
     args.update(csrf(request))
 
     return render(request, 'new_thread.html', args)
+
+
+# Show the user an individual thread.
+def message_thread(request, person_1, person_2):
+
+    person_1 = get_object_or_404(User, pk=person_1)
+    person_2 = get_object_or_404(User, pk=person_2)
+
+    thread = get_object_or_404(MessageThread, person_1=person_1, person_2=person_2)
+
+    page_name = "Messages: " + person_2.username
+
+    # Pagination shows ten threads at a time.
+    all_messages = thread.messages.all().order_by('created_date')
+
+    args = {
+        'thread': thread,
+        'all_messages': all_messages,
+        'page_name': page_name,
+        'recipient': person_2.username,
+    }
+
+    return render(request, 'message_thread.html', args)
