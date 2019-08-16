@@ -181,7 +181,7 @@
                 <a class="contact-link" href="">Wave</a>
             </div>
             <div class="contact-button">
-                <a class="contact-link" href="">Message</a>
+                <a class="contact-link" href="{% url 'new_thread' user.id profile.id %}">Message</a>
             </div>
         </section>
     {% endif %}

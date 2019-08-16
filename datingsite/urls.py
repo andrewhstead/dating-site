@@ -19,12 +19,14 @@ from django.contrib import admin
 from django.urls import path
 from home import views as home_views
 from users import views as user_views
+from conversations import views as conversation_views
 
 urlpatterns = [
     path(r'', home_views.home_page, name='home'),
     path('admin/', admin.site.urls),
     path('login/', user_views.login, name="login"),
     path('logout/', user_views.logout, name="logout"),
+    path('messages/new/<int:person_1>/<int:person_2>/', conversation_views.new_thread, name='new_thread'),
     path('profile/', user_views.own_profile, name='own_profile'),
     path('profile/<int:user_id>/', user_views.view_profile, name='view_profile'),
     path('profile/edit/', user_views.user_profile, name='user_profile'),

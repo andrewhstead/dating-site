@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div id="page-header">
+        NEW MESSAGE TO: {{ recipient }}
+    </div>
+
+    <!-- Form for logging in a user. -->
+    <form id="default-form" role="form" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="default-button" type="submit">{{ button_text }}</button>
+    </form>
+
+{% endblock %}
