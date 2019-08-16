@@ -59,21 +59,27 @@ def new_thread(request, person_1, person_2):
 # Show the user an individual thread.
 def message_thread(request, person_1, person_2):
 
+    user = request.user
+
     person_1 = get_object_or_404(User, pk=person_1)
     person_2 = get_object_or_404(User, pk=person_2)
 
+    if user == person_1:
+        other_person = person_2.username
+    else:
+        other_person = person_1.username
+
     thread = get_object_or_404(MessageThread, person_1=person_1, person_2=person_2)
 
-    page_name = "Messages: " + person_2.username
+    page_name = "Messages: " + other_person
 
-    # Pagination shows ten threads at a time.
     all_messages = thread.messages.all().order_by('created_date')
 
     args = {
         'thread': thread,
         'all_messages': all_messages,
         'page_name': page_name,
-        'recipient': person_2.username,
+        'other_person': other_person,
     }
 
     return render(request, 'message_thread.html', args)

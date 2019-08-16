@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.template.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+from conversations.models import MessageThread
 from .forms import RegistrationForm, LoginForm, EditProfileForm, DeletionForm, \
     ChangePasswordForm, LifestyleForm, AppearanceForm, RelationshipForm
 from .models import User, user_age
@@ -190,6 +191,18 @@ def view_profile(request, user_id):
     profile = get_object_or_404(User, pk=user_id)
     user = request.user
 
+    thread = MessageThread.objects\
+        .get(person_1__in=[user.id, profile.id], person_2__in=[user.id, profile.id])
+
+    if thread:
+        thread_exists = True
+        person_1 = thread.person_1
+        person_2 = thread.person_2
+    else:
+        thread_exists = False
+        person_1 = 0
+        person_2 = 0
+
     # Get the age of the user from their date of birth.
     age = user_age(profile)
 
@@ -202,6 +215,9 @@ def view_profile(request, user_id):
     return render(request, 'view_profile.html', {
         'profile': profile,
         'page_name': page_name,
+        'thread_exists': thread_exists,
+        'person_1': person_1,
+        'person_2': person_2,
         'user': user,
         'age': age,
     })

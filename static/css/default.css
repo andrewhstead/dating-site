@@ -256,6 +256,15 @@ img.icon {
     text-align: center;
     max-width: 150px;
 }
+.contacted-button {
+    flex: 1;
+    background-color: #e1e5f2;
+    margin: 0 2%;
+    border-radius: 20px;
+    color: #566dba;
+    text-align: center;
+    max-width: 150px;
+}
 
 /* Styles for the profile editing forms */
 .form-thumbnail {

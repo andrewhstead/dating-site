@@ -180,10 +180,18 @@
             <div class="contact-button">
                 <a class="contact-link" href="">Wave</a>
             </div>
-            <div class="contact-button">
-                <a class="contact-link" href="{% url 'new_thread' user.id profile.id %}">Message</a>
-            </div>
+            {% if thread_exists %}
+                <div class="contacted-button">
+                    <a class="standard-link" href="{% url 'message_thread' person_1.id person_2.id %}">Messages</a>
+                </div>
+            {% else %}
+                <div class="contact-button">
+                    <a class="contact-link" href="{% url 'new_thread' user.id profile.id %}">Message</a>
+                </div>
+            {% endif %}
         </section>
     {% endif %}
+
+{{ thread }}
 
 {% endblock %}
