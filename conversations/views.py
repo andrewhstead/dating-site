@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import MessageForm
 from django.contrib import messages
 from datetime import datetime
-from django.http import HttpResponseRedirect
+from django.utils import timezone
 
 
 # Create your views here.
@@ -80,6 +80,7 @@ def message_thread(request, person_1, person_2):
         if message_form.is_valid():
             # Before saving the message, find the correct thread and increment the message count.
             thread.in_thread += 1
+            thread.last_message = timezone.now()
             thread.save()
 
             # Also allocate the message to the user and the recipient and to the thread.
@@ -104,7 +105,7 @@ def message_thread(request, person_1, person_2):
             for message in all_messages:
                 if not message.is_read and user == message.recipient:
                     message.is_read = True
-                    message.read_date = datetime.now()
+                    message.read_date = timezone.now()
                     message.save()
                     user.new_messages -= 1
                     user.save()
@@ -133,7 +134,7 @@ def message_thread(request, person_1, person_2):
         for message in all_messages:
             if not message.is_read and user == message.recipient:
                 message.is_read = True
-                message.read_date = datetime.now()
+                message.read_date = timezone.now()
                 message.save()
                 user.new_messages -= 1
                 user.save()

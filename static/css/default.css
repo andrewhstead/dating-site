@@ -12,10 +12,6 @@ header {
     color: white;
     margin: auto;
     text-align: center;
-/*    position: -webkit-sticky;
-    position: sticky;
-    top: 0;
-    z-index: 999;*/
 }
 
 #page {
@@ -79,6 +75,11 @@ input {
 #menu-button {
     position: absolute;
     right: 0;
+}
+
+textarea {
+    max-width: 95%;
+    display: block;
 }
 
 /* Styles for the page header */
