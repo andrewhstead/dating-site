@@ -6,7 +6,7 @@
         NEW MESSAGE TO:<br />{{ recipient }}
     </div>
 
-    <!-- Form for logging in a user. -->
+    <!-- Form for sending a message to another user. -->
     <form id="default-form" role="form" method="post">
         {% csrf_token %}
         {{ form.as_p }}
