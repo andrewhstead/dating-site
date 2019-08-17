@@ -122,7 +122,7 @@ def message_thread(request, person_1, person_2):
             }
 
             messages.success(request, "Your message was sent!")
-            return render(request, 'message_thread.html', args)
+            return redirect(reverse('message_thread', kwargs={'person_1': person_1.pk, 'person_2': person_2.pk}))
 
     else:
 
