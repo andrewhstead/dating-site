@@ -75,6 +75,13 @@ def message_thread(request, person_1, person_2):
 
     all_messages = thread.messages.all().order_by('created_date')
 
+    for message in all_messages:
+        if not message.is_read and user == message.recipient:
+            message.is_read = True
+            message.save()
+            user.new_messages -= 1
+            user.save()
+
     args = {
         'user': user,
         'thread': thread,
