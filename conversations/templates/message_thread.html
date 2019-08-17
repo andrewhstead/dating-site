@@ -22,11 +22,13 @@
                     </div>
 
                     <div class="sent-message-details">
-                        Sent: {{ message.created_date|date:'d M y, H:i' }}
+                        Sent: {{ message.created_date|date:'d M y, H:i' }},
                         {% if message.is_read == False %}
                             <strong>
                                 Unread
                             </strong>
+                        {% else %}
+                            Read: {{ message.read_date|date:'d M y, H:i' }}
                         {% endif %}
                     </div>
 

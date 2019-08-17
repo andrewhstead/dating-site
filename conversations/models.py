@@ -24,6 +24,7 @@ class Message(models.Model):
     content = models.TextField(blank=True)
     created_date = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)
+    read_date = models.DateTimeField(blank=True, null=True)
 
     def __unicode__(self):
         return unicode(self.sender) + " -> " + unicode(self.recipient) + ", " + unicode(self.created_date)

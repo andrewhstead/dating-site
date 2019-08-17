@@ -7,6 +7,7 @@ from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from .forms import MessageForm
 from django.contrib import messages
+from datetime import datetime
 
 
 # Create your views here.
@@ -78,6 +79,7 @@ def message_thread(request, person_1, person_2):
     for message in all_messages:
         if not message.is_read and user == message.recipient:
             message.is_read = True
+            message.read_date = datetime.now()
             message.save()
             user.new_messages -= 1
             user.save()
