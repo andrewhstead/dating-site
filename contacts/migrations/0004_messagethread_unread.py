@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('conversations', '0003_message_read_date'),
+        ('contacts', '0003_message_read_date'),
     ]
 
     operations = [
