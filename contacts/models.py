@@ -14,8 +14,8 @@ class MessageThread(models.Model):
     p1_unread = models.IntegerField(default=0)
     p2_unread = models.IntegerField(default=0)
 
-    def __unicode__(self):
-        return unicode(self.person_1) + '-' + unicode(self.person_2)
+    def __str__(self):
+        return self.person_1, self.person_2
 
 
 # An individual message, attributed to a user an allocated to the relevant thread.
@@ -28,5 +28,27 @@ class Message(models.Model):
     is_read = models.BooleanField(default=False)
     read_date = models.DateTimeField(blank=True, null=True)
 
-    def __unicode__(self):
-        return unicode(self.sender) + " -> " + unicode(self.recipient) + ", " + unicode(self.created_date)
+    def __str__(self):
+        return self.sender, self.recipient, self.created_date
+
+
+# An wave, attributed to a user and to a recipient.
+class Wave(models.Model):
+    sender = models.ForeignKey(User, related_name='waves_sent', on_delete=models.CASCADE)
+    recipient = models.ForeignKey(User, related_name='waves_received', on_delete=models.CASCADE)
+    initial_date = models.DateTimeField(auto_now_add=True)
+    latest_date = models.DateTimeField(auto_now_add=True)
+    total_waves = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.sender, self.recipient, self.latest_date
+
+
+# An individual message, attributed to a user an allocated to the relevant thread.
+class Favourite(models.Model):
+    creator = models.ForeignKey(User, related_name='added_favourite', on_delete=models.CASCADE)
+    recipient = models.ForeignKey(User, related_name='favourited', on_delete=models.CASCADE)
+    created_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.creator, self.recipient, self.created_date
