@@ -11,6 +11,8 @@ class MessageThread(models.Model):
     started = models.DateTimeField(auto_now_add=True)
     in_thread = models.IntegerField(default=0)
     last_message = models.DateTimeField(auto_now_add=True)
+    p1_unread = models.IntegerField(default=0)
+    p2_unread = models.IntegerField(default=0)
 
     def __unicode__(self):
         return unicode(self.person_1) + '-' + unicode(self.person_2)

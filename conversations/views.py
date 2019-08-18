@@ -26,9 +26,11 @@ def new_thread(request, person_1, person_2):
         message_form = MessageForm(request.POST)
         if message_form.is_valid():
             # Before saving the message, create the thread,
-            # allocate it to the user and the recipient and increment the message count.
+            # allocate it to the user and the recipient.
+            # Increment the message count and unread count.
             thread = MessageThread(person_1=person_1, person_2=person_2)
             thread.in_thread += 1
+            thread.p2_unread += 1
             thread.save()
 
             # Before saving the message, allocate it to the user and the recipient and to the new thread.
@@ -79,9 +81,14 @@ def message_thread(request, person_1, person_2):
     if request.method == 'POST':
         message_form = MessageForm(request.POST)
         if message_form.is_valid():
-            # Before saving the message, find the correct thread and increment the message count.
+            # Before saving the message, find the correct thread.
+            # Increment the total message count and unread count.
             thread.in_thread += 1
             thread.last_message = timezone.now()
+            if user == person_1:
+                thread.p2_unread += 1
+            else:
+                thread.p1_unread += 1
             thread.save()
 
             # Also allocate the message to the user and the recipient and to the thread.
@@ -101,21 +108,27 @@ def message_thread(request, person_1, person_2):
             message.thread = thread
             message.save()
 
-            all_messages = thread.messages.all().order_by('created_date')
+            thread_messages = thread.messages.all().order_by('created_date')
 
-            for message in all_messages:
+            for message in thread_messages:
                 if not message.is_read and user == message.recipient:
                     message.is_read = True
                     message.read_date = timezone.now()
                     message.save()
                     user.new_messages -= 1
                     user.save()
+                    if user == person_1:
+                        thread.p1_unread -= 1
+                        thread.save()
+                    else:
+                        thread.p2_unread -= 1
+                        thread.save()
 
             args = {
                 'user': user,
                 'thread': thread,
                 'form': message_form,
-                'all_messages': all_messages,
+                'thread_messages': thread_messages,
                 'page_name': page_name,
                 'other_person': other_person,
                 'person_1': person_1.pk,
@@ -130,21 +143,27 @@ def message_thread(request, person_1, person_2):
 
         message_form = MessageForm()
 
-        all_messages = thread.messages.all().order_by('created_date')
+        thread_messages = thread.messages.all().order_by('created_date')
 
-        for message in all_messages:
+        for message in thread_messages:
             if not message.is_read and user == message.recipient:
                 message.is_read = True
                 message.read_date = timezone.now()
                 message.save()
                 user.new_messages -= 1
                 user.save()
+                if user == person_1:
+                    thread.p1_unread -= 1
+                    thread.save()
+                else:
+                    thread.p2_unread -= 1
+                    thread.save()
 
         args = {
             'user': user,
             'form': message_form,
             'thread': thread,
-            'all_messages': all_messages,
+            'thread_messages': thread_messages,
             'page_name': page_name,
             'other_person': other_person,
             'person_1': person_1.pk,

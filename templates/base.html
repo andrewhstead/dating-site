@@ -65,8 +65,8 @@
         </div>
 
         <div class="notification-icon">
-            <a href="{% url 'messages' %}">
-                 <img class="icon" src="/media/images/icons/mail.png" />
+            <a class="contact-link" href="{% url 'messages' %}">
+                <img class="icon" src="/media/images/icons/mail.png" />
                 {% if user.new_messages > 0 %}
                     <div class="notification-number">
                         {{ user.new_messages }}

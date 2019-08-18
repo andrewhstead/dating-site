@@ -28,6 +28,16 @@
 
             ({{ thread.in_thread }})
 
+            {% if user == thread.person_1 and thread.p1_unread > 0 %}
+                <strong>
+                    {{ thread.p1_unread }} unread
+                </strong>
+            {% elif user == thread.person_2 and thread.p2_unread > 0 %}
+                <strong>
+                    {{ thread.p2_unread }} unread
+                </strong>
+            {% endif %}
+
             <br />
             {{ thread.last_message|date:'d M y, H:i' }}
 
