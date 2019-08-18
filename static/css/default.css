@@ -222,6 +222,7 @@ img.icon {
     width: 100px;
     border: 1px solid #566dba;
     overflow: hidden;
+    vertical-align: bottom;
     display: block;
     border-radius: 20px;
     margin-right: 10px;
@@ -345,4 +346,18 @@ label[for=id_profile_picture] {
     float: right;
     margin-bottom: 5px;
     object-fit: cover;
+}
+.thread-picture {
+    height: 40px;
+    width: 40px;
+    border: 1px solid #566dba;
+    overflow: hidden;
+    vertical-align: bottom;
+    border-radius: 8px;
+    margin-right: 10px;
+    object-fit: cover;
+    float: left;
+}
+.message-thread {
+    margin: 10px 0;
 }

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div id="page-header">
+        MESSAGES
+    </div>
+
+    {% for thread in threads %}
+
+        <div class="message-thread">
+
+            {% if thread.person_1 == user %}
+
+                <img class="thread-picture" alt="Profile Picture" src="{{ thread.person_2.profile_picture.url }}" />
+                <a class="standard-link" href="{% url 'message_thread' thread.person_1.id thread.person_2.id %}">
+                    {{ thread.person_2.username }}
+                </a>
+
+                {% else %}
+
+                <img class="thread-picture" alt="Profile Picture" src="{{ thread.person_1.profile_picture.url }}" />
+                <a class="standard-link" href="{% url 'message_thread' thread.person_1.id thread.person_2.id %}">
+                    {{ thread.person_1.username }}
+                </a>
+
+            {% endif %}
+
+            ({{ thread.in_thread }})
+
+            <br />
+            {{ thread.last_message|date:'d M y, H:i' }}
+
+        </div>
+
+    {% endfor %}
+
+{% endblock %}

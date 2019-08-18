@@ -9,6 +9,7 @@ from .forms import MessageForm
 from django.contrib import messages
 from datetime import datetime
 from django.utils import timezone
+from django.db.models import Q
 
 
 # Create your views here.
@@ -152,3 +153,22 @@ def message_thread(request, person_1, person_2):
         }
 
         return render(request, 'message_thread.html', args)
+
+
+# View a list of all conversations of which the user is a part.
+@login_required(login_url='/login/')
+def all_messages(request):
+
+    user = request.user
+
+    page_name = "All Messages"
+
+    threads = MessageThread.objects.filter(Q(person_1=user) | Q(person_2=user))\
+        .order_by('-last_message')
+
+    args = {
+        'page_name': page_name,
+        'threads': threads,
+    }
+
+    return render(request, 'messages.html', args)
