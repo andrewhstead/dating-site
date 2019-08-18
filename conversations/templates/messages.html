@@ -13,14 +13,14 @@
             {% if thread.person_1 == user %}
 
                 <img class="thread-picture" alt="Profile Picture" src="{{ thread.person_2.profile_picture.url }}" />
-                <a class="standard-link" href="{% url 'message_thread' thread.person_1.id thread.person_2.id %}">
+                <a class="standard-link" href="{% url 'message_thread' thread.person_1.id thread.person_2.id %}#latest">
                     {{ thread.person_2.username }}
                 </a>
 
                 {% else %}
 
                 <img class="thread-picture" alt="Profile Picture" src="{{ thread.person_1.profile_picture.url }}" />
-                <a class="standard-link" href="{% url 'message_thread' thread.person_1.id thread.person_2.id %}">
+                <a class="standard-link" href="{% url 'message_thread' thread.person_1.id thread.person_2.id %}#latest">
                     {{ thread.person_1.username }}
                 </a>
 

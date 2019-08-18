@@ -52,6 +52,10 @@
 
             {% endif %}
 
+            {% if forloop.last %}
+                <a name="latest"></a>
+            {% endif %}
+
         {% endfor %}
 
     </section>

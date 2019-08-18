@@ -182,7 +182,7 @@
             </div>
             {% if thread_exists %}
                 <div class="contacted-button">
-                    <a class="standard-link" href="{% url 'message_thread' person_1.id person_2.id %}">Messages</a>
+                    <a class="standard-link" href="{% url 'message_thread' person_1.id person_2.id %}#latest">Messages</a>
                 </div>
             {% else %}
                 <div class="contact-button">
