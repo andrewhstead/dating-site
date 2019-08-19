@@ -8,11 +8,11 @@
 
     {% for thread in threads %}
 
-        <div class="message-thread">
+        <div class="contact-list">
 
             {% if thread.person_1 == user %}
 
-                <img class="thread-picture" alt="Profile Picture" src="{{ thread.person_2.profile_picture.url }}" />
+                <img class="contact-picture" alt="Profile Picture" src="{{ thread.person_2.profile_picture.url }}" />
                 <a class="standard-link" href="{% url 'message_thread' thread.person_1.id thread.person_2.id %}#latest">
                     {{ thread.person_2.username }}
                 </a>

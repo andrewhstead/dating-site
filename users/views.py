@@ -4,10 +4,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.template.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from contacts.models import MessageThread
+from contacts.models import MessageThread, ProfileView
 from .forms import RegistrationForm, LoginForm, EditProfileForm, DeletionForm, \
     ChangePasswordForm, LifestyleForm, AppearanceForm, RelationshipForm
 from .models import User, user_age
+from django.utils import timezone
 
 # Create your views here.
 
@@ -197,6 +198,11 @@ def view_profile(request, user_id):
     except MessageThread.DoesNotExist:
         thread = None
 
+    try:
+        repeat_view = ProfileView.objects.get(viewer=user, viewed=profile)
+    except ProfileView.DoesNotExist:
+        repeat_view = None
+
     if thread:
         thread_exists = True
         person_1 = thread.person_1
@@ -214,6 +220,22 @@ def view_profile(request, user_id):
         return redirect('/profile/')
     else:
         page_name = profile.username + "'s Profile"
+
+        # Add one to the profile owner's new views and total views.
+        profile.new_views += 1
+        profile.total_views += 1
+        profile.save()
+
+        # Create a new profile view and allocate it to the user and the profile owner.
+        if repeat_view:
+            repeat_view.views += 1
+            repeat_view.latest_view = timezone.now()
+            repeat_view.save()
+        else:
+            new_view = ProfileView(viewer=user, viewed=profile)
+            new_view.views += 1
+            new_view.latest_view = timezone.now()
+            new_view.save()
 
     return render(request, 'view_profile.html', {
         'profile': profile,

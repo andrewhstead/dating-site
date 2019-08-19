@@ -293,7 +293,7 @@ label[for=id_profile_picture] {
     margin: 10px 0;
 }
 
-/* Styles for the messaging app */
+/* Styles for the contacts app */
 .received-message {
     margin: 10px 0;
 }
@@ -347,7 +347,7 @@ label[for=id_profile_picture] {
     margin-bottom: 5px;
     object-fit: cover;
 }
-.thread-picture {
+.contact-picture {
     height: 40px;
     width: 40px;
     border: 1px solid #566dba;
@@ -358,6 +358,6 @@ label[for=id_profile_picture] {
     object-fit: cover;
     float: left;
 }
-.message-thread {
+.contact-list {
     margin: 10px 0;
 }
