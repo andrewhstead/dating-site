@@ -207,9 +207,15 @@ def profile_views(request):
 
     views = ProfileView.objects.filter(viewed_id=user.id)
 
+    total_views = user.total_views
+
+    unique_viewers = views.count()
+
     args = {
         'page_name': page_name,
         'views': views,
+        'total_views': total_views,
+        'unique_viewers': unique_viewers,
     }
 
     return render(request, 'profile_views.html', args)

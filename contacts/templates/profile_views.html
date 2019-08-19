@@ -6,6 +6,23 @@
         PROFILE VIEWS
     </div>
 
+    <div class="statistics">
+        Viewed
+        <strong>{{ total_views }}</strong>
+        {% if total_views == 1 %}
+            time
+        {% else %}
+            times
+        {% endif %}
+         by
+        <strong>{{ unique_viewers }}</strong>
+        {% if unique_viewers == 1 %}
+            user
+        {% else %}
+            users
+        {% endif %}
+    </div>
+
     {% for view in views %}
 
         <div class="contact-list">
