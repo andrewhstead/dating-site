@@ -191,3 +191,48 @@ def all_messages(request):
     }
 
     return render(request, 'messages.html', args)
+
+
+# View a list of other users who have viewed the user's profile.
+@login_required(login_url='/login/')
+def profile_views(request):
+
+    user = request.user
+
+    page_name = "Profile Views"
+
+    args = {
+        'page_name': page_name,
+    }
+
+    return render(request, 'profile_views.html', args)
+
+
+# View a list of other users who have been added as a favourite.
+@login_required(login_url='/login/')
+def favourites(request):
+
+    user = request.user
+
+    page_name = "Favourites"
+
+    args = {
+        'page_name': page_name,
+    }
+
+    return render(request, 'favourites.html', args)
+
+
+# View a list of other users who have waved at the user.
+@login_required(login_url='/login/')
+def waves(request):
+
+    user = request.user
+
+    page_name = "Waves"
+
+    args = {
+        'page_name': page_name,
+    }
+
+    return render(request, 'waves.html', args)

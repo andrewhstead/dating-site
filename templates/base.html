@@ -38,35 +38,41 @@
     <div id="notifications" class="flex-container">
 
         <div class="notification-icon">
+            <a class="contact-link" href="{% url 'profile_views' %}">
             <img class="icon" src="/media/images/icons/eye.png" />
-            {% if user.new_views > 0 %}
-                <div class="notification-number">
-                    {{ user.new_views }}
-                </div>
-            {% endif %}
+                {% if user.new_views > 0 %}
+                    <div class="notification-number">
+                        {{ user.new_views }}
+                    </div>
+                {% endif %}
+            </a>
         </div>
 
         <div class="notification-icon">
+            <a class="contact-link" href="{% url 'favourites' %}">
             <img class="icon" src="/media/images/icons/star.png" />
-            {% if user.new_favourited > 0 %}
-                <div class="notification-number">
-                    {{ user.new_favourited }}
-                </div>
-            {% endif %}
+                {% if user.new_favourited > 0 %}
+                    <div class="notification-number">
+                        {{ user.new_favourited }}
+                    </div>
+                {% endif %}
+            </a>
         </div>
 
         <div class="notification-icon">
+            <a class="contact-link" href="{% url 'waves' %}">
             <img class="icon" src="/media/images/icons/wave.png" />
-            {% if user.new_waves > 0 %}
-                <div class="notification-number">
-                    {{ user.new_waves }}
-                </div>
-            {% endif %}
+                {% if user.new_waves > 0 %}
+                    <div class="notification-number">
+                        {{ user.new_waves }}
+                    </div>
+                {% endif %}
+            </a>
         </div>
 
         <div class="notification-icon">
             <a class="contact-link" href="{% url 'messages' %}">
-                <img class="icon" src="/media/images/icons/mail.png" />
+            <img class="icon" src="/media/images/icons/mail.png" />
                 {% if user.new_messages > 0 %}
                     <div class="notification-number">
                         {{ user.new_messages }}

@@ -24,6 +24,7 @@ from contacts import views as contact_views
 urlpatterns = [
     path(r'', home_views.home_page, name='home'),
     path('admin/', admin.site.urls),
+    path('favourites/', contact_views.favourites, name='favourites'),
     path('login/', user_views.login, name="login"),
     path('logout/', user_views.logout, name="logout"),
     path('messages/', contact_views.all_messages, name='messages'),
@@ -35,6 +36,8 @@ urlpatterns = [
     path('profile/delete/', user_views.delete_account, name='delete_account'),
     path('profile/password/', user_views.change_password, name='change_password'),
     path('register/', user_views.register, name='register'),
+    path('views/', contact_views.profile_views, name='profile_views'),
+    path('waves/', contact_views.waves, name='waves'),
 ]
 
 if settings.DEBUG is True:
