@@ -44,11 +44,22 @@ class Wave(models.Model):
         return self.sender, self.recipient, self.latest_date
 
 
-# An individual message, attributed to a user an allocated to the relevant thread.
+# A link between users where one has added the other as a favourite.
 class Favourite(models.Model):
     creator = models.ForeignKey(User, related_name='added_favourite', on_delete=models.CASCADE)
-    recipient = models.ForeignKey(User, related_name='favourited', on_delete=models.CASCADE)
+    recipient = models.ForeignKey(User, related_name='favourited_by', on_delete=models.CASCADE)
     created_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.creator, self.recipient, self.created_date
+
+
+# A link between users where one has added the other as a favourite.
+class ProfileView(models.Model):
+    viewer = models.ForeignKey(User, related_name='viewer', on_delete=models.CASCADE)
+    viewed = models.ForeignKey(User, related_name='viewed', on_delete=models.CASCADE)
+    views = models.IntegerField(default=0)
+    latest_view = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.viewer, self.viewed, self.latest_view
