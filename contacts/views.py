@@ -275,7 +275,7 @@ def waved_at(request, recipient):
     }
 
     messages.success(request, "Your wave was sent!")
-    return render(request, 'waved_at.html', args)
+    return redirect(reverse('waves_sent'))
 
 
 # View a list of other users who have waved at the user.
@@ -284,10 +284,28 @@ def waves(request):
 
     user = request.user
 
-    page_name = "Waves"
+    page_name = "Waves Sent"
 
     args = {
         'page_name': page_name,
     }
 
     return render(request, 'waves.html', args)
+
+
+# View a list of other users who have been waved at by the user.
+@login_required(login_url='/login/')
+def waves_sent(request):
+
+    user = request.user
+
+    page_name = "Waves"
+
+    user_waves = Wave.objects.filter(sender=user)
+
+    args = {
+        'page_name': page_name,
+        'user_waves': user_waves,
+    }
+
+    return render(request, 'waved_at.html', args)

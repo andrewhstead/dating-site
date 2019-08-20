@@ -39,6 +39,7 @@ urlpatterns = [
     path('views/', contact_views.profile_views, name='profile_views'),
     path('waved_at/<int:recipient>/', contact_views.waved_at, name='waved_at'),
     path('waves/', contact_views.waves, name='waves'),
+    path('waves/sent/', contact_views.waves_sent, name='waves_sent'),
 ]
 
 if settings.DEBUG is True:
