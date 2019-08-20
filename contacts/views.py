@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import MessageThread, Message, ProfileView
+from .models import MessageThread, ProfileView, Wave
 from users.models import User
 from django.template.context_processors import csrf
 from django.urls import reverse
@@ -234,6 +234,48 @@ def favourites(request):
     }
 
     return render(request, 'favourites.html', args)
+
+
+# Wave at another user.
+@login_required(login_url='/login/')
+def waved_at(request, recipient):
+
+    user = request.user
+    recipient = get_object_or_404(User, pk=recipient)
+
+    page_name = "Waves Sent"
+
+    try:
+        repeat_wave = Wave.objects.get(sender=user, recipient=recipient)
+    except Wave.DoesNotExist:
+        repeat_wave = None
+
+    # If no previous waves, create a new wave and allocate it to the sender and the recipient.
+    # If there are previous waves, update that database record.
+    if repeat_wave:
+        repeat_wave.total_waves += 1
+        repeat_wave.latest_date = timezone.now()
+        repeat_wave.save()
+    else:
+        new_wave = Wave(sender=user, recipient=recipient)
+        new_wave.total_waves += 1
+        new_wave.initial_date = timezone.now()
+        new_wave.latest_date = timezone.now()
+        new_wave.save()
+
+    recipient.new_waves += 1
+    recipient.total_waves += 1
+    recipient.save()
+
+    user_waves = Wave.objects.filter(sender=user)
+
+    args = {
+        'page_name': page_name,
+        'user_waves': user_waves,
+    }
+
+    messages.success(request, "Your wave was sent!")
+    return render(request, 'waved_at.html', args)
 
 
 # View a list of other users who have waved at the user.

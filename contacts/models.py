@@ -38,7 +38,7 @@ class Wave(models.Model):
     recipient = models.ForeignKey(User, related_name='waves_received', on_delete=models.CASCADE)
     initial_date = models.DateTimeField(auto_now_add=True)
     latest_date = models.DateTimeField(auto_now_add=True)
-    total_waves = models.DateTimeField(auto_now_add=True)
+    total_waves = models.IntegerField(default=0)
 
     def __str__(self):
         return self.sender, self.recipient, self.latest_date

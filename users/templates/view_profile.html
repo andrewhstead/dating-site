@@ -175,10 +175,10 @@
     {% if profile.id != user.id %}
         <section id="contact-links" class="flex-container">
             <div class="contact-button">
-                <a class="contact-link" href="">Favourite</a>
+                <a class="contact-link" href="">Favourited</a>
             </div>
             <div class="contact-button">
-                <a class="contact-link" href="">Wave</a>
+                <a class="contact-link" href="{% url 'waved_at' profile.id %}">Wave</a>
             </div>
             {% if thread_exists %}
                 <div class="contacted-button">

@@ -37,6 +37,7 @@ urlpatterns = [
     path('profile/password/', user_views.change_password, name='change_password'),
     path('register/', user_views.register, name='register'),
     path('views/', contact_views.profile_views, name='profile_views'),
+    path('waved_at/<int:recipient>/', contact_views.waved_at, name='waved_at'),
     path('waves/', contact_views.waves, name='waves'),
 ]
 
