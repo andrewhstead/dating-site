@@ -286,8 +286,15 @@ def waves(request):
 
     page_name = "Waves Sent"
 
+    if user.new_waves > 0:
+        user.new_waves = 0
+        user.save()
+
+    user_waves = Wave.objects.filter(recipient=user)
+
     args = {
         'page_name': page_name,
+        'user_waves': user_waves,
     }
 
     return render(request, 'waves.html', args)

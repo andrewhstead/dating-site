@@ -6,4 +6,23 @@
         WAVES
     </div>
 
+    {% for wave in user_waves %}
+
+        <div class="contact-list">
+
+            <img class="contact-picture" alt="Profile Picture" src="{{ wave.sender.profile_picture.url }}" />
+            <a class="standard-link" href="{% url 'view_profile' wave.sender.id %}">
+                {{wave.sender}}
+            </a>
+
+            ({{ wave.total_waves }}
+            {% if wave.total_waves == 1 %}wave{% else %}waves{% endif %})
+
+            <br />
+            Last Wave: {{ wave.latest_date|date:'d M y, H:i' }}
+
+        </div>
+
+    {% endfor %}
+
 {% endblock %}
