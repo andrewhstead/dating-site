@@ -205,7 +205,7 @@ def profile_views(request):
 
     page_name = "Profile Views"
 
-    views = ProfileView.objects.filter(viewed_id=user.id)
+    views = ProfileView.objects.filter(viewed_id=user.id).order_by('-latest_view')
 
     total_views = user.total_views
 
@@ -267,7 +267,7 @@ def waved_at(request, recipient):
     recipient.total_waves += 1
     recipient.save()
 
-    user_waves = Wave.objects.filter(sender=user)
+    user_waves = Wave.objects.filter(sender=user).order_by('-latest_date')
 
     args = {
         'page_name': page_name,
@@ -290,7 +290,7 @@ def waves(request):
         user.new_waves = 0
         user.save()
 
-    user_waves = Wave.objects.filter(recipient=user)
+    user_waves = Wave.objects.filter(recipient=user).order_by('-latest_date')
 
     args = {
         'page_name': page_name,
@@ -308,7 +308,7 @@ def waves_sent(request):
 
     page_name = "Waves"
 
-    user_waves = Wave.objects.filter(sender=user)
+    user_waves = Wave.objects.filter(sender=user).order_by('-latest_date')
 
     args = {
         'page_name': page_name,

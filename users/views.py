@@ -4,10 +4,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.template.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from contacts.models import MessageThread, ProfileView
+from contacts.models import MessageThread, ProfileView, Wave
 from .forms import RegistrationForm, LoginForm, EditProfileForm, DeletionForm, \
     ChangePasswordForm, LifestyleForm, AppearanceForm, RelationshipForm
 from .models import User, user_age
+from datetime import timedelta
 from django.utils import timezone
 
 # Create your views here.
@@ -199,6 +200,20 @@ def view_profile(request, user_id):
         thread = None
 
     try:
+        wave = Wave.objects.get(sender=user.id, recipient=profile.id)
+    except Wave.DoesNotExist:
+        wave = None
+
+    if wave:
+        week_ago = wave.latest_date + timedelta(days=7)
+        if timezone.now() > week_ago:
+            new_wave = True
+        else:
+            new_wave = False
+    else:
+        new_wave = True
+
+    try:
         repeat_view = ProfileView.objects.get(viewer=user, viewed=profile)
     except ProfileView.DoesNotExist:
         repeat_view = None
@@ -241,6 +256,7 @@ def view_profile(request, user_id):
         'profile': profile,
         'page_name': page_name,
         'thread_exists': thread_exists,
+        'new_wave': new_wave,
         'person_1': person_1,
         'person_2': person_2,
         'user': user,

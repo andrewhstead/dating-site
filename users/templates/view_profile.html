@@ -175,11 +175,17 @@
     {% if profile.id != user.id %}
         <section id="contact-links" class="flex-container">
             <div class="contact-button">
-                <a class="contact-link" href="">Favourited</a>
+                <a class="contact-link" href="">Favourite</a>
             </div>
-            <div class="contact-button">
-                <a class="contact-link" href="{% url 'waved_at' profile.id %}">Wave</a>
-            </div>
+            {% if new_wave %}
+                <div class="contact-button">
+                    <a class="contact-link" href="{% url 'waved_at' profile.id %}">Wave</a>
+                </div>
+            {% else %}
+                <div class="contacted-button">
+                    Waved
+                </div>
+            {% endif %}
             {% if thread_exists %}
                 <div class="contacted-button">
                     <a class="standard-link" href="{% url 'message_thread' person_1.id person_2.id %}#latest">Messages</a>
@@ -191,7 +197,5 @@
             {% endif %}
         </section>
     {% endif %}
-
-{{ thread }}
 
 {% endblock %}
