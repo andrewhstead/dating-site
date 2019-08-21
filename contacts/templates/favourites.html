@@ -6,4 +6,24 @@
         FAVOURITES
     </div>
 
+    <a class="standard-link" href="">Favourited Me</a> |
+    <strong>My Favourites</strong> |
+    <a class="standard-link" href="">Mutual</a>
+
+    {% for favourite in user_favourites %}
+
+        <div class="contact-list">
+
+            <img class="contact-picture" alt="Profile Picture" src="{{ favourite.recipient.profile_picture.url }}" />
+            <a class="standard-link" href="{% url 'view_profile' favourite.recipient.id %}">
+                {{favourite.recipient}}
+            </a>
+
+            <br />
+            Added: {{ favourite.created_date|date:'d M y, H:i' }}
+
+        </div>
+
+    {% endfor %}
+
 {% endblock %}

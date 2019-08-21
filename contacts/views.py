@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import MessageThread, ProfileView, Wave
+from .models import MessageThread, ProfileView, Wave, Favourite
 from users.models import User
 from django.template.context_processors import csrf
 from django.urls import reverse
@@ -316,3 +316,50 @@ def waves_sent(request):
     }
 
     return render(request, 'waved_at.html', args)
+
+
+# Add another user to favourites.
+@login_required(login_url='/login/')
+def favourite_user(request, recipient):
+
+    user = request.user
+    recipient = get_object_or_404(User, pk=recipient)
+
+    page_name = "Favourites"
+
+    # Create a new wave and allocate it to the sender and the recipient.
+    new_favourite = Favourite(creator=user, recipient=recipient)
+    new_favourite.created_date = timezone.now()
+    new_favourite.save()
+
+    recipient.new_favourited += 1
+    recipient.total_favourited += 1
+    recipient.save()
+
+    user_favourites = Favourite.objects.filter(creator=user).order_by('-created_date')
+
+    args = {
+        'page_name': page_name,
+        'user_favourites': user_favourites,
+    }
+
+    messages.success(request, "User added to favourites.")
+    return redirect(reverse('favourites'))
+
+
+# View a list of other users who have been waved at by the user.
+@login_required(login_url='/login/')
+def favourites(request):
+
+    user = request.user
+
+    page_name = "Favourites"
+
+    user_favourites = Favourite.objects.filter(creator=user).order_by('-created_date')
+
+    args = {
+        'page_name': page_name,
+        'user_favourites': user_favourites,
+    }
+
+    return render(request, 'favourites.html', args)

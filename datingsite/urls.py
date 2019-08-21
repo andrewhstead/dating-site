@@ -24,6 +24,7 @@ from contacts import views as contact_views
 urlpatterns = [
     path(r'', home_views.home_page, name='home'),
     path('admin/', admin.site.urls),
+    path('favourited_by/<int:recipient>/', contact_views.favourite_user, name='favourite_user'),
     path('favourites/', contact_views.favourites, name='favourites'),
     path('login/', user_views.login, name="login"),
     path('logout/', user_views.logout, name="logout"),
