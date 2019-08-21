@@ -124,6 +124,7 @@ img.icon {
 .standard-link {
     text-decoration: none;
     color: #566dba;
+    -webkit-tap-highlight-color: transparent;
 }
 .standard-link:hover {
     text-decoration: underline;
@@ -137,6 +138,7 @@ img.icon {
 .contact-link {
     text-decoration: none;
     color: #ffffff;
+    -webkit-tap-highlight-color: transparent;
 }
 .contact-link:hover {
     text-decoration: underline;
@@ -363,4 +365,42 @@ label[for=id_profile_picture] {
 }
 .statistics {
     margin: 5px 0;
+}
+
+/* Styles for message alerts */
+.alert-link {
+    margin: 10px auto 10px 0;
+    color: #566dba;
+    background-color: white;
+    border-radius: 10px;
+    padding: 5px;
+    width: fit-content;
+    display: inline-block;
+}
+.popup-wrapper {
+	width: 100%;
+	height: 100%;
+	z-index: 999;
+	position: fixed;
+	top: 0;
+	left: 0;
+}
+.alert-message {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	margin: auto;
+    width: 200px;
+    height: fit-content;
+    background-color: #566dba;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 1px #566dba;
+}
+.alert-message p{
+    margin: 0;
 }

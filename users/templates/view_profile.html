@@ -179,7 +179,7 @@
             </div>
             {% if new_wave %}
                 <div class="contact-button">
-                    <a class="contact-link" href="{% url 'waved_at' profile.id %}">Wave</a>
+                    <span onclick="confirmationAlert()">Wave</span>
                 </div>
             {% else %}
                 <div class="contacted-button">
@@ -197,5 +197,19 @@
             {% endif %}
         </section>
     {% endif %}
+
+    <!-- JavaScript confirmation before a post is deleted. -->
+    <div id="wrapper" class="popup-wrapper hidden">
+        <div id="alert" class="alert-message hidden">
+            <p>Confirmation:</p>
+            <p>Wave at {{ profile.username }}?</p>
+            <div class="alert-link">
+                <a class="standard-link" href="{% url 'waved_at' profile.id %}">Wave</a>
+            </div>
+            <div class="alert-link" onclick="confirmationAlert()">
+                Cancel
+            </div>
+        </div>
+    </div>
 
 {% endblock %}

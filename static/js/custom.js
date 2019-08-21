@@ -12,4 +12,10 @@ function messageRemove() {
     );
 }
 
+// Pop-up function to ask for confirmation or give information.
+function confirmationAlert() {
+    document.getElementById('wrapper').classList.toggle('activate');
+    document.getElementById('alert').classList.toggle('activate');
+}
+
 messageRemove();
