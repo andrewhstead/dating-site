@@ -241,6 +241,11 @@ img.icon {
     height: 30px;
     float: right;
 }
+.profile-icon {
+    height: 30px;
+    float: right;
+    margin-right: 10px;
+}
 .profile-picture {
     height: 100px;
     width: 100px;

@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.template.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from contacts.models import MessageThread, ProfileView, Wave
+from contacts.models import MessageThread, ProfileView, Wave, Favourite
 from .forms import RegistrationForm, LoginForm, EditProfileForm, DeletionForm, \
     ChangePasswordForm, LifestyleForm, AppearanceForm, RelationshipForm
 from .models import User, user_age
@@ -194,6 +194,11 @@ def view_profile(request, user_id):
     user = request.user
 
     try:
+        favourite = Favourite.objects.get(creator=user.id, recipient=profile.id)
+    except Favourite.DoesNotExist:
+        favourite = None
+
+    try:
         thread = MessageThread.objects \
             .get(person_1__in=[user.id, profile.id], person_2__in=[user.id, profile.id])
     except MessageThread.DoesNotExist:
@@ -261,6 +266,7 @@ def view_profile(request, user_id):
         'person_2': person_2,
         'user': user,
         'age': age,
+        'favourite': favourite,
     })
 
 

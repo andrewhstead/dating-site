@@ -9,6 +9,9 @@
             {{ profile.username }}
         {% endif %}
         <img class="user-flag" src="{{profile.country.flag.url}}" />
+        {% if favourite %}
+            <img class="profile-icon" alt="Favourited" src="/media/images/icons/star_gold.png" />
+        {% endif %}
     </section>
 
     <section id="profile-header" class="flex-container">
