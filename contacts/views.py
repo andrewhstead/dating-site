@@ -345,6 +345,7 @@ def favourite_user(request, recipient):
         mutual_favourite.is_mutual = True
         mutual_favourite.mutual_date = timezone.now()
         mutual_favourite.save()
+        new_favourite.is_mutual = True
         new_favourite.mutual_date = timezone.now()
         new_favourite.save()
 

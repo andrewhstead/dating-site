@@ -12,10 +12,16 @@ function messageRemove() {
     );
 }
 
-// Pop-up function to ask for confirmation or give information.
-function confirmationAlert() {
-    document.getElementById('wrapper').classList.toggle('activate');
-    document.getElementById('alert').classList.toggle('activate');
+// Pop-up function to ask for confirmation.
+function confirmationAlert(type) {
+    if (type == 'wave') {
+        document.getElementById('wave-wrapper').classList.toggle('activate');
+        document.getElementById('wave-alert').classList.toggle('activate');
+    }
+    else if (type == 'favourite') {
+        document.getElementById('favourite-wrapper').classList.toggle('activate');
+        document.getElementById('favourite-alert').classList.toggle('activate');
+    }
 }
 
 messageRemove();

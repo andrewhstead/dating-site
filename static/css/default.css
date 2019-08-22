@@ -420,6 +420,7 @@ label[for=id_profile_picture] {
 	right: 0;
 	margin: auto;
     width: 200px;
+    max-height: 90px;
     height: fit-content;
     background-color: #566dba;
     color: white;

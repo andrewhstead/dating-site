@@ -177,12 +177,19 @@
     wave or send a message. -->
     {% if profile.id != user.id %}
         <section id="contact-links" class="flex-container">
-            <div class="contact-button">
-                <a class="contact-link" href="{% url 'favourite_user' profile.id %}">Favourite</a>
-            </div>
+            {% if favourite %}
+                <div class="contacted-button">
+                    Favourited
+                </div>
+            {% else %}
+                <div class="contact-button">
+<!--                    <a class="contact-link" href="{% url 'favourite_user' profile.id %}">Favourite</a>-->
+                    <span onclick="confirmationAlert('favourite')">Favourite</span>
+                </div>
+            {% endif %}
             {% if new_wave %}
                 <div class="contact-button">
-                    <span onclick="confirmationAlert()">Wave</span>
+                    <span onclick="confirmationAlert('wave')">Wave</span>
                 </div>
             {% else %}
                 <div class="contacted-button">
@@ -190,8 +197,8 @@
                 </div>
             {% endif %}
             {% if thread_exists %}
-                <div class="contacted-button">
-                    <a class="standard-link" href="{% url 'message_thread' person_1.id person_2.id %}#latest">Messages</a>
+                <div class="contact-button">
+                    <a class="contact-link" href="{% url 'message_thread' person_1.id person_2.id %}#latest">Messages</a>
                 </div>
             {% else %}
                 <div class="contact-button">
@@ -201,15 +208,29 @@
         </section>
     {% endif %}
 
-    <!-- JavaScript confirmation before a post is deleted. -->
-    <div id="wrapper" class="popup-wrapper hidden">
-        <div id="alert" class="alert-message hidden">
+    <!-- JavaScript confirmation before a favourite is added. -->
+    <div id="favourite-wrapper" class="popup-wrapper hidden">
+        <div id="favourite-alert" class="alert-message hidden">
+            <p>Confirmation:</p>
+            <p>Favourite {{ profile.username }}?</p>
+            <div class="alert-link">
+                <a class="standard-link" href="{% url 'favourite_user' profile.id %}">OK</a>
+            </div>
+            <div class="alert-link" onclick="confirmationAlert('favourite')">
+                Cancel
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript confirmation before a wave is sent. -->
+    <div id="wave-wrapper" class="popup-wrapper hidden">
+        <div id="wave-alert" class="alert-message hidden">
             <p>Confirmation:</p>
             <p>Wave at {{ profile.username }}?</p>
             <div class="alert-link">
-                <a class="standard-link" href="{% url 'waved_at' profile.id %}">Wave</a>
+                <a class="standard-link" href="{% url 'waved_at' profile.id %}">OK</a>
             </div>
-            <div class="alert-link" onclick="confirmationAlert()">
+            <div class="alert-link" onclick="confirmationAlert('wave')">
                 Cancel
             </div>
         </div>
