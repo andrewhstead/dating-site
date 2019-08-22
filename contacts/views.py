@@ -347,7 +347,7 @@ def favourite_user(request, recipient):
     return redirect(reverse('favourites'))
 
 
-# View a list of other users who have been waved at by the user.
+# View a list of other users who the user has added as a favourite.
 @login_required(login_url='/login/')
 def favourites(request):
 
@@ -363,3 +363,25 @@ def favourites(request):
     }
 
     return render(request, 'favourites.html', args)
+
+
+# View a list of other users who have added the user as a favourite.
+@login_required(login_url='/login/')
+def favourited_me(request):
+
+    user = request.user
+
+    page_name = "Favourited Me"
+
+    favourited = Favourite.objects.filter(recipient=user).order_by('-created_date')
+
+    if user.new_favourited > 0:
+        user.new_favourited = 0
+        user.save()
+
+    args = {
+        'page_name': page_name,
+        'favourited': favourited,
+    }
+
+    return render(request, 'favourited_me.html', args)

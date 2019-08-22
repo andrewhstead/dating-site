@@ -29,15 +29,19 @@
                 </strong>
             </a>
             <br />
-                        {{ user.total_waves }} waves |
+            {{ user.total_waves }} waves |
             <a class="standard-link" href="{% url 'waves' %}">
                 <strong>
                     {{ user.new_waves }} new
                 </strong>
             </a>
             <br />
-            Favourited by {{ user.total_favourited }}
-            | <strong>{{ user.new_favourited }} new</strong>
+            Favourited by {{ user.total_favourited }} |
+            <a class="standard-link" href="{% url 'favourited_me' %}">
+                <strong>
+                    {{ user.new_favourited }} new
+                </strong>
+            </a>
         </div>
 
     </section>

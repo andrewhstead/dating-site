@@ -6,8 +6,8 @@
         FAVOURITES
     </div>
 
-    <a class="standard-link" href="">Favourited Me</a> |
-    <strong>My Favourites</strong> |
+    <strong>Favourites</strong> |
+    <a class="standard-link" href="{% url 'favourited_me' %}">Favourited Me</a> |
     <a class="standard-link" href="">Mutual</a>
 
     {% for favourite in user_favourites %}

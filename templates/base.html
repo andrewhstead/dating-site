@@ -49,14 +49,18 @@
         </div>
 
         <div class="notification-icon">
-            <a class="contact-link" href="{% url 'favourites' %}">
-            <img class="icon" src="/media/images/icons/star.png" />
-                {% if user.new_favourited > 0 %}
+            {% if user.new_favourited > 0 %}
+                <a class="contact-link" href="{% url 'favourited_me' %}">
+                    <img class="icon" src="/media/images/icons/star.png" />
                     <div class="notification-number">
                         {{ user.new_favourited }}
-                    </div>
-                {% endif %}
-            </a>
+                     </di
+                </a>
+            {% else %}
+                <a class="contact-link" href="{% url 'favourites' %}">
+                    <img class="icon" src="/media/images/icons/star.png" />
+                </a>
+            {% endif %}
         </div>
 
         <div class="notification-icon">
