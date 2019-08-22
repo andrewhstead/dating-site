@@ -327,7 +327,7 @@ def favourite_user(request, recipient):
 
     page_name = "Favourites"
 
-    # Create a new wave and allocate it to the sender and the recipient.
+    # Create a new favourite and allocate it to the sender and the recipient.
     new_favourite = Favourite(creator=user, recipient=recipient)
     new_favourite.created_date = timezone.now()
     new_favourite.save()
@@ -335,6 +335,18 @@ def favourite_user(request, recipient):
     recipient.new_favourited += 1
     recipient.total_favourited += 1
     recipient.save()
+
+    try:
+        mutual_favourite = Favourite.objects.get(creator=recipient, recipient=user)
+    except Favourite.DoesNotExist:
+        mutual_favourite = None
+
+    if mutual_favourite:
+        mutual_favourite.is_mutual = True
+        mutual_favourite.mutual_date = timezone.now()
+        mutual_favourite.save()
+        new_favourite.mutual_date = timezone.now()
+        new_favourite.save()
 
     user_favourites = Favourite.objects.filter(creator=user).order_by('-created_date')
 
@@ -355,11 +367,14 @@ def favourites(request):
 
     page_name = "Favourites"
 
-    user_favourites = Favourite.objects.filter(creator=user).order_by('-created_date')
+    favourite_type = 'creator'
+
+    favourite_list = Favourite.objects.filter(creator=user).order_by('-created_date')
 
     args = {
         'page_name': page_name,
-        'user_favourites': user_favourites,
+        'favourite_list': favourite_list,
+        'favourite_type': favourite_type,
     }
 
     return render(request, 'favourites.html', args)
@@ -373,7 +388,9 @@ def favourited_me(request):
 
     page_name = "Favourited Me"
 
-    favourited = Favourite.objects.filter(recipient=user).order_by('-created_date')
+    favourite_type = 'recipient'
+
+    favourite_list = Favourite.objects.filter(recipient=user).order_by('-created_date')
 
     if user.new_favourited > 0:
         user.new_favourited = 0
@@ -381,7 +398,30 @@ def favourited_me(request):
 
     args = {
         'page_name': page_name,
-        'favourited': favourited,
+        'favourite_list': favourite_list,
+        'favourite_type': favourite_type,
     }
 
-    return render(request, 'favourited_me.html', args)
+    return render(request, 'favourites.html', args)
+
+
+# View a list of other users who are mutual favourites.
+@login_required(login_url='/login/')
+def mutual_favourites(request):
+
+    user = request.user
+
+    page_name = "Mutual Favourites"
+
+    favourite_type = 'mutual'
+
+    favourite_list = Favourite.objects.filter(Q(creator=user) | Q(recipient=user), is_mutual=True)\
+        .order_by('-created_date')
+
+    args = {
+        'page_name': page_name,
+        'favourite_list': favourite_list,
+        'favourite_type': favourite_type,
+    }
+
+    return render(request, 'favourites.html', args)

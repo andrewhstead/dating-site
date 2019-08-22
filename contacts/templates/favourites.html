@@ -6,23 +6,69 @@
         FAVOURITES
     </div>
 
-    <strong>Favourites</strong> |
-    <a class="standard-link" href="{% url 'favourited_me' %}">Favourited Me</a> |
-    <a class="standard-link" href="">Mutual</a>
+    {% if favourite_type == 'creator' %}
+        <strong>Favourites</strong> |
+    {% else %}
+        <a class="standard-link" href="{% url 'favourites' %}">Favourites</a> |
+    {% endif %}
 
-    {% for favourite in user_favourites %}
+    {% if favourite_type == 'recipient' %}
+        <strong>Favourited Me</strong> |
+    {% else %}
+        <a class="standard-link" href="{% url 'favourited_me' %}">Favourited Me</a> |
+    {% endif %}
 
-        <div class="contact-list">
+    {% if favourite_type == 'mutual' %}
+        <strong>Mutual</strong>
+    {% else %}
+        <a class="standard-link" href="{% url 'mutual_favourites' %}">Mutual</a>
+    {% endif %}
 
-            <img class="contact-picture" alt="Profile Picture" src="{{ favourite.recipient.profile_picture.url }}" />
-            <a class="standard-link" href="{% url 'view_profile' favourite.recipient.id %}">
-                {{favourite.recipient}}
-            </a>
+    {% for favourite in favourite_list %}
 
-            <br />
-            Added: {{ favourite.created_date|date:'d M y, H:i' }}
+        {% if favourite_type == 'creator' %}
 
-        </div>
+            <div class="contact-list">
+
+                <img class="contact-picture" alt="Profile Picture" src="{{ favourite.recipient.profile_picture.url }}" />
+                <a class="standard-link" href="{% url 'view_profile' favourite.recipient.id %}">
+                    {{favourite.recipient}}
+                </a>
+
+                <br />
+                Added: {{ favourite.created_date|date:'d M y, H:i' }}
+
+            </div>
+
+        {% elif favourite_type == 'recipient' %}
+
+            <div class="contact-list">
+
+                <img class="contact-picture" alt="Profile Picture" src="{{ favourite.creator.profile_picture.url }}" />
+                <a class="standard-link" href="{% url 'view_profile' favourite.creator.id %}">
+                    {{favourite.creator}}
+                </a>
+
+                <br />
+                Added: {{ favourite.created_date|date:'d M y, H:i' }}
+
+            </div>
+
+        {% elif favourite_type == 'mutual' %}
+
+            <div class="contact-list">
+
+                <img class="contact-picture" alt="Profile Picture" src="{{ favourite.creator.profile_picture.url }}" />
+                <a class="standard-link" href="{% url 'view_profile' favourite.creator.id %}">
+                    {{favourite.creator}}
+                </a>
+
+                <br />
+                Added: {{ favourite.mutual_date|date:'d M y, H:i' }}
+
+            </div>
+
+        {% endif %}
 
     {% endfor %}
 

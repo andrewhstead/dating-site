@@ -49,6 +49,8 @@ class Favourite(models.Model):
     creator = models.ForeignKey(User, related_name='added_favourite', on_delete=models.CASCADE)
     recipient = models.ForeignKey(User, related_name='favourited_by', on_delete=models.CASCADE)
     created_date = models.DateTimeField(auto_now_add=True)
+    is_mutual = models.BooleanField(default=False)
+    mutual_date = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return self.creator, self.recipient, self.created_date

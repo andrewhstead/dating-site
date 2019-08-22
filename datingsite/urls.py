@@ -26,6 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('favourite_user/<int:recipient>/', contact_views.favourite_user, name='favourite_user'),
     path('favourites/', contact_views.favourites, name='favourites'),
+    path('favourites/mutual/', contact_views.mutual_favourites, name='mutual_favourites'),
     path('favourites/added_me/', contact_views.favourited_me, name='favourited_me'),
     path('login/', user_views.login, name="login"),
     path('logout/', user_views.logout, name="logout"),
