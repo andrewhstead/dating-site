@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'users',
     'home',
     'world',
-    'tinymce'
+    'tinymce',
+    'debug_toolbar',
 ]
 
 AUTH_USER_MODEL = 'users.User'
@@ -54,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'datingsite.urls'
@@ -79,6 +81,10 @@ WSGI_APPLICATION = 'datingsite.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
 
 DATABASES = {
     'default': {
