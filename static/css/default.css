@@ -14,8 +14,15 @@ header {
     text-align: center;
 }
 
+footer {
+    background-color: #566dba;
+    color: white;
+    padding: 5px 10px;
+}
+
 #page {
     margin: 10px;
+    min-height: 400px;
 }
 
 .flex-container {

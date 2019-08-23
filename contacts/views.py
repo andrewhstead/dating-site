@@ -416,8 +416,7 @@ def mutual_favourites(request):
 
     favourite_type = 'mutual'
 
-    favourite_list = Favourite.objects.filter(Q(creator=user) | Q(recipient=user), is_mutual=True)\
-        .order_by('-created_date')
+    favourite_list = Favourite.objects.filter(recipient=user, is_mutual=True).order_by('-created_date')
 
     args = {
         'page_name': page_name,
