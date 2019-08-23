@@ -390,12 +390,14 @@ label[for=id_profile_picture] {
     overflow: hidden;
     vertical-align: bottom;
     border-radius: 8px;
-    margin-right: 10px;
     object-fit: cover;
     float: left;
 }
 .contact-list {
     margin: 10px 0;
+}
+.contact-details {
+    margin-left: 50px;
 }
 .statistics {
     margin: 5px 0;

@@ -26,49 +26,44 @@
 
     {% for favourite in favourite_list %}
 
-        {% if favourite_type == 'creator' %}
+        <div class="contact-list">
 
-            <div class="contact-list">
-
+            {% if favourite_type == 'creator' %}
                 <img class="contact-picture" alt="Profile Picture" src="{{ favourite.recipient.profile_picture.url }}" />
-                <a class="standard-link" href="{% url 'view_profile' favourite.recipient.id %}">
-                    {{favourite.recipient}}
-                </a>
-
-                <br />
-                Added: {{ favourite.created_date|date:'d M y, H:i' }}
-
-            </div>
-
-        {% elif favourite_type == 'recipient' %}
-
-            <div class="contact-list">
-
+            {% else %}
                 <img class="contact-picture" alt="Profile Picture" src="{{ favourite.creator.profile_picture.url }}" />
-                <a class="standard-link" href="{% url 'view_profile' favourite.creator.id %}">
-                    {{favourite.creator}}
-                </a>
+            {% endif %}
+
+            <div class="contact-details">
+
+                {% if favourite_type == 'creator' %}
+                    <a class="standard-link" href="{% url 'view_profile' favourite.recipient.id %}">
+                        {{favourite.recipient}}
+                    </a>
+                {% else %}
+                    <a class="standard-link" href="{% url 'view_profile' favourite.creator.id %}">
+                        {{favourite.creator}}
+                    </a>
+                {% endif %}
 
                 <br />
-                Added: {{ favourite.created_date|date:'d M y, H:i' }}
+                {% if favourite_type == 'mutual' %}
+                    Added: {{ favourite.mutual_date|date:'d M y, H:i' }}
+                {% else %}
+                    Added: {{ favourite.created_date|date:'d M y, H:i' }}
+                {% endif %}
+
+                <br />
+                Message |
+                Wave |
+                {% if favourite_type != 'recipient' %}
+                    Delete |
+                {% endif %}
+                Block
 
             </div>
 
-        {% elif favourite_type == 'mutual' %}
-
-            <div class="contact-list">
-
-                <img class="contact-picture" alt="Profile Picture" src="{{ favourite.creator.profile_picture.url }}" />
-                <a class="standard-link" href="{% url 'view_profile' favourite.creator.id %}">
-                    {{favourite.creator}}
-                </a>
-
-                <br />
-                Added: {{ favourite.mutual_date|date:'d M y, H:i' }}
-
-            </div>
-
-        {% endif %}
+        </div>
 
     {% endfor %}
 
