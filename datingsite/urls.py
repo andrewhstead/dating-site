@@ -20,6 +20,7 @@ from django.urls import include, path
 from home import views as home_views
 from users import views as user_views
 from contacts import views as contact_views
+from django.contrib.flatpages import views
 
 urlpatterns = [
     path(r'', home_views.home_page, name='home'),
