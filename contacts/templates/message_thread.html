@@ -1,4 +1,20 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block head_js %}
+    <script src="{% static 'js/tinymce/tinymce.min.js' %}"></script>
+    <script type="text/javascript">
+        tinyMCE.init({
+            mode: "textareas",
+            theme: "silver",
+            plugins: "paste",
+            menubar: false,
+	        mobile: {
+		        theme: "silver"
+	        }
+	    });
+    </script>
+{% endblock %}
 
 {% block content %}
 
@@ -17,8 +33,8 @@
 
                     <img class="sent-message-picture" alt="Profile Picture" src="{{ message.sender.profile_picture.url }}" />
 
-                    <div class="sent-message-text">
-                        {{ message.content }}
+                    <div class="sent-message-text message-format">
+                        {{ message.content|safe }}
                     </div>
 
                     <div class="sent-message-details">
@@ -40,8 +56,8 @@
 
                     <img class="received-message-picture" alt="Profile Picture" src="{{ message.sender.profile_picture.url }}" />
 
-                    <div class="received-message-text">
-                        {{ message.content }}
+                    <div class="received-message-text message-format">
+                        {{ message.content|safe }}
                     </div>
 
                     <div class="received-message-details">

@@ -6,22 +6,41 @@
         WAVES
     </div>
 
-    <strong>Received</strong> | <a class="standard-link" href="{% url 'waves_sent' %}">Sent</a>
+    {% if wave_type == 'sent' %}
+        <a class="standard-link" href="{% url 'waves' %}">Received</a> | <strong>Sent</strong>
+    {% else %}
+        <strong>Received</strong> | <a class="standard-link" href="{% url 'waves_sent' %}">Sent</a>
+    {% endif %}
 
     {% for wave in user_waves %}
 
         <div class="contact-list">
 
-            <img class="contact-picture" alt="Profile Picture" src="{{ wave.sender.profile_picture.url }}" />
-            <a class="standard-link" href="{% url 'view_profile' wave.sender.id %}">
-                {{wave.sender}}
-            </a>
+            {% if wave_type == 'sent' %}
+                <img class="contact-picture" alt="Profile Picture" src="{{ wave.recipient.profile_picture.url }}" />
+            {% else %}
+                 <img class="contact-picture" alt="Profile Picture" src="{{ wave.sender.profile_picture.url }}" />
+            {% endif %}
 
-            ({{ wave.total_waves }}
-            {% if wave.total_waves == 1 %}wave{% else %}waves{% endif %})
+            <div class="contact-details">
 
-            <br />
-            Last Wave: {{ wave.latest_date|date:'d M y, H:i' }}
+                {% if wave_type == 'sent' %}
+                    <a class="standard-link" href="{% url 'view_profile' wave.recipient.id %}">
+                        {{wave.recipient}}
+                    </a>
+                {% else %}
+                    <a class="standard-link" href="{% url 'view_profile' wave.sender.id %}">
+                        {{wave.sender}}
+                    </a>
+                {% endif %}
+
+                ({{ wave.total_waves }}
+                {% if wave.total_waves == 1 %}wave{% else %}waves{% endif %})
+
+                <br />
+                Last Wave: {{ wave.latest_date|date:'d M y, H:i' }}
+
+            </div>
 
         </div>
 

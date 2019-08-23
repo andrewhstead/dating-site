@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'users',
     'home',
     'world',
+    'tinymce'
 ]
 
 AUTH_USER_MODEL = 'users.User'
@@ -131,3 +132,6 @@ STATICFILES_DIRS = [
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+TINYMCE_JS_ROOT = os.path.join(BASE_DIR, "static", 'js', 'tinymce', 'tinymce.min.js')
+TINYMCE_DEFAULT_CONFIG = {'theme': "advanced", "theme_advanced_resizing": "true"}

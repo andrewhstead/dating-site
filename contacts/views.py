@@ -290,11 +290,14 @@ def waves(request):
         user.new_waves = 0
         user.save()
 
+    wave_type = 'received'
+
     user_waves = Wave.objects.filter(recipient=user).order_by('-latest_date')
 
     args = {
         'page_name': page_name,
         'user_waves': user_waves,
+        'wave_type': wave_type,
     }
 
     return render(request, 'waves.html', args)
@@ -308,14 +311,17 @@ def waves_sent(request):
 
     page_name = "Waves"
 
+    wave_type = 'sent'
+
     user_waves = Wave.objects.filter(sender=user).order_by('-latest_date')
 
     args = {
         'page_name': page_name,
         'user_waves': user_waves,
+        'wave_type': wave_type,
     }
 
-    return render(request, 'waved_at.html', args)
+    return render(request, 'waves.html', args)
 
 
 # Add another user to favourites.

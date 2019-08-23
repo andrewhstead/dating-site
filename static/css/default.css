@@ -330,6 +330,10 @@ label[for=id_profile_picture] {
 }
 
 /* Styles for the contacts app */
+.message-format p{
+    margin: 0;
+    padding: 0;
+}
 .received-message {
     margin: 10px 0;
 }

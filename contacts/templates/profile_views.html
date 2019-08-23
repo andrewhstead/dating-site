@@ -28,12 +28,17 @@
         <div class="contact-list">
 
             <img class="contact-picture" alt="Profile Picture" src="{{ view.viewer.profile_picture.url }}" />
-            <a class="standard-link" href="{% url 'view_profile' view.viewer.id %}">
-                {{view.viewer}}
-            </a>
 
-            <br />
-            Viewed: {{ view.latest_view|date:'d M y, H:i' }}
+            <div class="contact-details">
+
+                <a class="standard-link" href="{% url 'view_profile' view.viewer.id %}">
+                    {{view.viewer}}
+                </a>
+
+                <br />
+                Viewed: {{ view.latest_view|date:'d M y, H:i' }}
+
+            </div>
 
         </div>
 

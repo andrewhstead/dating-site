@@ -11,35 +11,39 @@
         <div class="contact-list">
 
             {% if thread.person_1 == user %}
-
                 <img class="contact-picture" alt="Profile Picture" src="{{ thread.person_2.profile_picture.url }}" />
-                <a class="standard-link" href="{% url 'message_thread' thread.person_1.id thread.person_2.id %}#latest">
-                    {{ thread.person_2.username }}
-                </a>
-
                 {% else %}
-
                 <img class="contact-picture" alt="Profile Picture" src="{{ thread.person_1.profile_picture.url }}" />
-                <a class="standard-link" href="{% url 'message_thread' thread.person_1.id thread.person_2.id %}#latest">
-                    {{ thread.person_1.username }}
-                </a>
-
             {% endif %}
 
-            ({{ thread.in_thread }})
+            <div class="contact-details">
 
-            {% if user == thread.person_1 and thread.p1_unread > 0 %}
-                <strong>
-                    {{ thread.p1_unread }} unread
-                </strong>
-            {% elif user == thread.person_2 and thread.p2_unread > 0 %}
-                <strong>
-                    {{ thread.p2_unread }} unread
-                </strong>
-            {% endif %}
+                {% if thread.person_1 == user %}
+                    <a class="standard-link" href="{% url 'message_thread' thread.person_1.id thread.person_2.id %}#latest">
+                        {{ thread.person_2.username }}
+                    </a>
+                {% else %}
+                    <a class="standard-link" href="{% url 'message_thread' thread.person_1.id thread.person_2.id %}#latest">
+                        {{ thread.person_1.username }}
+                    </a>
+                {% endif %}
 
-            <br />
-            {{ thread.last_message|date:'d M y, H:i' }}
+                ({{ thread.in_thread }})
+
+                {% if user == thread.person_1 and thread.p1_unread > 0 %}
+                    <strong>
+                        {{ thread.p1_unread }} unread
+                    </strong>
+                {% elif user == thread.person_2 and thread.p2_unread > 0 %}
+                    <strong>
+                        {{ thread.p2_unread }} unread
+                    </strong>
+                {% endif %}
+
+                <br />
+                {{ thread.last_message|date:'d M y, H:i' }}
+
+            </div>
 
         </div>
 
