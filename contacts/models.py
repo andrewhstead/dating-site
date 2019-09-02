@@ -3,6 +3,37 @@ from users.models import User
 
 
 # Create your models here.
+# An overarching model to log all communication between two users.
+class Interaction(models.Model):
+    person_1 = models.ForeignKey(User, related_name='interaction_1', on_delete=models.CASCADE)
+    person_2 = models.ForeignKey(User, related_name='interaction_2', on_delete=models.CASCADE)
+    thread_exists = models.BooleanField(default=False)
+    thread_started = models.DateTimeField(auto_now_add=True)
+    message_count = models.IntegerField(default=0)
+    last_message = models.DateTimeField(auto_now_add=True)
+    p1_unread = models.IntegerField(default=0)
+    p2_unread = models.IntegerField(default=0)
+    p1_waves = models.IntegerField(default=0)
+    p2_waves = models.IntegerField(default=0)
+    p1_initial_wave = models.DateTimeField(auto_now_add=True)
+    p2_initial_wave = models.DateTimeField(auto_now_add=True)
+    p1_latest_wave = models.DateTimeField(auto_now_add=True)
+    p2_latest_wave = models.DateTimeField(auto_now_add=True)
+    p1_favourited = models.BooleanField(default=False)
+    p1_favourited_date = models.DateTimeField(auto_now_add=True)
+    p2_favourited = models.BooleanField(default=False)
+    p2_favourited_date = models.DateTimeField(auto_now_add=True)
+    mutual_favourites = models.BooleanField(default=False)
+    mutual_date = models.DateTimeField(blank=True, null=True)
+    p1_views = models.IntegerField(default=0)
+    p1_latest_view = models.DateTimeField(auto_now_add=True)
+    p2_views = models.IntegerField(default=0)
+    p2_latest_view = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.person_1, self.person_2
+
+
 # Message thread model for conversations between users.
 class MessageThread(models.Model):
     objects = models.Manager()
