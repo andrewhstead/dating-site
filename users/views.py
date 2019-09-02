@@ -230,14 +230,18 @@ def view_profile(request, user_id):
         repeat_view = None
 
     if interaction:
-        if user.id == interaction.person_1 and interaction.p1_latest_wave:
+        if user.id == interaction.person_1:
             week_ago = interaction.p1_latest_wave + timedelta(days=7)
-        elif user.id == interaction.person_2 and interaction.p2_latest_wave:
+            if timezone.now() > week_ago:
+                new_wave = True
+            else:
+                new_wave = False
+        elif user.id == interaction.person_2:
             week_ago = interaction.p2_latest_wave + timedelta(days=7)
-        if timezone.now() > week_ago:
-            new_wave = True
-        else:
-            new_wave = False
+            if timezone.now() > week_ago:
+                new_wave = True
+            else:
+                new_wave = False
         if interaction.thread_exists:
             thread_exists = True
             person_1 = interaction.person_1
@@ -273,7 +277,7 @@ def view_profile(request, user_id):
 
         # Update the interaction views or create a new interaction.
         if interaction:
-            if user.id == interaction.person_1:
+            if user.id == interaction.person_1.id:
                 interaction.p1_views += 1
                 interaction.p1_latest_view = timezone.now()
                 interaction.save()

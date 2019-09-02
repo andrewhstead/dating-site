@@ -255,12 +255,18 @@ def waved_at(request, recipient):
     user = request.user
     recipient = get_object_or_404(User, pk=recipient)
 
-    page_name = "Waves Sent"
+    page_name = "Waved At"
 
     try:
         repeat_wave = Wave.objects.get(sender=user, recipient=recipient)
     except Wave.DoesNotExist:
         repeat_wave = None
+
+    try:
+        interaction = Interaction.objects \
+            .get(person_1__in=[user.id, recipient.id], person_2__in=[user.id, recipient.id])
+    except Interaction.DoesNotExist:
+        interaction = None
 
     # If no previous waves, create a new wave and allocate it to the sender and the recipient.
     # If there are previous waves, update that database record.
@@ -274,6 +280,27 @@ def waved_at(request, recipient):
         new_wave.initial_date = timezone.now()
         new_wave.latest_date = timezone.now()
         new_wave.save()
+
+    # Update the interaction views or create a new interaction.
+    if interaction:
+        if user.id == interaction.person_1.id:
+            if interaction.p1_waves == 0:
+                interaction.p1_initial_wave = timezone.now()
+            interaction.p1_waves += 1
+            interaction.p1_latest_wave = timezone.now()
+            interaction.save()
+        else:
+            if interaction.p2_waves == 0:
+                interaction.p2_initial_wave = timezone.now()
+            interaction.p2_waves += 1
+            interaction.p2_latest_wave = timezone.now()
+            interaction.save()
+    else:
+        interaction = Interaction(person_1=user, person_2=recipient)
+        interaction.p1_waves += 1
+        interaction.p1_initial_wave = timezone.now()
+        interaction.p1_latest_wave = timezone.now()
+        interaction.save()
 
     recipient.new_waves += 1
     recipient.total_waves += 1
@@ -296,7 +323,7 @@ def waves(request):
 
     user = request.user
 
-    page_name = "Waves Sent"
+    page_name = "Waves"
 
     if user.new_waves > 0:
         user.new_waves = 0
@@ -306,9 +333,21 @@ def waves(request):
 
     user_waves = Wave.objects.filter(recipient=user).order_by('-latest_date')
 
+    interactions = Interaction.objects.filter((Q(person_1=user) & Q(p2_waves__gt=0))
+                                              | (Q(person_2=user) & Q(p1_waves__gt=0)))
+
+    for interaction in interactions:
+        if user.id == interaction.person_1.id:
+            interaction.wave_date = interaction.p2_latest_wave
+        else:
+            interaction.wave_date = interaction.p1_latest_wave
+
+    interactions.order_by('-wave_date')
+
     args = {
         'page_name': page_name,
         'user_waves': user_waves,
+        'interactions': interactions,
         'wave_type': wave_type,
     }
 
@@ -321,15 +360,27 @@ def waves_sent(request):
 
     user = request.user
 
-    page_name = "Waves"
+    page_name = "Waves Sent"
 
     wave_type = 'sent'
 
     user_waves = Wave.objects.filter(sender=user).order_by('-latest_date')
 
+    interactions = Interaction.objects.filter((Q(person_1=user) & Q(p1_waves__gt=0))
+                                              | (Q(person_2=user) & Q(p2_waves__gt=0)))
+
+    for interaction in interactions:
+        if user.id == interaction.person_1.id:
+            interaction.wave_date = interaction.p1_latest_wave
+        else:
+            interaction.wave_date = interaction.p2_latest_wave
+
+    interactions.order_by('-wave_date')
+
     args = {
         'page_name': page_name,
         'user_waves': user_waves,
+        'interactions': interactions,
         'wave_type': wave_type,
     }
 

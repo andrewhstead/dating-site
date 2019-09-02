@@ -46,4 +46,45 @@
 
     {% endfor %}
 
+    {% for interaction in interactions %}
+
+        <div class="contact-list">
+
+            {% if user.id == interaction.person_1.id %}
+
+                <img class="contact-picture" alt="Profile Picture" src="{{ interaction.person_2.profile_picture.url }}" />
+
+                <div class="contact-details">
+
+                    <a class="standard-link" href="{% url 'view_profile' interaction.person_2.id %}">
+                        {{interaction.person_2}}
+                    </a>
+
+                    ({{ interaction.p2_waves }}
+                    {% if interaction.p2_waves == 1 %}wave{% else %}waves{% endif %})
+
+            {% else %}
+
+                <img class="contact-picture" alt="Profile Picture" src="{{ interaction.person_1.profile_picture.url }}" />
+
+                <div class="contact-details">
+
+                    <a class="standard-link" href="{% url 'view_profile' interaction.person_1.id %}">
+                        {{interaction.person_1}}
+                    </a>
+
+                    ({{ interaction.p1_waves }}
+                    {% if interaction.p1_waves == 1 %}wave{% else %}waves{% endif %})
+
+            {% endif %}
+
+            <br />
+            Last Wave: {{ interaction.wave_date|date:'d M y, H:i' }}
+
+            </div>
+
+        </div>
+
+    {% endfor %}
+
 {% endblock %}
