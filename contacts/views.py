@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import MessageThread, ProfileView, Wave, Favourite
+from .models import MessageThread, ProfileView, Wave, Favourite, Interaction
 from users.models import User
 from django.template.context_processors import csrf
 from django.urls import reverse
@@ -207,13 +207,25 @@ def profile_views(request):
 
     views = ProfileView.objects.filter(viewed_id=user.id).order_by('-latest_view')
 
+    interactions = Interaction.objects.filter(Q(person_1=user) | Q(person_2=user))
+
+    for interaction in interactions:
+        if user.id == interaction.person_1:
+            interaction.view_date = interaction.p1_latest_view
+        else:
+            interaction.view_date = interaction.p2_latest_view
+
+    interactions.order_by('-view_date')
+
     total_views = user.total_views
 
     unique_viewers = views.count()
 
     args = {
+        'user': user,
         'page_name': page_name,
         'views': views,
+        'interactions': interactions,
         'total_views': total_views,
         'unique_viewers': unique_viewers,
     }

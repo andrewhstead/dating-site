@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.template.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from contacts.models import MessageThread, ProfileView, Wave, Favourite
+from contacts.models import MessageThread, ProfileView, Wave, Favourite, Interaction
 from .forms import RegistrationForm, LoginForm, EditProfileForm, DeletionForm, \
     ChangePasswordForm, LifestyleForm, AppearanceForm, RelationshipForm
 from .models import User, user_age
@@ -194,6 +194,12 @@ def view_profile(request, user_id):
     user = request.user
 
     try:
+        interaction = Interaction.objects \
+            .get(person_1__in=[user.id, profile.id], person_2__in=[user.id, profile.id])
+    except Interaction.DoesNotExist:
+        interaction = None
+
+    try:
         favourite = Favourite.objects.get(creator=user.id, recipient=profile.id)
     except Favourite.DoesNotExist:
         favourite = None
@@ -223,6 +229,25 @@ def view_profile(request, user_id):
     except ProfileView.DoesNotExist:
         repeat_view = None
 
+    if interaction:
+        if user.id == interaction.person_1 and interaction.p1_latest_wave:
+            week_ago = interaction.p1_latest_wave + timedelta(days=7)
+        elif user.id == interaction.person_2 and interaction.p2_latest_wave:
+            week_ago = interaction.p2_latest_wave + timedelta(days=7)
+        if timezone.now() > week_ago:
+            new_wave = True
+        else:
+            new_wave = False
+        if interaction.thread_exists:
+            thread_exists = True
+            person_1 = interaction.person_1
+            person_2 = interaction.person_2
+        else:
+            thread_exists = False
+    else:
+        thread_exists = False
+        new_wave = True
+
     if thread:
         thread_exists = True
         person_1 = thread.person_1
@@ -245,6 +270,22 @@ def view_profile(request, user_id):
         profile.new_views += 1
         profile.total_views += 1
         profile.save()
+
+        # Update the interaction views or create a new interaction.
+        if interaction:
+            if user.id == interaction.person_1:
+                interaction.p1_views += 1
+                interaction.p1_latest_view = timezone.now()
+                interaction.save()
+            else:
+                interaction.p2_views += 1
+                interaction.p2_latest_view = timezone.now()
+                interaction.save()
+        else:
+            interaction = Interaction(person_1=user, person_2=profile)
+            interaction.p1_views += 1
+            interaction.p1_latest_view = timezone.now()
+            interaction.save()
 
         # Create a new profile view and allocate it to the user and the profile owner.
         if repeat_view:
