@@ -60,8 +60,17 @@
                         {{interaction.person_2}}
                     </a>
 
+                {% if wave_type == 'sent' %}
+
+                    ({{ interaction.p1_waves }}
+                    {% if interaction.p1_waves == 1 %}wave{% else %}waves{% endif %})
+
+                {% else %}
+
                     ({{ interaction.p2_waves }}
                     {% if interaction.p2_waves == 1 %}wave{% else %}waves{% endif %})
+
+                {% endif %}
 
             {% else %}
 
@@ -73,8 +82,17 @@
                         {{interaction.person_1}}
                     </a>
 
+                {% if wave_type == 'sent' %}
+
                     ({{ interaction.p1_waves }}
                     {% if interaction.p1_waves == 1 %}wave{% else %}waves{% endif %})
+
+                {% else %}
+
+                    ({{ interaction.p2_waves }}
+                    {% if interaction.p2_waves == 1 %}wave{% else %}waves{% endif %})
+
+                {% endif %}
 
             {% endif %}
 

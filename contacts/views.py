@@ -233,21 +233,6 @@ def profile_views(request):
     return render(request, 'profile_views.html', args)
 
 
-# View a list of other users who have been added as a favourite.
-@login_required(login_url='/login/')
-def favourites(request):
-
-    user = request.user
-
-    page_name = "Favourites"
-
-    args = {
-        'page_name': page_name,
-    }
-
-    return render(request, 'favourites.html', args)
-
-
 # Wave at another user.
 @login_required(login_url='/login/')
 def waved_at(request, recipient):
@@ -281,7 +266,7 @@ def waved_at(request, recipient):
         new_wave.latest_date = timezone.now()
         new_wave.save()
 
-    # Update the interaction views or create a new interaction.
+    # Update the interaction waves or create a new interaction.
     if interaction:
         if user.id == interaction.person_1.id:
             if interaction.p1_waves == 0:
@@ -410,6 +395,34 @@ def favourite_user(request, recipient):
     except Favourite.DoesNotExist:
         mutual_favourite = None
 
+    try:
+        interaction = Interaction.objects \
+            .get(person_1__in=[user.id, recipient.id], person_2__in=[user.id, recipient.id])
+    except Interaction.DoesNotExist:
+        interaction = None
+
+    # Update the interaction favourites or create a new interaction.
+    if interaction:
+        if user.id == interaction.person_1.id:
+            interaction.p1_favourited = True
+            interaction.p1_favourited_date = timezone.now()
+            if interaction.p2_favourited:
+                interaction.mutual_favourites = True
+                interaction.mutual_date = timezone.now()
+            interaction.save()
+        else:
+            interaction.p2_favourited = True
+            interaction.p2_favourited_date = timezone.now()
+            if interaction.p1_favourited:
+                interaction.mutual_favourites = True
+                interaction.mutual_date = timezone.now()
+            interaction.save()
+    else:
+        interaction = Interaction(person_1=user, person_2=recipient)
+        interaction.p1_favourited = True
+        interaction.p1_favourited_date = timezone.now()
+        interaction.save()
+
     if mutual_favourite:
         mutual_favourite.is_mutual = True
         mutual_favourite.mutual_date = timezone.now()
@@ -441,10 +454,23 @@ def favourites(request):
 
     favourite_list = Favourite.objects.filter(creator=user).order_by('-created_date')
 
+    interactions = Interaction.objects.filter((Q(person_1=user) & Q(p1_favourited=True))
+                                              | (Q(person_2=user) & Q(p2_favourited=True)))
+
+    for interaction in interactions:
+        if user.id == interaction.person_1.id:
+            interaction.added_date = interaction.p1_favourited_date
+        else:
+            interaction.added_date = interaction.p2_favourited_date
+
+    interactions.order_by('-added_date')
+
     args = {
+        'user': user,
         'page_name': page_name,
         'favourite_list': favourite_list,
         'favourite_type': favourite_type,
+        'interactions': interactions,
     }
 
     return render(request, 'favourites.html', args)
@@ -462,14 +488,27 @@ def favourited_me(request):
 
     favourite_list = Favourite.objects.filter(recipient=user).order_by('-created_date')
 
+    interactions = Interaction.objects.filter((Q(person_1=user) & Q(p2_favourited=True))
+                                              | (Q(person_2=user) & Q(p1_favourited=True)))
+
+    for interaction in interactions:
+        if user.id == interaction.person_1.id:
+            interaction.added_date = interaction.p2_favourited_date
+        else:
+            interaction.added_date = interaction.p1_favourited_date
+
+    interactions.order_by('-added_date')
+
     if user.new_favourited > 0:
         user.new_favourited = 0
         user.save()
 
     args = {
+        'user': user,
         'page_name': page_name,
         'favourite_list': favourite_list,
         'favourite_type': favourite_type,
+        'interactions': interactions,
     }
 
     return render(request, 'favourites.html', args)
@@ -487,10 +526,19 @@ def mutual_favourites(request):
 
     favourite_list = Favourite.objects.filter(recipient=user, is_mutual=True).order_by('-created_date')
 
+    interactions = Interaction.objects.filter(mutual_favourites=True)
+
+    for interaction in interactions:
+        interaction.added_date = interaction.mutual_date
+
+    interactions.order_by('-added_date')
+
     args = {
+        'user': user,
         'page_name': page_name,
         'favourite_list': favourite_list,
         'favourite_type': favourite_type,
+        'interactions': interactions,
     }
 
     return render(request, 'favourites.html', args)
