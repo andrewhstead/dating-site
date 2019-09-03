@@ -22,6 +22,12 @@ def new_thread(request, person_1, person_2):
 
     page_name = "New Message to: " + person_2.username
 
+    try:
+        interaction = Interaction.objects \
+            .get(person_1__in=[person_1.id, person_2.id], person_2__in=[person_1.id, person_2.id])
+    except Interaction.DoesNotExist:
+        interaction = None
+
     if request.method == 'POST':
         message_form = MessageForm(request.POST)
         if message_form.is_valid():
@@ -33,11 +39,41 @@ def new_thread(request, person_1, person_2):
             thread.p2_unread += 1
             thread.save()
 
+            # Update the interaction or create a new interaction.
+            if interaction:
+                if person_1.id == interaction.person_1.id:
+                    interaction.p2_unread += 1
+                    interaction.p1_messages += 1
+                    interaction.p1_last_message = timezone.now()
+                else:
+                    interaction.p1_unread += 1
+                    interaction.p2_messages += 1
+                    interaction.p2_last_message = timezone.now()
+                interaction.thread_exists = True
+                interaction.thread_started = timezone.now()
+                interaction.message_count += 1
+                interaction.last_message = timezone.now()
+                interaction.save()
+            else:
+                interaction = Interaction(person_1=person_1, person_2=person_2)
+                if person_1.id == interaction.person_1.id:
+                    interaction.p1_messages += 1
+                    interaction.p1_last_message = timezone.now()
+                else:
+                    interaction.p2_messages += 1
+                    interaction.p2_last_message = timezone.now()
+                interaction.thread_exists = True
+                interaction.thread_started = timezone.now()
+                interaction.message_count += 1
+                interaction.last_message = timezone.now()
+                interaction.save()
+
             # Before saving the message, allocate it to the user and the recipient and to the new thread.
             message = message_form.save(False)
             message.sender = person_1
             message.recipient = person_2
             message.thread = thread
+            message.interaction = interaction
             message.save()
 
             # Add one to the recipient's new message and total message count.
@@ -76,13 +112,18 @@ def message_thread(request, person_1, person_2):
 
     thread = get_object_or_404(MessageThread, person_1=person_1, person_2=person_2)
 
+    try:
+        interaction = Interaction.objects.get(person_1=person_1, person_2=person_2)
+    except Interaction.DoesNotExist:
+        interaction = None
+
     page_name = "Messages: " + other_person.username
 
     if request.method == 'POST':
         message_form = MessageForm(request.POST)
         if message_form.is_valid():
             # Before saving the message, find the correct thread.
-            # Increment the total message count and unread count.
+            # Increment the total message count and unread count for the thread.
             thread.in_thread += 1
             thread.last_message = timezone.now()
             if user == person_1:
@@ -90,6 +131,19 @@ def message_thread(request, person_1, person_2):
             else:
                 thread.p1_unread += 1
             thread.save()
+
+            # Increment the total message count and unread count for the interaction.
+            interaction.message_count += 1
+            interaction.last_message = timezone.now()
+            if user == person_1:
+                interaction.p2_unread += 1
+                interaction.p1_messages += 1
+                interaction.p1_last_message = timezone.now()
+            else:
+                interaction.p1_unread += 1
+                interaction.p2_messages += 1
+                interaction.p2_last_message = timezone.now()
+            interaction.save()
 
             # Also allocate the message to the user and the recipient and to the thread.
             message = message_form.save(False)
@@ -106,11 +160,13 @@ def message_thread(request, person_1, person_2):
                 person_1.total_messages += 1
                 person_1.save()
             message.thread = thread
+            message.interaction = interaction
             message.save()
 
             thread_messages = thread.messages.all().order_by('created_date')
+            interaction_messages = interaction.messages.all().order_by('created_date')
 
-            for message in thread_messages:
+            for message in interaction_messages:
                 if not message.is_read and user == message.recipient:
                     message.is_read = True
                     message.read_date = timezone.now()
@@ -120,15 +176,19 @@ def message_thread(request, person_1, person_2):
                     if user == person_1:
                         thread.p1_unread -= 1
                         thread.save()
+                        interaction.p1_unread -= 1
+                        interaction.save()
                     else:
                         thread.p2_unread -= 1
                         thread.save()
+                        interaction.p2_unread -= 1
+                        interaction.save()
 
             args = {
                 'user': user,
                 'thread': thread,
                 'form': message_form,
-                'thread_messages': thread_messages,
+                'interaction_messages': interaction_messages,
                 'page_name': page_name,
                 'other_person': other_person,
                 'person_1': person_1.pk,
@@ -144,8 +204,9 @@ def message_thread(request, person_1, person_2):
         message_form = MessageForm()
 
         thread_messages = thread.messages.all().order_by('created_date')
+        interaction_messages = interaction.messages.all().order_by('created_date')
 
-        for message in thread_messages:
+        for message in interaction_messages:
             if not message.is_read and user == message.recipient:
                 message.is_read = True
                 message.read_date = timezone.now()
@@ -155,15 +216,19 @@ def message_thread(request, person_1, person_2):
                 if user == person_1:
                     thread.p1_unread -= 1
                     thread.save()
+                    interaction.p1_unread -= 1
+                    interaction.save()
                 else:
                     thread.p2_unread -= 1
                     thread.save()
+                    interaction.p2_unread -= 1
+                    interaction.save()
 
         args = {
             'user': user,
             'form': message_form,
             'thread': thread,
-            'thread_messages': thread_messages,
+            'interaction_messages': interaction_messages,
             'page_name': page_name,
             'other_person': other_person,
             'person_1': person_1.pk,
@@ -185,9 +250,13 @@ def all_messages(request):
     threads = MessageThread.objects.filter(Q(person_1=user) | Q(person_2=user))\
         .order_by('-last_message')
 
+    interactions = Interaction.objects.filter((Q(person_1=user) | Q(person_2=user)) & Q(thread_exists=True))\
+        .order_by('-last_message')
+
     args = {
         'page_name': page_name,
         'threads': threads,
+        'interactions': interactions,
     }
 
     return render(request, 'messages.html', args)
@@ -207,7 +276,8 @@ def profile_views(request):
 
     views = ProfileView.objects.filter(viewed_id=user.id).order_by('-latest_view')
 
-    interactions = Interaction.objects.filter(Q(person_1=user) | Q(person_2=user))
+    interactions = Interaction.objects.filter((Q(person_1=user) & Q(p2_views__gt=0))
+                                              | (Q(person_2=user) & Q(p1_views__gt=0)))
 
     for interaction in interactions:
         if user.id == interaction.person_1:
@@ -219,7 +289,7 @@ def profile_views(request):
 
     total_views = user.total_views
 
-    unique_viewers = views.count()
+    unique_viewers = interactions.count()
 
     args = {
         'user': user,

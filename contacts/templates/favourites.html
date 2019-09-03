@@ -82,7 +82,7 @@
 
                         <br />
                         {% if favourite_type == 'mutual' %}
-                            Mutual Since: {{ interaction.mutual_date|date:'d M y, H:i' }}
+                            Mutual: {{ interaction.mutual_date|date:'d M y, H:i' }}
                         {% elif favourite_type == 'creator' %}
                             Added: {{ interaction.p1_favourited_date|date:'d M y, H:i' }}
                         {% else %}

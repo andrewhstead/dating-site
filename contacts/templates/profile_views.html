@@ -58,6 +58,9 @@
                         {{interaction.person_2}}
                     </a>
 
+                    <br />
+                    Viewed: {{ interaction.p2_latest_view|date:'d M y, H:i' }}
+
             {% else %}
 
                 <img class="contact-picture" alt="Profile Picture" src="{{ interaction.person_1.profile_picture.url }}" />
@@ -68,12 +71,12 @@
                         {{interaction.person_1}}
                     </a>
 
+                    <br />
+                    Viewed: {{ interaction.p1_latest_view|date:'d M y, H:i' }}
+
             {% endif %}
 
-                <br />
-                Viewed: {{ interaction.view_date|date:'d M y, H:i' }}
-
-            </div>
+                </div>
 
         </div>
 

@@ -49,4 +49,47 @@
 
     {% endfor %}
 
+    {% for interaction in interactions %}
+
+        <div class="contact-list">
+
+            {% if interaction.person_1 == user %}
+                <img class="contact-picture" alt="Profile Picture" src="{{ interaction.person_2.profile_picture.url }}" />
+                {% else %}
+                <img class="contact-picture" alt="Profile Picture" src="{{ interaction.person_1.profile_picture.url }}" />
+            {% endif %}
+
+            <div class="contact-details">
+
+                {% if interaction.person_1 == user %}
+                    <a class="standard-link" href="{% url 'message_thread' interaction.person_1.id interaction.person_2.id %}#latest">
+                        {{ interaction.person_2.username }}
+                    </a>
+                {% else %}
+                    <a class="standard-link" href="{% url 'message_thread' interaction.person_1.id interaction.person_2.id %}#latest">
+                        {{ interaction.person_1.username }}
+                    </a>
+                {% endif %}
+
+                ({{ interaction.message_count }})
+
+                {% if user == interaction.person_1 and interaction.p1_unread > 0 %}
+                    <strong>
+                        {{ interaction.p1_unread }} unread
+                    </strong>
+                {% elif user == interaction.person_2 and interaction.p2_unread > 0 %}
+                    <strong>
+                        {{ interaction.p2_unread }} unread
+                    </strong>
+                {% endif %}
+
+                <br />
+                {{ interaction.last_message|date:'d M y, H:i' }}
+
+            </div>
+
+        </div>
+
+    {% endfor %}
+
 {% endblock %}
