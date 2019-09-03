@@ -26,6 +26,8 @@ def register(request):
                                      password=request.POST.get('password1'))
 
             if user:
+                user.last_active = timezone.now()
+                user.save()
                 messages.success(request, 'Your registration was successful!')
                 auth.login(request, user)
                 return redirect(request.GET.get('next') or reverse('home'))
@@ -55,6 +57,8 @@ def login(request):
                                      password=request.POST.get('password'))
 
             if user is not None:
+                user.last_active = timezone.now()
+                user.save()
                 auth.login(request, user)
                 messages.success(request, "You have successfully logged in!")
                 return redirect(request.GET.get('next') or reverse('home'))
@@ -86,6 +90,9 @@ def user_profile(request):
     page_name = "Edit Your Profile"
 
     user = request.user
+
+    user.last_active = timezone.now()
+    user.save()
 
     if request.method == 'POST':
         form = EditProfileForm(request.POST, request.FILES, instance=user)
@@ -127,6 +134,9 @@ def delete_account(request):
 
     user = request.user
 
+    user.last_active = timezone.now()
+    user.save()
+
     if request.method == 'POST':
         form = DeletionForm(request.POST)
         if form.is_valid():
@@ -158,6 +168,9 @@ def change_password(request):
 
     user = request.user
 
+    user.last_active = timezone.now()
+    user.save()
+
     if request.method == 'POST':
         form = ChangePasswordForm(request.POST)
 
@@ -177,6 +190,7 @@ def change_password(request):
 
     else:
         form = ChangePasswordForm()
+        user.save()
 
     args = {
         'form': form,
@@ -192,6 +206,15 @@ def change_password(request):
 def view_profile(request, user_id):
     profile = get_object_or_404(User, pk=user_id)
     user = request.user
+
+    user.last_active = timezone.now()
+    user.save()
+
+    one_minute = profile.last_active + timedelta(seconds=60)
+    if timezone.now() > one_minute:
+        is_online = False
+    else:
+        is_online = True
 
     try:
         interaction = Interaction.objects \
@@ -312,6 +335,7 @@ def view_profile(request, user_id):
         'user': user,
         'age': age,
         'favourite': favourite,
+        'is_online': is_online,
     })
 
 
@@ -319,6 +343,10 @@ def view_profile(request, user_id):
 @login_required(login_url='/login/')
 def own_profile(request):
     user = request.user
+
+    user.last_active = timezone.now()
+    user.save()
+
     profile = get_object_or_404(User, pk=user.id)
     page_name = "Your Profile"
 

@@ -120,6 +120,7 @@ def user_age(user):
 # Additional fields are added to the AbstractUser model.
 class User(AbstractUser):
     objects = UserManager()
+    last_active = models.DateTimeField(blank=True, null=True)
     email = models.EmailField(unique=True)
     date_of_birth = models.DateField(blank=True, null=True)
     country = models.ForeignKey(Country, related_name='users', on_delete=models.CASCADE)

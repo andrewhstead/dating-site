@@ -8,42 +8,46 @@
         </div>
     {% endif %}
 
-    <section id="profile-statistics" class="bordered-section">
+    {% if user.is_authenticated %}
 
-        <div class="section-header">
-                Profile Statistics
-        </div>
+        <section id="profile-statistics" class="bordered-section">
 
-        <div class="section-contents">
-            {{ user.total_messages }} messages |
-            <a class="standard-link" href="{% url 'messages' %}">
-                <strong>
-                    {{ user.new_messages }} new
-                </strong>
-            </a>
-            <br />
-            {{ user.total_views }} views |
-            <a class="standard-link" href="{% url 'profile_views' %}">
-                <strong>
-                    {{ user.new_views }} new
-                </strong>
-            </a>
-            <br />
-            {{ user.total_waves }} waves |
-            <a class="standard-link" href="{% url 'waves' %}">
-                <strong>
-                    {{ user.new_waves }} new
-                </strong>
-            </a>
-            <br />
-            Favourited by {{ user.total_favourited }} |
-            <a class="standard-link" href="{% url 'favourited_me' %}">
-                <strong>
-                    {{ user.new_favourited }} new
-                </strong>
-            </a>
-        </div>
+            <div class="section-header">
+                    Profile Statistics
+            </div>
 
-    </section>
+            <div class="section-contents">
+                {{ user.total_messages }} messages |
+                <a class="standard-link" href="{% url 'messages' %}">
+                    <strong>
+                        {{ user.new_messages }} new
+                    </strong>
+                </a>
+                <br />
+                {{ user.total_views }} views |
+                <a class="standard-link" href="{% url 'profile_views' %}">
+                    <strong>
+                        {{ user.new_views }} new
+                    </strong>
+                </a>
+                <br />
+                {{ user.total_waves }} waves |
+                <a class="standard-link" href="{% url 'waves' %}">
+                    <strong>
+                        {{ user.new_waves }} new
+                    </strong>
+                </a>
+                <br />
+                Favourited by {{ user.total_favourited }} |
+                <a class="standard-link" href="{% url 'favourited_me' %}">
+                    <strong>
+                        {{ user.new_favourited }} new
+                    </strong>
+                </a>
+            </div>
+
+        </section>
+
+    {% endif %}
 
 {% endblock %}

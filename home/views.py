@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from datetime import timedelta
+from django.utils import timezone
 
 # Create your views here.
 
@@ -6,6 +8,10 @@ from django.shortcuts import render
 # The default home page for the site.
 def home_page(request):
     page_name = "Home Page"
+
+    user = request.user
+    user.last_active = timezone.now()
+    user.save()
 
     return render(request, "home.html", {
         'page_name': page_name
@@ -16,6 +22,10 @@ def home_page(request):
 def contact(request):
     page_name = "Contact Us"
 
+    user = request.user
+    user.last_active = timezone.now()
+    user.save()
+
     return render(request, "contact.html", {
         'page_name': page_name
     })
@@ -24,6 +34,10 @@ def contact(request):
 # Page to submit or view support tickets.
 def support(request):
     page_name = "Support"
+
+    user = request.user
+    user.last_active = timezone.now()
+    user.save()
 
     return render(request, "support.html", {
         'page_name': page_name

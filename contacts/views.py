@@ -17,6 +17,10 @@ from django.db.models import Q
 @login_required(login_url='/login/')
 def new_thread(request, person_1, person_2):
 
+    user = request.user
+    user.last_active = timezone.now()
+    user.save()
+
     person_1 = get_object_or_404(User, pk=person_1)
     person_2 = get_object_or_404(User, pk=person_2)
 
@@ -101,6 +105,9 @@ def new_thread(request, person_1, person_2):
 def message_thread(request, person_1, person_2):
 
     user = request.user
+
+    user.last_active = timezone.now()
+    user.save()
 
     person_1 = get_object_or_404(User, pk=person_1)
     person_2 = get_object_or_404(User, pk=person_2)
@@ -245,6 +252,9 @@ def all_messages(request):
 
     user = request.user
 
+    user.last_active = timezone.now()
+    user.save()
+
     page_name = "All Messages"
 
     threads = MessageThread.objects.filter(Q(person_1=user) | Q(person_2=user))\
@@ -267,6 +277,9 @@ def all_messages(request):
 def profile_views(request):
 
     user = request.user
+
+    user.last_active = timezone.now()
+    user.save()
 
     if user.new_views > 0:
         user.new_views = 0
@@ -308,6 +321,10 @@ def profile_views(request):
 def waved_at(request, recipient):
 
     user = request.user
+
+    user.last_active = timezone.now()
+    user.save()
+
     recipient = get_object_or_404(User, pk=recipient)
 
     page_name = "Waved At"
@@ -378,6 +395,9 @@ def waves(request):
 
     user = request.user
 
+    user.last_active = timezone.now()
+    user.save()
+
     page_name = "Waves"
 
     if user.new_waves > 0:
@@ -415,6 +435,9 @@ def waves_sent(request):
 
     user = request.user
 
+    user.last_active = timezone.now()
+    user.save()
+
     page_name = "Waves Sent"
 
     wave_type = 'sent'
@@ -447,6 +470,10 @@ def waves_sent(request):
 def favourite_user(request, recipient):
 
     user = request.user
+
+    user.last_active = timezone.now()
+    user.save()
+
     recipient = get_object_or_404(User, pk=recipient)
 
     page_name = "Favourites"
@@ -518,6 +545,9 @@ def favourites(request):
 
     user = request.user
 
+    user.last_active = timezone.now()
+    user.save()
+
     page_name = "Favourites"
 
     favourite_type = 'creator'
@@ -551,6 +581,9 @@ def favourites(request):
 def favourited_me(request):
 
     user = request.user
+
+    user.last_active = timezone.now()
+    user.save()
 
     page_name = "Favourited Me"
 
@@ -589,6 +622,9 @@ def favourited_me(request):
 def mutual_favourites(request):
 
     user = request.user
+
+    user.last_active = timezone.now()
+    user.save()
 
     page_name = "Mutual Favourites"
 

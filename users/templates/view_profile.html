@@ -9,6 +9,11 @@
             {{ profile.username }}
         {% endif %}
         <img class="user-flag" src="{{profile.country.flag.url}}" />
+        {% if is_online %}
+            <img class="profile-icon" alt="Online" src="/media/images/icons/online.png" />
+        {% else %}
+            <img class="profile-icon" alt="Offline" src="/media/images/icons/offline.png" />
+        {% endif %}
         {% if favourite %}
             <img class="profile-icon" alt="Favourited" src="/media/images/icons/star_gold.png" />
         {% endif %}
@@ -161,8 +166,8 @@
             {{ profile.date_joined|date:'d M y, H:i' }}
         </div>
         <div class="columns">
-            <strong>Last login:</strong><br />
-            {{ profile.last_login|date:'d M y, H:i' }}
+            <strong>Last active:</strong><br />
+            {{ profile.last_active|date:'d M y, H:i' }}
         </div>
     </section>
 
