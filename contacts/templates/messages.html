@@ -41,7 +41,7 @@
                 {% endif %}
 
                 <br />
-                {{ thread.last_message|date:'d M y, H:i' }}
+                Last Message: {{ thread.last_message|date:'d M y, H:i' }}
 
             </div>
 
@@ -62,13 +62,29 @@
             <div class="contact-details">
 
                 {% if interaction.person_1 == user %}
+
                     <a class="standard-link" href="{% url 'message_thread' interaction.person_1.id interaction.person_2.id %}#latest">
                         {{ interaction.person_2.username }}
                     </a>
+
+                    {% if interaction.person_2.last_active < minute_ago %}
+                        <img class="online-icon" alt="Offline" src="/media/images/icons/offline.png" />
+                    {% else %}
+                        <img class="online-icon" alt="Online" src="/media/images/icons/online.png" />
+                    {% endif %}
+
                 {% else %}
+
                     <a class="standard-link" href="{% url 'message_thread' interaction.person_1.id interaction.person_2.id %}#latest">
                         {{ interaction.person_1.username }}
                     </a>
+
+                    {% if interaction.person_1.last_active < minute_ago %}
+                        <img class="online-icon" alt="Offline" src="/media/images/icons/offline.png" />
+                    {% else %}
+                        <img class="online-icon" alt="Online" src="/media/images/icons/online.png" />
+                    {% endif %}
+
                 {% endif %}
 
                 ({{ interaction.message_count }})
@@ -84,7 +100,7 @@
                 {% endif %}
 
                 <br />
-                {{ interaction.last_message|date:'d M y, H:i' }}
+                Last Message: {{ interaction.last_message|date:'d M y, H:i' }}
 
             </div>
 

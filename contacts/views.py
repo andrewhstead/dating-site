@@ -7,7 +7,7 @@ from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from .forms import MessageForm
 from django.contrib import messages
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.utils import timezone
 from django.db.models import Q
 
@@ -257,6 +257,8 @@ def all_messages(request):
 
     page_name = "All Messages"
 
+    minute_ago = timezone.now() - timedelta(seconds=60)
+
     threads = MessageThread.objects.filter(Q(person_1=user) | Q(person_2=user))\
         .order_by('-last_message')
 
@@ -267,6 +269,7 @@ def all_messages(request):
         'page_name': page_name,
         'threads': threads,
         'interactions': interactions,
+        'minute_ago': minute_ago,
     }
 
     return render(request, 'messages.html', args)
@@ -286,6 +289,8 @@ def profile_views(request):
         user.save()
 
     page_name = "Profile Views"
+
+    minute_ago = timezone.now() - timedelta(seconds=60)
 
     views = ProfileView.objects.filter(viewed_id=user.id).order_by('-latest_view')
 
@@ -311,6 +316,7 @@ def profile_views(request):
         'interactions': interactions,
         'total_views': total_views,
         'unique_viewers': unique_viewers,
+        'minute_ago': minute_ago,
     }
 
     return render(request, 'profile_views.html', args)
@@ -406,6 +412,8 @@ def waves(request):
 
     wave_type = 'received'
 
+    minute_ago = timezone.now() - timedelta(seconds=60)
+
     user_waves = Wave.objects.filter(recipient=user).order_by('-latest_date')
 
     interactions = Interaction.objects.filter((Q(person_1=user) & Q(p2_waves__gt=0))
@@ -424,6 +432,7 @@ def waves(request):
         'user_waves': user_waves,
         'interactions': interactions,
         'wave_type': wave_type,
+        'minute_ago': minute_ago,
     }
 
     return render(request, 'waves.html', args)
@@ -441,6 +450,8 @@ def waves_sent(request):
     page_name = "Waves Sent"
 
     wave_type = 'sent'
+
+    minute_ago = timezone.now() - timedelta(seconds=60)
 
     user_waves = Wave.objects.filter(sender=user).order_by('-latest_date')
 
@@ -460,6 +471,7 @@ def waves_sent(request):
         'user_waves': user_waves,
         'interactions': interactions,
         'wave_type': wave_type,
+        'minute_ago': minute_ago,
     }
 
     return render(request, 'waves.html', args)
@@ -552,6 +564,8 @@ def favourites(request):
 
     favourite_type = 'creator'
 
+    minute_ago = timezone.now() - timedelta(seconds=60)
+
     favourite_list = Favourite.objects.filter(creator=user).order_by('-created_date')
 
     interactions = Interaction.objects.filter((Q(person_1=user) & Q(p1_favourited=True))
@@ -571,6 +585,7 @@ def favourites(request):
         'favourite_list': favourite_list,
         'favourite_type': favourite_type,
         'interactions': interactions,
+        'minute_ago': minute_ago,
     }
 
     return render(request, 'favourites.html', args)
@@ -588,6 +603,8 @@ def favourited_me(request):
     page_name = "Favourited Me"
 
     favourite_type = 'recipient'
+
+    minute_ago = timezone.now() - timedelta(seconds=60)
 
     favourite_list = Favourite.objects.filter(recipient=user).order_by('-created_date')
 
@@ -612,6 +629,7 @@ def favourited_me(request):
         'favourite_list': favourite_list,
         'favourite_type': favourite_type,
         'interactions': interactions,
+        'minute_ago': minute_ago,
     }
 
     return render(request, 'favourites.html', args)
@@ -630,6 +648,8 @@ def mutual_favourites(request):
 
     favourite_type = 'mutual'
 
+    minute_ago = timezone.now() - timedelta(seconds=60)
+
     favourite_list = Favourite.objects.filter(recipient=user, is_mutual=True).order_by('-created_date')
 
     interactions = Interaction.objects.filter(mutual_favourites=True)
@@ -645,6 +665,7 @@ def mutual_favourites(request):
         'favourite_list': favourite_list,
         'favourite_type': favourite_type,
         'interactions': interactions,
+        'minute_ago': minute_ago,
     }
 
     return render(request, 'favourites.html', args)

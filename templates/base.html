@@ -98,7 +98,7 @@
 	    <a class="menu-link" href="">Forum</a>
         {% if user.is_authenticated %}
             <a class="menu-link" href="{% url 'own_profile' %}">Profile</a>
-	        <a class="menu-link" href="{% url 'messages' %}">Messages</a>
+	        <a class="menu-link" href="">Settings</a>
             <a class="menu-link" href="{% url 'logout' %}">Log Out</a>
         {% else %}
             <a class="menu-link" href="{% url 'register' %}">Register</a>

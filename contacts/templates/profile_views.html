@@ -58,6 +58,12 @@
                         {{interaction.person_2}}
                     </a>
 
+                    {% if interaction.person_2.last_active < minute_ago %}
+                        <img class="online-icon" alt="Offline" src="/media/images/icons/offline.png" />
+                    {% else %}
+                        <img class="online-icon" alt="Online" src="/media/images/icons/online.png" />
+                    {% endif %}
+
                     <br />
                     Viewed: {{ interaction.p2_latest_view|date:'d M y, H:i' }}
 
@@ -70,6 +76,12 @@
                     <a class="standard-link" href="{% url 'view_profile' interaction.person_1.id %}">
                         {{interaction.person_1}}
                     </a>
+
+                    {% if interaction.person_1.last_active < minute_ago %}
+                        <img class="online-icon" alt="Offline" src="/media/images/icons/offline.png" />
+                    {% else %}
+                        <img class="online-icon" alt="Online" src="/media/images/icons/online.png" />
+                    {% endif %}
 
                     <br />
                     Viewed: {{ interaction.p1_latest_view|date:'d M y, H:i' }}

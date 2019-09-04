@@ -134,6 +134,10 @@ img.icon {
     height: 20px;
     display: inline-block;
 }
+.online-icon {
+    height: 10px;
+    width: 10px;
+}
 .notification-number {
     font-family: 'Farro', serif;
     background-color: #cc0000;
