@@ -69,96 +69,119 @@
 
     {% for interaction in interactions %}
 
-        <div class="contact-list">
+        {% if not interaction.blocked %}
 
-            {% if user == interaction.person_1 %}
+            <div class="contact-list">
 
-                <img class="contact-picture" alt="Profile Picture" src="{{ interaction.person_2.profile_picture.url }}" />
+                {% if user == interaction.person_1 %}
 
-                    <div class="contact-details">
-                        <a class="standard-link" href="{% url 'view_profile' interaction.person_2.id %}">
-                            {{interaction.person_2}}
-                        </a>
+                    <img class="contact-picture" alt="Profile Picture" src="{{ interaction.person_2.profile_picture.url }}" />
 
-                        {% if interaction.person_2.last_active < minute_ago %}
-                            <img class="online-icon" alt="Offline" src="/media/images/icons/offline.png" />
-                        {% else %}
-                            <img class="online-icon" alt="Online" src="/media/images/icons/online.png" />
-                        {% endif %}
+                        <div class="contact-details">
+                            <a class="standard-link" href="{% url 'view_profile' interaction.person_2.id %}">
+                                {{interaction.person_2}}
+                            </a>
 
-                        <br />
-                        {% if favourite_type == 'mutual' %}
-                            Mutual: {{ interaction.mutual_date|date:'d M y, H:i' }}
-                        {% elif favourite_type == 'creator' %}
-                            Added: {{ interaction.p1_favourited_date|date:'d M y, H:i' }}
-                        {% else %}
-                            Added: {{ interaction.p2_favourited_date|date:'d M y, H:i' }}
-                        {% endif %}
-
-            {% else %}
-
-                <img class="contact-picture" alt="Profile Picture" src="{{ interaction.person_1.profile_picture.url }}" />
-
-                    <div class="contact-details">
-                        <a class="standard-link" href="{% url 'view_profile' interaction.person_1.id %}">
-                            {{interaction.person_1}}
-                        </a>
-
-                        {% if interaction.person_1.last_active < minute_ago %}
-                            <img class="online-icon" alt="Offline" src="/media/images/icons/offline.png" />
-                        {% else %}
-                            <img class="online-icon" alt="Online" src="/media/images/icons/online.png" />
-                        {% endif %}
-
-                        <br />
-                        {% if favourite_type == 'mutual' %}
-                            Mutual: {{ interaction.mutual_date|date:'d M y, H:i' }}
-                        {% elif favourite_type == 'creator' %}
-                            Added: {{ interaction.p2_favourited_date|date:'d M y, H:i' }}
-                        {% else %}
-                            Added: {{ interaction.p1_favourited_date|date:'d M y, H:i' }}
-                        {% endif %}
-
-            {% endif %}
-
-                <br />
-                {% if interaction.thread_exists %}
-                    <a class="standard-link" href="{% url 'message_thread' interaction.person_1.id interaction.person_2.id %}#latest">
-                {% else %}
-                    <a class="standard-link" href="{% url 'new_thread' interaction.person_1.id interaction.person_2.id %}">
-                {% endif %}
-                Message</a> |
-                {% if not interaction.new_wave %}
-                        Waved |
-                {% else %}
-                    <a class="standard-link" onclick="confirmationAlert('wave')">Wave</a> |
-                {% endif %}
-                {% if favourite_type != 'recipient' %}
-                    Delete |
-                {% endif %}
-                Block
-
-                <!-- JavaScript confirmation before a wave is sent. -->
-                <div id="wave-wrapper" class="popup-wrapper hidden">
-                    <div id="wave-alert" class="alert-message hidden">
-                        <p>Confirmation:</p>
-                        <p>Send wave?</p>
-                        <div class="alert-link">
-                            {% if user == interaction.person_1 %}
-                                <a class="standard-link" href="{% url 'waved_at' interaction.person_2.id %}">OK</a>
+                            {% if interaction.person_2.last_active < minute_ago %}
+                                <img class="online-icon" alt="Offline" src="/media/images/icons/offline.png" />
                             {% else %}
-                                <a class="standard-link" href="{% url 'waved_at' interaction.person_1.id %}">OK</a>
+                                <img class="online-icon" alt="Online" src="/media/images/icons/online.png" />
                             {% endif %}
-                        </div>
-                        <div class="alert-link" onclick="confirmationAlert('wave')">
-                            Cancel
+
+                            <br />
+                            {% if favourite_type == 'mutual' %}
+                                Mutual: {{ interaction.mutual_date|date:'d M y, H:i' }}
+                            {% elif favourite_type == 'creator' %}
+                                Added: {{ interaction.p1_favourited_date|date:'d M y, H:i' }}
+                            {% else %}
+                                Added: {{ interaction.p2_favourited_date|date:'d M y, H:i' }}
+                            {% endif %}
+
+                {% else %}
+
+                    <img class="contact-picture" alt="Profile Picture" src="{{ interaction.person_1.profile_picture.url }}" />
+
+                        <div class="contact-details">
+                            <a class="standard-link" href="{% url 'view_profile' interaction.person_1.id %}">
+                                {{interaction.person_1}}
+                            </a>
+
+                            {% if interaction.person_1.last_active < minute_ago %}
+                                <img class="online-icon" alt="Offline" src="/media/images/icons/offline.png" />
+                            {% else %}
+                                <img class="online-icon" alt="Online" src="/media/images/icons/online.png" />
+                            {% endif %}
+
+                            <br />
+                            {% if favourite_type == 'mutual' %}
+                                Mutual: {{ interaction.mutual_date|date:'d M y, H:i' }}
+                            {% elif favourite_type == 'creator' %}
+                                Added: {{ interaction.p2_favourited_date|date:'d M y, H:i' }}
+                            {% else %}
+                                Added: {{ interaction.p1_favourited_date|date:'d M y, H:i' }}
+                            {% endif %}
+
+                {% endif %}
+
+                    <br />
+                    {% if interaction.thread_exists %}
+                        <a class="standard-link"
+                           href="{% url 'message_thread' interaction.person_1.id interaction.person_2.id %}#latest">Message</a> |
+                    {% else %}
+                        <a class="standard-link"
+                           href="{% url 'new_thread' interaction.person_1.id interaction.person_2.id %}">Message</a> |
+                    {% endif %}
+                    {% if not interaction.new_wave %}
+                            Waved |
+                    {% else %}
+                        <a class="standard-link" onclick="confirmationAlert('wave')">Wave</a> |
+                    {% endif %}
+                    {% if favourite_type != 'recipient' %}
+                        Delete |
+                    {% endif %}
+                    <a class="standard-link" onclick="confirmationAlert('block')">Block</a>
+
+                    <!-- JavaScript confirmation before a wave is sent. -->
+                    <div id="wave-wrapper" class="popup-wrapper hidden">
+                        <div id="wave-alert" class="alert-message hidden">
+                            <p>Confirmation:</p>
+                            <p>Send wave?</p>
+                            <div class="alert-link">
+                                {% if user == interaction.person_1 %}
+                                    <a class="standard-link" href="{% url 'waved_at' interaction.person_2.id %}">OK</a>
+                                {% else %}
+                                    <a class="standard-link" href="{% url 'waved_at' interaction.person_1.id %}">OK</a>
+                                {% endif %}
+                            </div>
+                            <div class="alert-link" onclick="confirmationAlert('wave')">
+                                Cancel
+                            </div>
                         </div>
                     </div>
+
+                    <!-- JavaScript confirmation before a user is blocked. -->
+                    <div id="block-wrapper" class="popup-wrapper hidden">
+                        <div id="block-alert" class="alert-message hidden">
+                            <p>Confirmation:</p>
+                            <p>Block User?</p>
+                            <div class="alert-link">
+                                {% if user == interaction.person_1 %}
+                                    <a class="standard-link" href="{% url 'block_user' interaction.person_2.id %}">OK</a>
+                                {% else %}
+                                    <a class="standard-link" href="{% url 'block_user' interaction.person_1.id %}">OK</a>
+                                {% endif %}
+                            </div>
+                            <div class="alert-link" onclick="confirmationAlert('block')">
+                                Cancel
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
             </div>
 
-        </div>
+        {% endif %}
 
     {% endfor %}
 

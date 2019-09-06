@@ -22,6 +22,10 @@ function confirmationAlert(type) {
         document.getElementById('favourite-wrapper').classList.toggle('activate');
         document.getElementById('favourite-alert').classList.toggle('activate');
     }
+    else if (type == 'block') {
+        document.getElementById('block-wrapper').classList.toggle('activate');
+        document.getElementById('block-alert').classList.toggle('activate');
+    }
 }
 
 messageRemove();

@@ -675,3 +675,44 @@ def mutual_favourites(request):
     }
 
     return render(request, 'favourites.html', args)
+
+
+# Block another user.
+@login_required(login_url='/login/')
+def block_user(request, profile):
+
+    user = request.user
+
+    user.last_active = timezone.now()
+    user.save()
+
+    profile = get_object_or_404(User, pk=profile)
+
+    page_name = "Block User"
+
+    try:
+        interaction = Interaction.objects \
+            .get(person_1__in=[user.id, profile.id], person_2__in=[user.id, profile.id])
+    except Interaction.DoesNotExist:
+        interaction = None
+
+    # Update the interaction favourites or create a new interaction.
+    if interaction:
+        if user.id == interaction.person_1.id:
+            interaction.p1_has_blocked = True
+            interaction.p1_favourited = False
+        else:
+            interaction.p2_has_blocked = True
+            interaction.p2_favourited = False
+        if interaction.mutual_favourites:
+            interaction.mutual_favourites = False
+        interaction.blocked = True
+        interaction.thread_exists = False
+        interaction.save()
+
+    args = {
+        'page_name': page_name,
+    }
+
+    messages.success(request, "User has been blocked.")
+    return redirect(reverse('home'))
