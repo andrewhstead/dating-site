@@ -200,7 +200,8 @@ def message_thread(request, person_1, person_2):
                 'other_person': other_person,
                 'person_1': person_1.pk,
                 'person_2': person_2.pk,
-                'button_text': 'Send Message'
+                'button_text': 'Send Message',
+                'interaction': interaction,
             }
 
             messages.success(request, "Your message was sent!")
@@ -240,7 +241,8 @@ def message_thread(request, person_1, person_2):
             'other_person': other_person,
             'person_1': person_1.pk,
             'person_2': person_2.pk,
-            'button_text': 'Send Message'
+            'button_text': 'Send Message',
+            'interaction': interaction,
         }
 
         return render(request, 'message_thread.html', args)

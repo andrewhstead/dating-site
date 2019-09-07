@@ -182,6 +182,7 @@
     wave or send a message. -->
     {% if profile.id != user.id %}
         <section id="contact-links" class="flex-container">
+
             {% if favourite %}
                 <div class="contacted-button">
                     Favourited
@@ -191,6 +192,7 @@
                     <span onclick="confirmationAlert('favourite')">Favourite</span>
                 </div>
             {% endif %}
+
             {% if new_wave %}
                 <div class="contact-button">
                     <span onclick="confirmationAlert('wave')">Wave</span>
@@ -200,6 +202,7 @@
                     Waved
                 </div>
             {% endif %}
+
             {% if thread_exists %}
                 <div class="contact-button">
                     <a class="contact-link" href="{% url 'message_thread' person_1.id person_2.id %}#latest">Messages</a>
@@ -209,6 +212,7 @@
                     <a class="contact-link" href="{% url 'new_thread' user.id profile.id %}">Message</a>
                 </div>
             {% endif %}
+
         </section>
     {% endif %}
 
@@ -216,7 +220,7 @@
     <div id="favourite-wrapper" class="popup-wrapper hidden">
         <div id="favourite-alert" class="alert-message hidden">
             <p>Confirmation:</p>
-            <p>Favourite {{ profile.username }}?</p>
+            <p>Favourite user?</p>
             <div class="alert-link">
                 <a class="standard-link" href="{% url 'favourite_user' profile.id %}">OK</a>
             </div>
@@ -230,7 +234,7 @@
     <div id="wave-wrapper" class="popup-wrapper hidden">
         <div id="wave-alert" class="alert-message hidden">
             <p>Confirmation:</p>
-            <p>Wave at {{ profile.username }}?</p>
+            <p>Send Wave?</p>
             <div class="alert-link">
                 <a class="standard-link" href="{% url 'waved_at' profile.id %}">OK</a>
             </div>

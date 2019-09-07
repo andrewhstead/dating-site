@@ -347,6 +347,8 @@ def own_profile(request):
     user.last_active = timezone.now()
     user.save()
 
+    is_online = True
+
     profile = get_object_or_404(User, pk=user.id)
     page_name = "Your Profile"
 
@@ -358,4 +360,5 @@ def own_profile(request):
         'page_name': page_name,
         'user': user,
         'age': age,
+        'is_online': is_online,
     })

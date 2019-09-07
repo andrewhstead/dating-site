@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from django.db import models
 from users.models import User
 
@@ -37,8 +38,8 @@ class Interaction(models.Model):
     p1_has_blocked = models.BooleanField(default=False)
     p2_has_blocked = models.BooleanField(default=False)
 
-    def __str__(self):
-        return self.person_1, self.person_2
+    def __unicode__(self):
+        return unicode(self.person_1) + ', ' + unicode(self.person_2)
 
 
 # Message thread model for conversations between users.
