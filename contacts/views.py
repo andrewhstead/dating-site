@@ -693,8 +693,6 @@ def mutual_favourites(request):
             interaction.new_wave = False
     interactions.order_by('-added_date')
 
-    interactions.order_by('-added_date')
-
     args = {
         'user': user,
         'page_name': page_name,
@@ -727,7 +725,7 @@ def block_user(request, profile):
     except Interaction.DoesNotExist:
         interaction = None
 
-    # Update the interaction favourites or create a new interaction.
+    # Set the interaction to blocked and remove the blocked user from the blocker's favourites.
     if interaction:
         if user.id == interaction.person_1.id:
             interaction.p1_has_blocked = True
@@ -747,3 +745,47 @@ def block_user(request, profile):
 
     messages.success(request, "User has been blocked.")
     return redirect(reverse('home'))
+
+
+# Delete a user from the list of favourites.
+@login_required(login_url='/login/')
+def delete_favourite(request, profile):
+
+    user = request.user
+
+    if user.is_authenticated:
+        user.last_active = timezone.now()
+        user.save()
+
+    profile = get_object_or_404(User, pk=profile)
+
+    profile.total_favourited -= 1
+    profile.save()
+
+    page_name = "Delete Favourite"
+
+    try:
+        interaction = Interaction.objects \
+            .get(person_1__in=[user.id, profile.id], person_2__in=[user.id, profile.id])
+    except Interaction.DoesNotExist:
+        interaction = None
+
+    # Update the interaction favourites.
+    if interaction:
+        if user.id == interaction.person_1.id:
+            interaction.p1_favourited = False
+            interaction.p1_favourited_date = None
+        else:
+            interaction.p2_favourited = False
+            interaction.p2_favourited_date = None
+        if interaction.mutual_favourites:
+            interaction.mutual_favourites = False
+            interaction.mutual_date = None
+        interaction.save()
+
+    args = {
+        'page_name': page_name,
+    }
+
+    messages.success(request, "User has been removed from favourites.")
+    return redirect(reverse('favourites'))

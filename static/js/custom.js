@@ -18,6 +18,10 @@ function confirmationAlert(type) {
         document.getElementById('wave-wrapper').classList.toggle('activate');
         document.getElementById('wave-alert').classList.toggle('activate');
     }
+    else if (type == 'delete') {
+        document.getElementById('delete-wrapper').classList.toggle('activate');
+        document.getElementById('delete-alert').classList.toggle('activate');
+    }
     else if (type == 'favourite') {
         document.getElementById('favourite-wrapper').classList.toggle('activate');
         document.getElementById('favourite-alert').classList.toggle('activate');

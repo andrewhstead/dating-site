@@ -24,49 +24,6 @@
         <a class="standard-link" href="{% url 'mutual_favourites' %}">Mutual</a>
     {% endif %}
 
-    {% for favourite in favourite_list %}
-
-        <div class="contact-list">
-
-            {% if favourite_type == 'creator' %}
-                <img class="contact-picture" alt="Profile Picture" src="{{ favourite.recipient.profile_picture.url }}" />
-            {% else %}
-                <img class="contact-picture" alt="Profile Picture" src="{{ favourite.creator.profile_picture.url }}" />
-            {% endif %}
-
-            <div class="contact-details">
-
-                {% if favourite_type == 'creator' %}
-                    <a class="standard-link" href="{% url 'view_profile' favourite.recipient.id %}">
-                        {{favourite.recipient}}
-                    </a>
-                {% else %}
-                    <a class="standard-link" href="{% url 'view_profile' favourite.creator.id %}">
-                        {{favourite.creator}}
-                    </a>
-                {% endif %}
-
-                <br />
-                {% if favourite_type == 'mutual' %}
-                    Added: {{ favourite.mutual_date|date:'d M y, H:i' }}
-                {% else %}
-                    Added: {{ favourite.created_date|date:'d M y, H:i' }}
-                {% endif %}
-
-                <br />
-                Message |
-                Wave |
-                {% if favourite_type != 'recipient' %}
-                    Delete |
-                {% endif %}
-                Block
-
-            </div>
-
-        </div>
-
-    {% endfor %}
-
     {% for interaction in interactions %}
 
         {% if not interaction.blocked %}
@@ -137,7 +94,7 @@
                         <a class="standard-link" onclick="confirmationAlert('wave')">Wave</a> |
                     {% endif %}
                     {% if favourite_type != 'recipient' %}
-                        Delete |
+                        <a class="standard-link" onclick="confirmationAlert('delete')">Delete</a> |
                     {% endif %}
                     <a class="standard-link" onclick="confirmationAlert('block')">Block</a>
 
@@ -159,11 +116,29 @@
                         </div>
                     </div>
 
+                    <!-- JavaScript confirmation before a favourite is deleted. -->
+                    <div id="delete-wrapper" class="popup-wrapper hidden">
+                        <div id="delete-alert" class="alert-message hidden">
+                            <p>Confirmation:</p>
+                            <p>Delete favourite?</p>
+                            <div class="alert-link">
+                                {% if user == interaction.person_1 %}
+                                    <a class="standard-link" href="{% url 'delete_favourite' interaction.person_2.id %}">OK</a>
+                                {% else %}
+                                    <a class="standard-link" href="{% url 'delete_favourite' interaction.person_1.id %}">OK</a>
+                                {% endif %}
+                            </div>
+                            <div class="alert-link" onclick="confirmationAlert('delete')">
+                                Cancel
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- JavaScript confirmation before a user is blocked. -->
                     <div id="block-wrapper" class="popup-wrapper hidden">
                         <div id="block-alert" class="alert-message hidden">
                             <p>Confirmation:</p>
-                            <p>Block User?</p>
+                            <p>Block user?</p>
                             <div class="alert-link">
                                 {% if user == interaction.person_1 %}
                                     <a class="standard-link" href="{% url 'block_user' interaction.person_2.id %}">OK</a>

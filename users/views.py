@@ -226,10 +226,7 @@ def view_profile(request, user_id):
     except Interaction.DoesNotExist:
         interaction = None
 
-    try:
-        favourite = Favourite.objects.get(creator=user.id, recipient=profile.id)
-    except Favourite.DoesNotExist:
-        favourite = None
+    favourite = None
 
     try:
         thread = MessageThread.objects \
