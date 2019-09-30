@@ -226,7 +226,13 @@ def view_profile(request, user_id):
     except Interaction.DoesNotExist:
         interaction = None
 
-    favourite = None
+    if interaction:
+        if user == interaction.person_1 and interaction.p1_favourited:
+            favourite = True
+        elif user == interaction.person_2 and interaction.p2_favourited:
+            favourite = True
+        else:
+            favourite = False
 
     try:
         thread = MessageThread.objects \
