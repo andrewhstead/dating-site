@@ -10,8 +10,10 @@ def home_page(request):
     page_name = "Home Page"
 
     user = request.user
-    user.last_active = timezone.now()
-    user.save()
+
+    if user.is_authenticated:
+        user.last_active = timezone.now()
+        user.save()
 
     return render(request, "home.html", {
         'page_name': page_name
@@ -23,8 +25,10 @@ def contact(request):
     page_name = "Contact Us"
 
     user = request.user
-    user.last_active = timezone.now()
-    user.save()
+
+    if user.is_authenticated:
+        user.last_active = timezone.now()
+        user.save()
 
     return render(request, "contact.html", {
         'page_name': page_name
@@ -36,8 +40,10 @@ def support(request):
     page_name = "Support"
 
     user = request.user
-    user.last_active = timezone.now()
-    user.save()
+
+    if user.is_authenticated:
+        user.last_active = timezone.now()
+        user.save()
 
     return render(request, "support.html", {
         'page_name': page_name

@@ -91,8 +91,9 @@ def user_profile(request):
 
     user = request.user
 
-    user.last_active = timezone.now()
-    user.save()
+    if user.is_authenticated:
+        user.last_active = timezone.now()
+        user.save()
 
     if request.method == 'POST':
         form = EditProfileForm(request.POST, request.FILES, instance=user)
@@ -134,8 +135,9 @@ def delete_account(request):
 
     user = request.user
 
-    user.last_active = timezone.now()
-    user.save()
+    if user.is_authenticated:
+        user.last_active = timezone.now()
+        user.save()
 
     if request.method == 'POST':
         form = DeletionForm(request.POST)
@@ -168,8 +170,9 @@ def change_password(request):
 
     user = request.user
 
-    user.last_active = timezone.now()
-    user.save()
+    if user.is_authenticated:
+        user.last_active = timezone.now()
+        user.save()
 
     if request.method == 'POST':
         form = ChangePasswordForm(request.POST)
@@ -207,8 +210,9 @@ def view_profile(request, user_id):
     profile = get_object_or_404(User, pk=user_id)
     user = request.user
 
-    user.last_active = timezone.now()
-    user.save()
+    if user.is_authenticated:
+        user.last_active = timezone.now()
+        user.save()
 
     one_minute = profile.last_active + timedelta(seconds=60)
     if timezone.now() > one_minute:
@@ -344,8 +348,9 @@ def view_profile(request, user_id):
 def own_profile(request):
     user = request.user
 
-    user.last_active = timezone.now()
-    user.save()
+    if user.is_authenticated:
+        user.last_active = timezone.now()
+        user.save()
 
     is_online = True
 

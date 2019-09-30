@@ -18,8 +18,10 @@ from django.db.models import Q
 def new_thread(request, person_1, person_2):
 
     user = request.user
-    user.last_active = timezone.now()
-    user.save()
+
+    if user.is_authenticated:
+        user.last_active = timezone.now()
+        user.save()
 
     person_1 = get_object_or_404(User, pk=person_1)
     person_2 = get_object_or_404(User, pk=person_2)
@@ -106,8 +108,9 @@ def message_thread(request, person_1, person_2):
 
     user = request.user
 
-    user.last_active = timezone.now()
-    user.save()
+    if user.is_authenticated:
+        user.last_active = timezone.now()
+        user.save()
 
     person_1 = get_object_or_404(User, pk=person_1)
     person_2 = get_object_or_404(User, pk=person_2)
@@ -254,8 +257,9 @@ def all_messages(request):
 
     user = request.user
 
-    user.last_active = timezone.now()
-    user.save()
+    if user.is_authenticated:
+        user.last_active = timezone.now()
+        user.save()
 
     page_name = "All Messages"
 
@@ -283,8 +287,9 @@ def profile_views(request):
 
     user = request.user
 
-    user.last_active = timezone.now()
-    user.save()
+    if user.is_authenticated:
+        user.last_active = timezone.now()
+        user.save()
 
     if user.new_views > 0:
         user.new_views = 0
@@ -330,8 +335,9 @@ def waved_at(request, recipient):
 
     user = request.user
 
-    user.last_active = timezone.now()
-    user.save()
+    if user.is_authenticated:
+        user.last_active = timezone.now()
+        user.save()
 
     recipient = get_object_or_404(User, pk=recipient)
 
@@ -403,8 +409,9 @@ def waves(request):
 
     user = request.user
 
-    user.last_active = timezone.now()
-    user.save()
+    if user.is_authenticated:
+        user.last_active = timezone.now()
+        user.save()
 
     page_name = "Waves"
 
@@ -446,8 +453,9 @@ def waves_sent(request):
 
     user = request.user
 
-    user.last_active = timezone.now()
-    user.save()
+    if user.is_authenticated:
+        user.last_active = timezone.now()
+        user.save()
 
     page_name = "Waves Sent"
 
@@ -485,8 +493,9 @@ def favourite_user(request, recipient):
 
     user = request.user
 
-    user.last_active = timezone.now()
-    user.save()
+    if user.is_authenticated:
+        user.last_active = timezone.now()
+        user.save()
 
     recipient = get_object_or_404(User, pk=recipient)
 
@@ -559,8 +568,9 @@ def favourites(request):
 
     user = request.user
 
-    user.last_active = timezone.now()
-    user.save()
+    if user.is_authenticated:
+        user.last_active = timezone.now()
+        user.save()
 
     page_name = "Favourites"
 
@@ -605,8 +615,9 @@ def favourited_me(request):
 
     user = request.user
 
-    user.last_active = timezone.now()
-    user.save()
+    if user.is_authenticated:
+        user.last_active = timezone.now()
+        user.save()
 
     page_name = "Favourited Me"
 
@@ -649,8 +660,9 @@ def mutual_favourites(request):
 
     user = request.user
 
-    user.last_active = timezone.now()
-    user.save()
+    if user.is_authenticated:
+        user.last_active = timezone.now()
+        user.save()
 
     page_name = "Mutual Favourites"
 
@@ -685,8 +697,9 @@ def block_user(request, profile):
 
     user = request.user
 
-    user.last_active = timezone.now()
-    user.save()
+    if user.is_authenticated:
+        user.last_active = timezone.now()
+        user.save()
 
     profile = get_object_or_404(User, pk=profile)
 
