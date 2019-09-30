@@ -632,10 +632,16 @@ def favourited_me(request):
 
     for interaction in interactions:
         if user.id == interaction.person_1.id:
-            interaction.added_date = interaction.p2_favourited_date
-        else:
             interaction.added_date = interaction.p1_favourited_date
-
+            last_wave = interaction.p1_latest_wave
+        else:
+            interaction.added_date = interaction.p2_favourited_date
+            last_wave = interaction.p2_latest_wave
+        week_ago = last_wave + timedelta(days=7)
+        if timezone.now() > week_ago:
+            interaction.new_wave = True
+        else:
+            interaction.new_wave = False
     interactions.order_by('-added_date')
 
     if user.new_favourited > 0:
@@ -676,6 +682,16 @@ def mutual_favourites(request):
 
     for interaction in interactions:
         interaction.added_date = interaction.mutual_date
+        if user.id == interaction.person_1.id:
+            last_wave = interaction.p1_latest_wave
+        else:
+            last_wave = interaction.p2_latest_wave
+        week_ago = last_wave + timedelta(days=7)
+        if timezone.now() > week_ago:
+            interaction.new_wave = True
+        else:
+            interaction.new_wave = False
+    interactions.order_by('-added_date')
 
     interactions.order_by('-added_date')
 
