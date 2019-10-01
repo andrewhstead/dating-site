@@ -4,7 +4,13 @@
             <p>Confirmation:</p>
             <p>Favourite user?</p>
             <div class="alert-link">
-                <a class="standard-link" href="{% url 'favourite_user' profile.id %}">OK</a>
+                {% if user == interaction.person_1 %}
+                    <a class="standard-link" href="{% url 'favourite_user' interaction.person_2.id %}">OK</a>
+                {% elif user == interaction.person_2 %}
+                    <a class="standard-link" href="{% url 'favourite_user' interaction.person_1.id %}">OK</a>
+                {% else %}
+                    <a class="standard-link" href="{% url 'favourite_user' profile.id %}">OK</a>
+                {% endif %}
             </div>
             <div class="alert-link" onclick="confirmationAlert('favourite')">
                 Cancel

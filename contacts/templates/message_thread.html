@@ -22,7 +22,11 @@
         MESSAGES: <a class="standard-link" href="{% url 'view_profile' other_person.id %}">{{ other_person.username }}</a>
     </div>
 
-    Favourite |
+    {% if favourite %}
+        <a class="standard-link" onclick="confirmationAlert('delete')">Unfavourite</a> |
+    {% else %}
+        <a class="standard-link" onclick="confirmationAlert('favourite')">Favourite</a> |
+    {% endif %}
 
     {% if not interaction.new_wave %}
         Waved |
@@ -88,6 +92,8 @@
 
     </section>
 
+    {% include "confirm_favourite.html" %}
+    {% include "confirm_delete.html" %}
     {% include "confirm_wave.html" %}
     {% include "confirm_block.html" %}
 

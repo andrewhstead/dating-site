@@ -130,13 +130,23 @@ def message_thread(request, person_1, person_2):
     if interaction:
         if user.id == interaction.person_1.id:
             last_wave = interaction.p1_latest_wave
+            if interaction.p1_favourited:
+                favourite = True
+            else:
+                favourite = False
         else:
             last_wave = interaction.p2_latest_wave
+            if interaction.p2_favourited:
+                favourite = True
+            else:
+                favourite = False
         week_ago = last_wave + timedelta(days=7)
         if timezone.now() > week_ago:
             interaction.new_wave = True
         else:
             interaction.new_wave = False
+    else:
+        favourite = False
 
     page_name = "Messages: " + other_person.username
 
@@ -216,6 +226,7 @@ def message_thread(request, person_1, person_2):
                 'person_2': person_2.pk,
                 'button_text': 'Send Message',
                 'interaction': interaction,
+                'favourite': favourite,
             }
 
             messages.success(request, "Your message was sent!")
@@ -257,6 +268,7 @@ def message_thread(request, person_1, person_2):
             'person_2': person_2.pk,
             'button_text': 'Send Message',
             'interaction': interaction,
+            'favourite': favourite,
         }
 
         return render(request, 'message_thread.html', args)
