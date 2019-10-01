@@ -1,0 +1,17 @@
+<!-- JavaScript confirmation before a user is blocked. -->
+    <div id="block-wrapper" class="popup-wrapper hidden">
+        <div id="block-alert" class="alert-message hidden">
+            <p>Confirmation:</p>
+            <p>Block user?</p>
+            <div class="alert-link">
+                {% if user == interaction.person_1 %}
+                    <a class="standard-link" href="{% url 'block_user' interaction.person_2.id %}">OK</a>
+                {% else %}
+                    <a class="standard-link" href="{% url 'block_user' interaction.person_1.id %}">OK</a>
+                {% endif %}
+            </div>
+            <div class="alert-link" onclick="confirmationAlert('block')">
+                Cancel
+            </div>
+        </div>
+    </div>

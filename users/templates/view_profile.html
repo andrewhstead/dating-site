@@ -216,32 +216,7 @@
         </section>
     {% endif %}
 
-    <!-- JavaScript confirmation before a favourite is added. -->
-    <div id="favourite-wrapper" class="popup-wrapper hidden">
-        <div id="favourite-alert" class="alert-message hidden">
-            <p>Confirmation:</p>
-            <p>Favourite user?</p>
-            <div class="alert-link">
-                <a class="standard-link" href="{% url 'favourite_user' profile.id %}">OK</a>
-            </div>
-            <div class="alert-link" onclick="confirmationAlert('favourite')">
-                Cancel
-            </div>
-        </div>
-    </div>
-
-    <!-- JavaScript confirmation before a wave is sent. -->
-    <div id="wave-wrapper" class="popup-wrapper hidden">
-        <div id="wave-alert" class="alert-message hidden">
-            <p>Confirmation:</p>
-            <p>Send Wave?</p>
-            <div class="alert-link">
-                <a class="standard-link" href="{% url 'waved_at' profile.id %}">OK</a>
-            </div>
-            <div class="alert-link" onclick="confirmationAlert('wave')">
-                Cancel
-            </div>
-        </div>
-    </div>
+    {% include "confirm_favourite.html" %}
+    {% include "confirm_wave.html" %}
 
 {% endblock %}

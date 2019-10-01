@@ -1,0 +1,13 @@
+<!-- JavaScript confirmation before a favourite is added. -->
+    <div id="favourite-wrapper" class="popup-wrapper hidden">
+        <div id="favourite-alert" class="alert-message hidden">
+            <p>Confirmation:</p>
+            <p>Favourite user?</p>
+            <div class="alert-link">
+                <a class="standard-link" href="{% url 'favourite_user' profile.id %}">OK</a>
+            </div>
+            <div class="alert-link" onclick="confirmationAlert('favourite')">
+                Cancel
+            </div>
+        </div>
+    </div>

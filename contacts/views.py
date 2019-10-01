@@ -127,6 +127,17 @@ def message_thread(request, person_1, person_2):
     except Interaction.DoesNotExist:
         interaction = None
 
+    if interaction:
+        if user.id == interaction.person_1.id:
+            last_wave = interaction.p1_latest_wave
+        else:
+            last_wave = interaction.p2_latest_wave
+        week_ago = last_wave + timedelta(days=7)
+        if timezone.now() > week_ago:
+            interaction.new_wave = True
+        else:
+            interaction.new_wave = False
+
     page_name = "Messages: " + other_person.username
 
     if request.method == 'POST':
