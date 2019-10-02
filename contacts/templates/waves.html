@@ -12,108 +12,97 @@
         <strong>Received</strong> | <a class="standard-link" href="{% url 'waves_sent' %}">Sent</a>
     {% endif %}
 
-    {% for wave in user_waves %}
-
-        <div class="contact-list">
-
-            {% if wave_type == 'sent' %}
-                <img class="contact-picture" alt="Profile Picture" src="{{ wave.recipient.profile_picture.url }}" />
-            {% else %}
-                 <img class="contact-picture" alt="Profile Picture" src="{{ wave.sender.profile_picture.url }}" />
-            {% endif %}
-
-            <div class="contact-details">
-
-                {% if wave_type == 'sent' %}
-                    <a class="standard-link" href="{% url 'view_profile' wave.recipient.id %}">
-                        {{wave.recipient}}
-                    </a>
-                {% else %}
-                    <a class="standard-link" href="{% url 'view_profile' wave.sender.id %}">
-                        {{wave.sender}}
-                    </a>
-                {% endif %}
-
-                ({{ wave.total_waves }}
-                {% if wave.total_waves == 1 %}wave{% else %}waves{% endif %})
-
-                <br />
-                Last Wave: {{ wave.latest_date|date:'d M y, H:i' }}
-
-            </div>
-
-        </div>
-
-    {% endfor %}
-
     {% for interaction in interactions %}
 
-        <div class="contact-list">
+        {% if not interaction.blocked %}
 
-            {% if user.id == interaction.person_1.id %}
+            <div class="contact-list">
 
-                <img class="contact-picture" alt="Profile Picture" src="{{ interaction.person_2.profile_picture.url }}" />
+                {% if user.id == interaction.person_1.id %}
 
-                <div class="contact-details">
+                    <img class="contact-picture" alt="Profile Picture" src="{{ interaction.person_2.profile_picture.url }}" />
 
-                    <a class="standard-link" href="{% url 'view_profile' interaction.person_2.id %}">
-                        {{interaction.person_2}}
-                    </a>
+                    <div class="contact-details">
 
-                    {% if interaction.person_2.last_active < minute_ago %}
-                        <img class="online-icon" alt="Offline" src="/media/images/icons/offline.png" />
+                        <a class="standard-link" href="{% url 'view_profile' interaction.person_2.id %}">
+                            {{interaction.person_2}}
+                        </a>
+
+                        {% if interaction.person_2.last_active < minute_ago %}
+                            <img class="online-icon" alt="Offline" src="/media/images/icons/offline.png" />
+                        {% else %}
+                            <img class="online-icon" alt="Online" src="/media/images/icons/online.png" />
+                        {% endif %}
+
+                    {% if wave_type == 'sent' %}
+
+                        ({{ interaction.p1_waves }}
+                        {% if interaction.p1_waves == 1 %}wave{% else %}waves{% endif %})
+
                     {% else %}
-                        <img class="online-icon" alt="Online" src="/media/images/icons/online.png" />
+
+                        ({{ interaction.p2_waves }}
+                        {% if interaction.p2_waves == 1 %}wave{% else %}waves{% endif %})
+
                     {% endif %}
-
-                {% if wave_type == 'sent' %}
-
-                    ({{ interaction.p1_waves }}
-                    {% if interaction.p1_waves == 1 %}wave{% else %}waves{% endif %})
 
                 {% else %}
 
-                    ({{ interaction.p2_waves }}
-                    {% if interaction.p2_waves == 1 %}wave{% else %}waves{% endif %})
+                    <img class="contact-picture" alt="Profile Picture" src="{{ interaction.person_1.profile_picture.url }}" />
 
-                {% endif %}
+                    <div class="contact-details">
 
-            {% else %}
+                        <a class="standard-link" href="{% url 'view_profile' interaction.person_1.id %}">
+                            {{interaction.person_1}}
+                        </a>
 
-                <img class="contact-picture" alt="Profile Picture" src="{{ interaction.person_1.profile_picture.url }}" />
+                        {% if interaction.person_1.last_active < minute_ago %}
+                            <img class="online-icon" alt="Offline" src="/media/images/icons/offline.png" />
+                        {% else %}
+                            <img class="online-icon" alt="Online" src="/media/images/icons/online.png" />
+                        {% endif %}
 
-                <div class="contact-details">
+                    {% if wave_type == 'sent' %}
 
-                    <a class="standard-link" href="{% url 'view_profile' interaction.person_1.id %}">
-                        {{interaction.person_1}}
-                    </a>
+                        ({{ interaction.p2_waves }}
+                        {% if interaction.p2_waves == 1 %}wave{% else %}waves{% endif %})
 
-                    {% if interaction.person_1.last_active < minute_ago %}
-                        <img class="online-icon" alt="Offline" src="/media/images/icons/offline.png" />
                     {% else %}
-                        <img class="online-icon" alt="Online" src="/media/images/icons/online.png" />
+
+                        ({{ interaction.p1_waves }}
+                        {% if interaction.p1_waves == 1 %}wave{% else %}waves{% endif %})
+
                     {% endif %}
 
-                {% if wave_type == 'sent' %}
-
-                    ({{ interaction.p2_waves }}
-                    {% if interaction.p2_waves == 1 %}wave{% else %}waves{% endif %})
-
-                {% else %}
-
-                    ({{ interaction.p1_waves }}
-                    {% if interaction.p1_waves == 1 %}wave{% else %}waves{% endif %})
-
                 {% endif %}
 
-            {% endif %}
+                <br />
+                Last Wave: {{ interaction.wave_date|date:'d M y, H:i' }}
 
-            <br />
-            Last Wave: {{ interaction.wave_date|date:'d M y, H:i' }}
+                <br />
+                {% if interaction.thread_exists %}
+                    <a class="standard-link"
+                       href="{% url 'message_thread' interaction.person_1.id interaction.person_2.id %}#latest">Message</a> |
+                {% else %}
+                    <a class="standard-link"
+                       href="{% url 'new_thread' interaction.person_1.id interaction.person_2.id %}">Message</a> |
+                {% endif %}
+                {% if interaction.favourite %}
+                    <a class="standard-link" onclick="confirmationAlert('delete')">Unfavourite</a> |
+                {% else %}
+                    <a class="standard-link" onclick="confirmationAlert('favourite')">Favourite</a> |
+                {% endif %}
+                <a class="standard-link" onclick="confirmationAlert('block')">Block</a>
+
+                {% include "confirm_favourite.html" %}
+                {% include "confirm_delete.html" %}
+                {% include "confirm_block.html" %}
+
+                </div>
 
             </div>
 
-        </div>
+        {% endif %}
 
     {% endfor %}
 

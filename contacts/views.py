@@ -454,8 +454,16 @@ def waves(request):
     for interaction in interactions:
         if user.id == interaction.person_1.id:
             interaction.wave_date = interaction.p2_latest_wave
+            if interaction.p1_favourited:
+                interaction.favourite = True
+            else:
+                interaction.favourite = False
         else:
             interaction.wave_date = interaction.p1_latest_wave
+            if interaction.p2_favourited:
+                interaction.favourite = True
+            else:
+                interaction.favourite = False
 
     interactions.order_by('-wave_date')
 
@@ -493,9 +501,17 @@ def waves_sent(request):
 
     for interaction in interactions:
         if user.id == interaction.person_1.id:
-            interaction.wave_date = interaction.p1_latest_wave
-        else:
             interaction.wave_date = interaction.p2_latest_wave
+            if interaction.p1_favourited:
+                interaction.favourite = True
+            else:
+                interaction.favourite = False
+        else:
+            interaction.wave_date = interaction.p1_latest_wave
+            if interaction.p2_favourited:
+                interaction.favourite = True
+            else:
+                interaction.favourite = False
 
     interactions.order_by('-wave_date')
 
