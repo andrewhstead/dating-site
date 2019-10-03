@@ -6,49 +6,6 @@
         MESSAGES
     </div>
 
-    {% for thread in threads %}
-
-        <div class="contact-list">
-
-            {% if thread.person_1 == user %}
-                <img class="contact-picture" alt="Profile Picture" src="{{ thread.person_2.profile_picture.url }}" />
-                {% else %}
-                <img class="contact-picture" alt="Profile Picture" src="{{ thread.person_1.profile_picture.url }}" />
-            {% endif %}
-
-            <div class="contact-details">
-
-                {% if thread.person_1 == user %}
-                    <a class="standard-link" href="{% url 'message_thread' thread.person_1.id thread.person_2.id %}#latest">
-                        {{ thread.person_2.username }}
-                    </a>
-                {% else %}
-                    <a class="standard-link" href="{% url 'message_thread' thread.person_1.id thread.person_2.id %}#latest">
-                        {{ thread.person_1.username }}
-                    </a>
-                {% endif %}
-
-                ({{ thread.in_thread }})
-
-                {% if user == thread.person_1 and thread.p1_unread > 0 %}
-                    <strong>
-                        {{ thread.p1_unread }} unread
-                    </strong>
-                {% elif user == thread.person_2 and thread.p2_unread > 0 %}
-                    <strong>
-                        {{ thread.p2_unread }} unread
-                    </strong>
-                {% endif %}
-
-                <br />
-                Last Message: {{ thread.last_message|date:'d M y, H:i' }}
-
-            </div>
-
-        </div>
-
-    {% endfor %}
-
     {% for interaction in interactions %}
 
         <div class="contact-list">
@@ -63,8 +20,8 @@
 
                 {% if interaction.person_1 == user %}
 
-                    <a class="standard-link" href="{% url 'message_thread' interaction.person_1.id interaction.person_2.id %}#latest">
-                        {{ interaction.person_2.username }}
+                    <a class="standard-link" href="{% url 'view_profile' interaction.person_2.id %}">
+                        {{interaction.person_2}}
                     </a>
 
                     {% if interaction.person_2.last_active < minute_ago %}
@@ -75,8 +32,8 @@
 
                 {% else %}
 
-                    <a class="standard-link" href="{% url 'message_thread' interaction.person_1.id interaction.person_2.id %}#latest">
-                        {{ interaction.person_1.username }}
+                    <a class="standard-link" href="{% url 'view_profile' interaction.person_1.id %}">
+                        {{interaction.person_1}}
                     </a>
 
                     {% if interaction.person_1.last_active < minute_ago %}
@@ -100,7 +57,28 @@
                 {% endif %}
 
                 <br />
-                Last Message: {{ interaction.last_message|date:'d M y, H:i' }}
+                {{ interaction.last_message|date:'d M y, H:i' }} -
+                <a class="standard-link" href="{% url 'message_thread' interaction.person_1.id interaction.person_2.id %}#latest">
+                    View Thread
+                </a>
+
+                <br />
+                {% if interaction.favourite %}
+                    <a class="standard-link" onclick="confirmationAlert('delete')">Unfavourite</a> |
+                {% else %}
+                    <a class="standard-link" onclick="confirmationAlert('favourite')">Favourite</a> |
+                {% endif %}
+                {% if not interaction.new_wave %}
+                    Waved |
+                {% else %}
+                    <a class="standard-link" onclick="confirmationAlert('wave')">Wave</a> |
+                {% endif %}
+                <a class="standard-link" onclick="confirmationAlert('block')">Block</a>
+
+                {% include "confirm_favourite.html" %}
+                {% include "confirm_delete.html" %}
+                {% include "confirm_wave.html" %}
+                {% include "confirm_block.html" %}
 
             </div>
 

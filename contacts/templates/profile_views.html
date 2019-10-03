@@ -23,27 +23,6 @@
         {% endif %}
     </div>
 
-    {% for view in views %}
-
-        <div class="contact-list">
-
-            <img class="contact-picture" alt="Profile Picture" src="{{ view.viewer.profile_picture.url }}" />
-
-            <div class="contact-details">
-
-                <a class="standard-link" href="{% url 'view_profile' view.viewer.id %}">
-                    {{view.viewer}}
-                </a>
-
-                <br />
-                Viewed: {{ view.latest_view|date:'d M y, H:i' }}
-
-            </div>
-
-        </div>
-
-    {% endfor %}
-
     {% for interaction in interactions %}
 
         <div class="contact-list">
@@ -88,7 +67,30 @@
 
             {% endif %}
 
-                </div>
+                <br />
+                {% if interaction.thread_exists %}
+                    <a class="standard-link"
+                       href="{% url 'message_thread' interaction.person_1.id interaction.person_2.id %}#latest">Message</a> |
+                {% else %}
+                    <a class="standard-link"
+                       href="{% url 'new_thread' interaction.person_1.id interaction.person_2.id %}">Message</a> |
+                {% endif %}
+                {% if interaction.favourite %}
+                    <a class="standard-link" onclick="confirmationAlert('delete')">Unfavourite</a> |
+                {% else %}
+                    <a class="standard-link" onclick="confirmationAlert('favourite')">Favourite</a> |
+                {% endif %}
+                {% if not interaction.new_wave %}
+                    Waved
+                {% else %}
+                    <a class="standard-link" onclick="confirmationAlert('wave')">Wave</a>
+                {% endif %}
+
+                {% include "confirm_favourite.html" %}
+                {% include "confirm_delete.html" %}
+                {% include "confirm_wave.html" %}
+
+            </div>
 
         </div>
 

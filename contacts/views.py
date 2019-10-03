@@ -294,6 +294,20 @@ def all_messages(request):
     interactions = Interaction.objects.filter((Q(person_1=user) | Q(person_2=user)) & Q(thread_exists=True))\
         .order_by('-last_message')
 
+    for interaction in interactions:
+        if user.id == interaction.person_1.id:
+            interaction.wave_date = interaction.p2_latest_wave
+            if interaction.p1_favourited:
+                interaction.favourite = True
+            else:
+                interaction.favourite = False
+        else:
+            interaction.wave_date = interaction.p1_latest_wave
+            if interaction.p2_favourited:
+                interaction.favourite = True
+            else:
+                interaction.favourite = False
+
     args = {
         'page_name': page_name,
         'threads': threads,
@@ -330,8 +344,18 @@ def profile_views(request):
     for interaction in interactions:
         if user.id == interaction.person_1:
             interaction.view_date = interaction.p1_latest_view
+            interaction.wave_date = interaction.p2_latest_wave
+            if interaction.p1_favourited:
+                interaction.favourite = True
+            else:
+                interaction.favourite = False
         else:
             interaction.view_date = interaction.p2_latest_view
+            interaction.wave_date = interaction.p1_latest_wave
+            if interaction.p2_favourited:
+                interaction.favourite = True
+            else:
+                interaction.favourite = False
 
     interactions.order_by('-view_date')
 
