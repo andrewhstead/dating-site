@@ -35,7 +35,7 @@ def contact(request):
     })
 
 
-# Page to submit or view support tickets.
+# Page to view support tickets or create a new ticket.
 def support(request):
     page_name = "Support"
 
@@ -46,5 +46,20 @@ def support(request):
         user.save()
 
     return render(request, "support.html", {
+        'page_name': page_name
+    })
+
+
+# Page to create a new support ticket.
+def new_ticket(request):
+    page_name = "New Support Ticket"
+
+    user = request.user
+
+    if user.is_authenticated:
+        user.last_active = timezone.now()
+        user.save()
+
+    return render(request, "new_ticket.html", {
         'page_name': page_name
     })
