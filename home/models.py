@@ -22,9 +22,9 @@ PRIORITY = (
 # Support ticket model.
 class SupportTicket(models.Model):
     creator = models.ForeignKey(User, related_name='tickets_started', on_delete=models.CASCADE)
-    agent = models.ForeignKey(User, related_name='tickets_owned', on_delete=models.CASCADE)
+    agent = models.ForeignKey(User, related_name='tickets_owned', on_delete=models.CASCADE, default=1)
     category = models.CharField(max_length=25, choices=CATEGORIES, blank=True, null=True)
-    priority = models.CharField(max_length=25, choices=CATEGORIES, default="Medium", blank=True, null=True)
+    priority = models.CharField(max_length=25, choices=PRIORITY, default="Medium", blank=True, null=True)
     started = models.DateTimeField(auto_now_add=True)
     in_thread = models.IntegerField(default=0)
     last_message = models.DateTimeField(auto_now_add=True)
@@ -39,7 +39,7 @@ class SupportMessage(models.Model):
     sender = models.ForeignKey(User, related_name='message_sender', on_delete=models.CASCADE)
     recipient = models.ForeignKey(User, related_name='recipient', on_delete=models.CASCADE)
     content = models.TextField(blank=True)
-    image = models.ImageField(upload_to="images/users", blank=True, null=True)
+    image = models.ImageField(upload_to="images/support", blank=True, null=True)
     created_date = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)
     read_date = models.DateTimeField(blank=True, null=True)

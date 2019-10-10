@@ -1,9 +1,33 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block head_js %}
+    <script src="{% static 'js/tinymce/tinymce.min.js' %}"></script>
+    <script type="text/javascript">
+        tinyMCE.init({
+            mode: "textareas",
+            theme: "silver",
+            plugins: "paste",
+            menubar: false,
+	        mobile: {
+		        theme: "silver"
+	        }
+	    });
+    </script>
+{% endblock %}
 
 {% block content %}
 
     <div id="page-header">
         NEW SUPPORT TICKET
     </div>
+
+    <form id="default-form" enctype="multipart/form-data" role="form" method="post">
+        {% csrf_token %}
+        {{ ticket_form.as_p }}
+        {{ message_form.as_p }}
+
+        <button class="default-button" type="submit">{{ button_text }}</button>
+    </form>
 
 {% endblock %}
