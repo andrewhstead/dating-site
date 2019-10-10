@@ -19,7 +19,7 @@
         {% if active_tickets %}
 
             <table class="basic-table">
-                <tr>
+                <tr class="header-row">
                     <th>
                         ID
                     </th>
@@ -30,7 +30,7 @@
 
             {% for ticket in active_tickets %}
 
-                <tr>
+                <tr class="table-row">
                     <td>
                         {{ ticket.id }}
                     </td>
@@ -60,7 +60,7 @@
         {% if closed_tickets %}
 
             <table class="basic-table">
-                <tr>
+                <tr class="header-row">
                     <th>
                         ID
                     </th>
@@ -71,7 +71,7 @@
 
             {% for ticket in closed_tickets %}
 
-                <tr>
+                <tr class="table-row">
                     <td>
                         {{ ticket.id }}
                     </td>

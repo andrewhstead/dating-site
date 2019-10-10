@@ -108,10 +108,20 @@ input {
 }
 
 .basic-table {
-    text-align: left
+    text-align: left;
+    border-collapse: collapse;
+    width: 100%;
 }
 .basic-table th, td {
-    padding: 2px
+    padding: 2px 5px;
+    margin: none;
+}
+.header-row {
+    background-color: #566dba;
+    color: white;
+}
+.table-row:nth-of-type(even) {
+    background-color: #eeeeff;
 }
 
 #site-logo {
