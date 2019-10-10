@@ -35,7 +35,9 @@
                         {{ ticket.id }}
                     </td>
                     <td>
-                        {{ ticket.last_message|date:'d F Y, H:i' }}
+                        <a class="standard-link" href="{% url 'support_ticket' ticket.id %}">
+                            {{ ticket.last_message|date:'d F Y, H:i' }}
+                        </a>
                     </td>
                 </tr>
 
@@ -76,7 +78,9 @@
                         {{ ticket.id }}
                     </td>
                     <td>
-                        {{ ticket.last_message|date:'d F Y, H:i' }}
+                        <a class="standard-link" href="{% url 'support_ticket' ticket.id %}">
+                            {{ ticket.last_message|date:'d F Y, H:i' }}
+                        </a>
                     </td>
                 </tr>
 

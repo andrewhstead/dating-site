@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div id="page-header">
+        SUPPORT TICKET #{{ ticket.id }}
+    </div>
+
+    {% if user == ticket.creator or user == ticket.agent %}
+
+        <p>
+            Created by: {{ ticket.creator }}<br />
+            Agent: {{ ticket.agent }}
+        </p>
+
+        <p>
+            Category: {{ ticket.category }}<br />
+            Priority: {{ ticket.priority }}<br />
+            Status:
+                {% if ticket.is_active %}
+                    Active
+                {% else %}
+                    Closed
+                {% endif %}
+        </p>
+
+        {% for message in ticket_messages %}
+
+            <section class="support-message">
+
+                <div class="support-header">
+                    {{ message.sender }}, {{ message.created_date|date:'d M y, H:i' }}
+                </div>
+
+                <div class="support-content message-format">
+                    {{ message.content|safe }}
+
+                    <span class="note-text">Attached Image:</span>
+                    {% if message.image %}
+                        <img class="support-image" alt="Attached Image" src="{{ message.image.url }}" />
+                    {% else %}
+                        None
+                    {% endif %}
+                </div>
+
+            </section>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p>
+            Sorry, you are not authorised to view this ticket.
+        </p>
+
+    {% endif %}
+
+{% endblock %}

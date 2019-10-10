@@ -477,3 +477,26 @@ label[for=id_profile_picture] {
 .alert-message p{
     margin: 0;
 }
+
+/* Styles for support tickets */
+.support-image {
+    width: 250px;
+    height: auto;
+}
+.support-message {
+    width: 100%;
+    border: 1px solid #566dba;
+    margin-top: 10px;
+}
+.support-header {
+    background-color: #566dba;
+    color: white;
+    padding: 2px 10px;
+}
+.support-content {
+    margin: 0;
+    padding: 5px 10px;
+}
+.note-text {
+    font-size: 0.75em;
+}

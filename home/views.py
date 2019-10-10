@@ -106,3 +106,32 @@ def new_ticket(request):
     }
     args.update(csrf(request))
     return render(request, 'new_ticket.html', args)
+
+
+# Page to view a support ticket.
+@login_required(login_url='/login/')
+def support_ticket(request, ticket_id):
+
+    ticket_number = str(ticket_id)
+    page_name = "Support Ticket #" + ticket_number
+
+    user = request.user
+
+    try:
+        ticket = SupportTicket.objects.get(id=ticket_id)
+    except SupportTicket.DoesNotExist:
+        ticket = None
+
+    ticket_messages = SupportMessage.objects.filter(ticket_id=ticket_id)
+
+    if user.is_authenticated:
+        user.last_active = timezone.now()
+        user.save()
+
+    args = {
+        'ticket': ticket,
+        'ticket_messages': ticket_messages,
+        'page_name': page_name,
+    }
+
+    return render(request, 'support_ticket.html', args)
