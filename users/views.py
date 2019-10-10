@@ -61,7 +61,10 @@ def login(request):
                 user.save()
                 auth.login(request, user)
                 messages.success(request, "You have successfully logged in!")
-                return redirect(request.GET.get('next') or reverse('home'))
+                if user.is_staff:
+                    return redirect(reverse('staff_home'))
+                else:
+                    return redirect(request.GET.get('next') or reverse('home'))
             else:
                 messages.error(request, "Your username or password was not recognised. Please try again.")
 

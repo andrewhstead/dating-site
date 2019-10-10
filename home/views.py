@@ -117,6 +117,10 @@ def support_ticket(request, ticket_id):
 
     user = request.user
 
+    if user.is_authenticated:
+        user.last_active = timezone.now()
+        user.save()
+
     try:
         ticket = SupportTicket.objects.get(id=ticket_id)
     except SupportTicket.DoesNotExist:
@@ -124,9 +128,11 @@ def support_ticket(request, ticket_id):
 
     ticket_messages = SupportMessage.objects.filter(ticket_id=ticket_id)
 
-    if user.is_authenticated:
-        user.last_active = timezone.now()
-        user.save()
+    for message in ticket_messages:
+        if user == message.recipient:
+            message.is_read = True
+            message.read_date = timezone.now()
+            message.save()
 
     args = {
         'ticket': ticket,

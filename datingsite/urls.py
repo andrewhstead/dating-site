@@ -20,6 +20,7 @@ from django.urls import include, path
 from home import views as home_views
 from users import views as user_views
 from contacts import views as contact_views
+from staff import views as staff_views
 from django.contrib.flatpages import views
 
 urlpatterns = [
@@ -43,6 +44,7 @@ urlpatterns = [
     path('profile/delete/', user_views.delete_account, name='delete_account'),
     path('profile/password/', user_views.change_password, name='change_password'),
     path('register/', user_views.register, name='register'),
+    path('staff/', staff_views.staff_home, name="staff_home"),
     path('support/', home_views.support, name="support"),
     path('support/<int:ticket_id>/', home_views.support_ticket, name='support_ticket'),
     path('support/new/', home_views.new_ticket, name="new_ticket"),

@@ -62,6 +62,7 @@ footer {
 	border: 2px solid #566dba;
 	border-radius: 20px;
 	padding: 10px;
+	margin-top: 20px;
 }
 
 .section-header {
@@ -81,7 +82,7 @@ footer {
 }
 
 .page-info {
-    margin: 10px 10px 20px 10px;
+    margin: 10px;
     color: #566dba;
 }
 
@@ -122,6 +123,9 @@ input {
 }
 .table-row:nth-of-type(even) {
     background-color: #eeeeff;
+}
+.center-text {
+    text-align: center;
 }
 
 #site-logo {
@@ -499,4 +503,26 @@ label[for=id_profile_picture] {
 }
 .note-text {
     font-size: 0.75em;
+}
+
+/* Styles for the administration area. */
+.admin-section {
+    margin-top: 10px;
+}
+.priority-indicator{
+    border-radius: 50%;
+    height: 15px;
+    width: 15px;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0;
+}
+.low-priority{
+    background-color: #00ff00;
+}
+.medium-priority{
+    background-color: #ffcc00;
+}
+.high-priority{
+    background-color: #ff0000;
 }

@@ -30,6 +30,13 @@
 
                 <div class="support-header">
                     {{ message.sender }}, {{ message.created_date|date:'d M y, H:i' }}
+                        <div class="note-text">
+                            {% if message.is_read %}
+                                Message Read: {{ message.read_date|date:'d M y, H:i' }}
+                            {% else %}
+                                Message Unread
+                            {% endif %}
+                        </div>
                 </div>
 
                 <div class="support-content message-format">
@@ -39,7 +46,7 @@
                     {% if message.image %}
                         <img class="support-image" alt="Attached Image" src="{{ message.image.url }}" />
                     {% else %}
-                        None
+                        <span class="note-text">None</span>
                     {% endif %}
                 </div>
 

@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    {% if user.is_authenticated %}
+        <div class="page-info">
+            Hello, {{user.username }}!
+        </div>
+
+        <div id="page-header">
+            ADMINISTRATION AREA
+        </div>
+    {% endif %}
+
+    {% if user.is_staff %}
+
+        <section class="admin-section">
+
+            <div class="sub-header">
+                ACTIVE SUPPORT TICKETS
+            </div>
+
+            {% if active_tickets > 0 %}
+
+                <table class="basic-table">
+                    <tr class="header-row">
+                        <th>
+                            ID
+                        </th>
+                        <th>
+                            User
+                        </th>
+                        <th>
+                            Last Updated
+                        </th>
+                        <th class="center-text">
+                            !
+                        </th>
+                    </tr>
+
+                {% for ticket in high_priority %}
+
+                    <tr class="table-row">
+                        <td>
+                            {{ ticket.id }}
+                        </td>
+                        <td>
+                            {{ ticket.creator }}
+                        </td>
+                        <td>
+                            <a class="standard-link" href="{% url 'support_ticket' ticket.id %}">
+                                {{ ticket.last_message|date:'d M y, H:i' }}
+                            </a>
+                        </td>
+                        <td>
+                            <div class="priority-indicator high-priority"></div>
+                        </td>
+                    </tr>
+
+                {% endfor %}
+
+                {% for ticket in medium_priority %}
+
+                    <tr class="table-row">
+                        <td>
+                            {{ ticket.id }}
+                        </td>
+                        <td>
+                            {{ ticket.creator }}
+                        </td>
+                        <td>
+                            <a class="standard-link" href="{% url 'support_ticket' ticket.id %}">
+                                {{ ticket.last_message|date:'d M y, H:i' }}
+                            </a>
+                        </td>
+                        <td>
+                            <div class="priority-indicator medium-priority"></div>
+                        </td>
+                    </tr>
+
+                {% endfor %}
+
+                {% for ticket in low_priority %}
+
+                    <tr class="table-row">
+                        <td>
+                            {{ ticket.id }}
+                        </td>
+                        <td>
+                            {{ ticket.creator }}
+                        </td>
+                        <td>
+                            <a class="standard-link" href="{% url 'support_ticket' ticket.id %}">
+                                {{ ticket.last_message|date:'d M y, H:i' }}
+                            </a>
+                        </td>
+                        <td>
+                            <div class="priority-indicator low-priority"></div>
+                        </td>
+                    </tr>
+
+                {% endfor %}
+
+            </table>
+
+        </section>
+
+        {% else %}
+            No currently active tickets.
+        {% endif %}
+
+    {% else %}
+        Sorry, you are not authorised to view this page.
+    {% endif %}
+
+{% endblock %}

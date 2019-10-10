@@ -124,6 +124,9 @@
     <footer>
         <a class="contact-link" href="{% url 'contact' %}">Contact Us</a> |
         <a class="contact-link" href="{% url 'support' %}">Support</a>
+        {% if user.is_staff %} |
+            <a class="contact-link" href="{% url 'staff_home' %}">Administration</a>
+        {% endif %}
         <div id="copyright">&#169; {% now 'Y' %} Christian Dating</div>
     </footer>
 
