@@ -27,6 +27,7 @@ class SupportTicket(models.Model):
     priority = models.CharField(max_length=25, choices=PRIORITY, default="Medium", blank=True, null=True)
     started = models.DateTimeField(auto_now_add=True)
     in_thread = models.IntegerField(default=0)
+    is_active = models.BooleanField(default=True)
     last_message = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

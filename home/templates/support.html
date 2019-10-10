@@ -10,4 +10,86 @@
         <a class="standard-link" href="{% url 'new_ticket' %}">New Ticket</a>
     </p>
 
+    <section class="plain-section" id="active-tickets">
+
+        <div class="sub-header">
+            ACTIVE TICKETS
+        </div>
+
+        {% if active_tickets %}
+
+            <table class="basic-table">
+                <tr>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        Last Updated
+                    </th>
+                </tr>
+
+            {% for ticket in active_tickets %}
+
+                <tr>
+                    <td>
+                        {{ ticket.id }}
+                    </td>
+                    <td>
+                        {{ ticket.last_message|date:'d F Y, H:i' }}
+                    </td>
+                </tr>
+
+            {% endfor %}
+
+            </table>
+
+        {% else %}
+
+            No active tickets.
+
+        {% endif %}
+
+    </section>
+
+    <section class="plain-section" id="closed-tickets">
+
+        <div class="sub-header">
+            CLOSED TICKETS
+        </div>
+
+        {% if closed_tickets %}
+
+            <table class="basic-table">
+                <tr>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        Last Updated
+                    </th>
+                </tr>
+
+            {% for ticket in closed_tickets %}
+
+                <tr>
+                    <td>
+                        {{ ticket.id }}
+                    </td>
+                    <td>
+                        {{ ticket.last_message|date:'d F Y, H:i' }}
+                    </td>
+                </tr>
+
+            {% endfor %}
+
+            </table>
+
+        {% else %}
+
+            No closed tickets.
+
+        {% endif %}
+
+    </section>
+
 {% endblock %}

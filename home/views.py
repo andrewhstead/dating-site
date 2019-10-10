@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.template.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+from .models import SupportTicket, SupportMessage
 
 # Create your views here.
 
@@ -52,9 +53,16 @@ def support(request):
         user.last_active = timezone.now()
         user.save()
 
-    return render(request, "support.html", {
-        'page_name': page_name
-    })
+    active_tickets = SupportTicket.objects.filter(creator=user.id, is_active=True).order_by('-last_message')
+    closed_tickets = SupportTicket.objects.filter(creator=user.id, is_active=False).order_by('-last_message')
+
+    args = {
+        'active_tickets': active_tickets,
+        'closed_tickets': closed_tickets,
+        'page_name': page_name,
+    }
+
+    return render(request, "support.html", args)
 
 
 # Page to create a new support ticket.
