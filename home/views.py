@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from datetime import timedelta
 from django.utils import timezone
-from .forms import NewTicketForm, TicketMessageForm
+from .forms import NewTicketForm, TicketMessageForm, EditTicketForm
 from django.contrib import auth, messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.context_processors import csrf
@@ -134,10 +134,25 @@ def support_ticket(request, ticket_id):
             message.read_date = timezone.now()
             message.save()
 
+    if request.method == 'POST':
+        ticket_form = EditTicketForm(request.POST, instance=ticket)
+        if ticket_form.is_valid():
+            ticket.save()
+            messages.success(request, 'Your ticket has been updated.')
+            return redirect(reverse('support_ticket', kwargs={'ticket_id': ticket.pk}))
+        else:
+            messages.error(request, 'Sorry, we were unable to update your ticket. Please try again.')
+
+    else:
+        ticket_form = EditTicketForm(instance=ticket)
+
     args = {
         'ticket': ticket,
         'ticket_messages': ticket_messages,
+        'ticket_form': ticket_form,
         'page_name': page_name,
+        'button_text': 'Update Ticket',
     }
 
+    args.update(csrf(request))
     return render(request, 'support_ticket.html', args)

@@ -504,6 +504,11 @@ label[for=id_profile_picture] {
 .note-text {
     font-size: 0.75em;
 }
+#id_is_active {
+    width: 15px;
+    margin: 0;
+    display: inline;
+}
 
 /* Styles for the administration area. */
 .admin-section {

@@ -13,16 +13,12 @@
             Agent: {{ ticket.agent }}
         </p>
 
-        <p>
-            Category: {{ ticket.category }}<br />
-            Priority: {{ ticket.priority }}<br />
-            Status:
-                {% if ticket.is_active %}
-                    Active
-                {% else %}
-                    Closed
-                {% endif %}
-        </p>
+        <form id="default-form" enctype="multipart/form-data" role="form" method="post">
+            {% csrf_token %}
+            {{ ticket_form.as_ul }}
+
+            <button class="default-button" type="submit">{{ button_text }}</button>
+        </form>
 
         {% for message in ticket_messages %}
 

@@ -25,12 +25,9 @@ def staff_home(request):
     all_tickets = SupportTicket.objects.filter(agent=user, is_active=True).order_by('-last_message')
     active_tickets = all_tickets.count()
 
-    high_priority = SupportTicket.objects.filter(agent=user, is_active=True, priority="High")\
-        .order_by('-last_message')
-    medium_priority = SupportTicket.objects.filter(agent=user, is_active=True, priority="Medium")\
-        .order_by('-last_message')
-    low_priority = SupportTicket.objects.filter(agent=user, is_active=True, priority="Low")\
-        .order_by('-last_message')
+    high_priority = all_tickets.filter(priority="High")
+    medium_priority = all_tickets.filter(priority="Medium")
+    low_priority = all_tickets.filter(priority="Low")
 
     args = {
         'active_tickets': active_tickets,
