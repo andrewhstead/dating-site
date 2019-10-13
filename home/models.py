@@ -16,6 +16,12 @@ PRIORITY = (
     ('High', "High"),
 )
 
+# Options for support ticket urgency.
+STATUS = (
+    ('Active', "Active"),
+    ('Closed', "Closed"),
+)
+
 # Create your models here.
 
 
@@ -24,10 +30,10 @@ class SupportTicket(models.Model):
     creator = models.ForeignKey(User, related_name='tickets_started', on_delete=models.CASCADE)
     agent = models.ForeignKey(User, related_name='tickets_owned', on_delete=models.CASCADE, default=1)
     category = models.CharField(max_length=25, choices=CATEGORIES, blank=True, null=True)
-    priority = models.CharField(max_length=25, choices=PRIORITY, default=2, blank=True, null=True)
+    priority = models.CharField(max_length=25, choices=PRIORITY, default="Medium", blank=True, null=True)
     started = models.DateTimeField(auto_now_add=True)
     in_thread = models.IntegerField(default=0)
-    is_active = models.BooleanField(default=True)
+    status = models.CharField(max_length=10, choices=STATUS, default="Active", blank=True, null=True)
     last_message = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

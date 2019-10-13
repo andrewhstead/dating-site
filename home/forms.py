@@ -13,9 +13,9 @@ class NewTicketForm(forms.ModelForm):
 class EditTicketForm(forms.ModelForm):
     class Meta:
         model = SupportTicket
-        fields = ['category', 'priority', 'is_active']
+        fields = ['category', 'priority', 'status']
         labels = {
-            'is_active': 'Active',
+            'status': 'Status',
         }
 
 

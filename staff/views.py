@@ -22,7 +22,7 @@ def staff_home(request):
         user.last_active = timezone.now()
         user.save()
 
-    all_tickets = SupportTicket.objects.filter(agent=user, is_active=True).order_by('-last_message')
+    all_tickets = SupportTicket.objects.filter(agent=user, status="Active").order_by('-last_message')
     active_tickets = all_tickets.count()
 
     high_priority = all_tickets.filter(priority="High")

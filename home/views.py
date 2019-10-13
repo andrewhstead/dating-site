@@ -53,8 +53,8 @@ def support(request):
         user.last_active = timezone.now()
         user.save()
 
-    active_tickets = SupportTicket.objects.filter(creator=user.id, is_active=True).order_by('-last_message')
-    closed_tickets = SupportTicket.objects.filter(creator=user.id, is_active=False).order_by('-last_message')
+    active_tickets = SupportTicket.objects.filter(creator=user.id, status="Active").order_by('-last_message')
+    closed_tickets = SupportTicket.objects.filter(creator=user.id, status="Closed").order_by('-last_message')
 
     args = {
         'active_tickets': active_tickets,
