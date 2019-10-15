@@ -22,18 +22,20 @@ def staff_home(request):
         user.last_active = timezone.now()
         user.save()
 
-    all_tickets = SupportTicket.objects.filter(agent=user, status="Active").order_by('-last_message')
-    active_tickets = all_tickets.count()
+    active_tickets = SupportTicket.objects.filter(agent=user, status="Active").order_by('-last_message')
+    active_count = active_tickets.count()
+    reply_tickets = SupportTicket.objects.filter(agent=user, status="Awaiting Reply").order_by('-last_message')
 
-    high_priority = all_tickets.filter(priority="High")
-    medium_priority = all_tickets.filter(priority="Medium")
-    low_priority = all_tickets.filter(priority="Low")
+    high_priority = active_tickets.filter(priority="High")
+    medium_priority = active_tickets.filter(priority="Medium")
+    low_priority = active_tickets.filter(priority="Low")
 
     args = {
-        'active_tickets': active_tickets,
+        'active_count': active_count,
         'high_priority': high_priority,
         'medium_priority': medium_priority,
         'low_priority': low_priority,
+        'reply_tickets': reply_tickets,
         'page_name': page_name,
     }
 

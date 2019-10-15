@@ -10,10 +10,53 @@
         <a class="standard-link" href="{% url 'new_ticket' %}">New Ticket</a>
     </p>
 
+    <section class="plain-section" id="reply-tickets">
+
+        <div class="sub-header">
+            TICKET AWAITING REPLY
+        </div>
+
+        {% if reply_tickets %}
+
+            <table class="basic-table">
+                <tr class="header-row">
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        Last Updated
+                    </th>
+                </tr>
+
+            {% for ticket in reply_tickets %}
+
+                <tr class="table-row">
+                    <td>
+                        {{ ticket.id }}
+                    </td>
+                    <td>
+                        <a class="standard-link" href="{% url 'support_ticket' ticket.id %}">
+                            {{ ticket.last_message|date:'d F Y, H:i' }}
+                        </a>
+                    </td>
+                </tr>
+
+            {% endfor %}
+
+            </table>
+
+        {% else %}
+
+            No tickets awaiting reply.
+
+        {% endif %}
+
+    </section>
+
     <section class="plain-section" id="active-tickets">
 
         <div class="sub-header">
-            ACTIVE TICKETS
+            AWAITING AGENT RESPONSE
         </div>
 
         {% if active_tickets %}

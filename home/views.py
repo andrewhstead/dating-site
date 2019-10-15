@@ -8,6 +8,7 @@ from django.template.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from .models import SupportTicket, SupportMessage
+from django.db.models import Q
 
 # Create your views here.
 
@@ -54,10 +55,12 @@ def support(request):
         user.save()
 
     active_tickets = SupportTicket.objects.filter(creator=user.id, status="Active").order_by('-last_message')
+    reply_tickets = SupportTicket.objects.filter(creator=user.id, status="Awaiting Reply").order_by('-last_message')
     closed_tickets = SupportTicket.objects.filter(creator=user.id, status="Closed").order_by('-last_message')
 
     args = {
         'active_tickets': active_tickets,
+        'reply_tickets': reply_tickets,
         'closed_tickets': closed_tickets,
         'page_name': page_name,
     }
@@ -126,18 +129,33 @@ def support_ticket(request, ticket_id):
     except SupportTicket.DoesNotExist:
         ticket = None
 
-    ticket_messages = SupportMessage.objects.filter(ticket_id=ticket_id)
+    ticket_messages = SupportMessage.objects.filter(ticket_id=ticket_id).order_by('-created_date')
 
     for message in ticket_messages:
-        if user == message.recipient:
+        if user == message.recipient and not message.is_read:
             message.is_read = True
             message.read_date = timezone.now()
             message.save()
 
     if request.method == 'POST':
         ticket_form = EditTicketForm(request.POST, instance=ticket)
-        if ticket_form.is_valid():
+        message_form = TicketMessageForm(request.POST)
+        if ticket_form.is_valid() and message_form.is_valid():
+            ticket.in_thread += 1
+            ticket.last_message = timezone.now()
+            if user == ticket.agent:
+                ticket.status = "Awaiting Reply"
+            else:
+                ticket.status = "Active"
             ticket.save()
+            message = message_form.save(False)
+            message.ticket = ticket
+            message.sender = user
+            if user == ticket.creator:
+                message.recipient = ticket.agent
+            else:
+                message.recipient = ticket.creator
+            message_form.save()
             messages.success(request, 'Your ticket has been updated.')
             return redirect(reverse('support_ticket', kwargs={'ticket_id': ticket.pk}))
         else:
@@ -145,11 +163,13 @@ def support_ticket(request, ticket_id):
 
     else:
         ticket_form = EditTicketForm(instance=ticket)
+        message_form = TicketMessageForm()
 
     args = {
         'ticket': ticket,
         'ticket_messages': ticket_messages,
         'ticket_form': ticket_form,
+        'message_form': message_form,
         'page_name': page_name,
         'button_text': 'Update Ticket',
     }

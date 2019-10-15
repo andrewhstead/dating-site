@@ -20,7 +20,7 @@
                 ACTIVE SUPPORT TICKETS
             </div>
 
-            {% if active_tickets > 0 %}
+            {% if active_count > 0 %}
 
                 <table class="basic-table">
                     <tr class="header-row">
@@ -38,76 +38,119 @@
                         </th>
                     </tr>
 
-                {% for ticket in high_priority %}
+                    {% for ticket in high_priority %}
 
-                    <tr class="table-row">
-                        <td>
-                            {{ ticket.id }}
-                        </td>
-                        <td>
-                            {{ ticket.creator }}
-                        </td>
-                        <td>
-                            <a class="standard-link" href="{% url 'support_ticket' ticket.id %}">
-                                {{ ticket.last_message|date:'d M y, H:i' }}
-                            </a>
-                        </td>
-                        <td>
-                            <div class="priority-indicator high-priority"></div>
-                        </td>
+                        <tr class="table-row">
+                            <td>
+                                {{ ticket.id }}
+                            </td>
+                            <td>
+                                {{ ticket.creator }}
+                            </td>
+                            <td>
+                                <a class="standard-link" href="{% url 'support_ticket' ticket.id %}">
+                                    {{ ticket.last_message|date:'d M y, H:i' }}
+                                </a>
+                            </td>
+                            <td>
+                                <div class="priority-indicator high-priority"></div>
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+
+                    {% for ticket in medium_priority %}
+
+                        <tr class="table-row">
+                            <td>
+                                {{ ticket.id }}
+                            </td>
+                            <td>
+                                {{ ticket.creator }}
+                            </td>
+                            <td>
+                                <a class="standard-link" href="{% url 'support_ticket' ticket.id %}">
+                                    {{ ticket.last_message|date:'d M y, H:i' }}
+                                </a>
+                            </td>
+                            <td>
+                                <div class="priority-indicator medium-priority"></div>
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+
+                    {% for ticket in low_priority %}
+
+                        <tr class="table-row">
+                            <td>
+                                {{ ticket.id }}
+                            </td>
+                            <td>
+                                {{ ticket.creator }}
+                            </td>
+                            <td>
+                                <a class="standard-link" href="{% url 'support_ticket' ticket.id %}">
+                                    {{ ticket.last_message|date:'d M y, H:i' }}
+                                </a>
+                            </td>
+                            <td>
+                                <div class="priority-indicator low-priority"></div>
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+
+                </table>
+
+            {% else %}
+                No currently active tickets.
+            {% endif %}
+
+            <div class="sub-header">
+                AWAITING USER RESPONSE
+            </div>
+
+            {% if reply_tickets %}
+
+                <table class="basic-table">
+                    <tr class="header-row">
+                        <th>
+                            ID
+                        </th>
+                        <th>
+                            User
+                        </th>
+                        <th>
+                            Last Updated
+                        </th>
                     </tr>
 
-                {% endfor %}
+                    {% for ticket in reply_tickets %}
 
-                {% for ticket in medium_priority %}
+                        <tr class="table-row">
+                            <td>
+                                {{ ticket.id }}
+                            </td>
+                            <td>
+                                {{ ticket.creator }}
+                            </td>
+                            <td>
+                                <a class="standard-link" href="{% url 'support_ticket' ticket.id %}">
+                                    {{ ticket.last_message|date:'d M y, H:i' }}
+                                </a>
+                            </td>
+                        </tr>
 
-                    <tr class="table-row">
-                        <td>
-                            {{ ticket.id }}
-                        </td>
-                        <td>
-                            {{ ticket.creator }}
-                        </td>
-                        <td>
-                            <a class="standard-link" href="{% url 'support_ticket' ticket.id %}">
-                                {{ ticket.last_message|date:'d M y, H:i' }}
-                            </a>
-                        </td>
-                        <td>
-                            <div class="priority-indicator medium-priority"></div>
-                        </td>
-                    </tr>
+                    {% endfor %}
 
-                {% endfor %}
+                </table>
 
-                {% for ticket in low_priority %}
-
-                    <tr class="table-row">
-                        <td>
-                            {{ ticket.id }}
-                        </td>
-                        <td>
-                            {{ ticket.creator }}
-                        </td>
-                        <td>
-                            <a class="standard-link" href="{% url 'support_ticket' ticket.id %}">
-                                {{ ticket.last_message|date:'d M y, H:i' }}
-                            </a>
-                        </td>
-                        <td>
-                            <div class="priority-indicator low-priority"></div>
-                        </td>
-                    </tr>
-
-                {% endfor %}
-
-            </table>
+            {% else %}
+                No tickets currently awaiting reply.
+            {% endif %}
 
         </section>
-
-        {% else %}
-            No currently active tickets.
-        {% endif %}
 
     {% else %}
         Sorry, you are not authorised to view this page.

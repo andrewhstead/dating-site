@@ -19,6 +19,7 @@ PRIORITY = (
 # Options for support ticket urgency.
 STATUS = (
     ('Active', "Active"),
+    ('Awaiting Reply', "Awaiting Reply"),
     ('Closed', "Closed"),
 )
 
@@ -33,7 +34,7 @@ class SupportTicket(models.Model):
     priority = models.CharField(max_length=25, choices=PRIORITY, default="Medium", blank=True, null=True)
     started = models.DateTimeField(auto_now_add=True)
     in_thread = models.IntegerField(default=0)
-    status = models.CharField(max_length=10, choices=STATUS, default="Active", blank=True, null=True)
+    status = models.CharField(max_length=15, choices=STATUS, default="Active", blank=True, null=True)
     last_message = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
