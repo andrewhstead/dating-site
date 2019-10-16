@@ -32,6 +32,7 @@
         <form id="default-form" enctype="multipart/form-data" role="form" method="post">
             {% csrf_token %}
             {{ ticket_form.as_ul }}
+
             {{ message_form.as_p }}
 
             <button class="default-button" type="submit">{{ button_text }}</button>
@@ -41,7 +42,12 @@
 
             <section class="support-message">
 
-                <div class="support-header">
+                {% if user == message.sender %}
+                    <div class="support-header">
+                {% else %}
+                    <div class="support-received-header">
+                {% endif %}
+
                     {{ message.sender }}, {{ message.created_date|date:'d M y, H:i' }}
                         <div class="note-text">
                             {% if message.is_read %}
