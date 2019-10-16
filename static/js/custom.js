@@ -32,4 +32,12 @@ function confirmationAlert(type) {
     }
 }
 
+// Functions to toggle sections of code.
+$('.slide-toggle').click(function(){
+    $('.slide-change').slideToggle(1000);
+});
+$('.instant-toggle').click(function(){
+    $('.instant-change').slideToggle(0);
+});
+
 messageRemove();

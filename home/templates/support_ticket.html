@@ -33,7 +33,14 @@
             {% csrf_token %}
             {{ ticket_form.as_ul }}
 
-            {{ message_form.as_p }}
+            <p class="standard-link">
+                <span class="slide-toggle instant-toggle instant-change">New Message</span>
+                <span class="slide-toggle instant-toggle instant-change hidden">Close Message</span>
+            </p>
+
+            <div class="slide-change hidden">
+                {{ message_form.as_p }}
+            </div>
 
             <button class="default-button" type="submit">{{ button_text }}</button>
         </form>
