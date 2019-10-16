@@ -156,8 +156,13 @@ def support_ticket(request, ticket_id):
             else:
                 message.recipient = ticket.creator
             message_form.save()
-            messages.success(request, 'Your ticket has been updated.')
-            return redirect(reverse('support_ticket', kwargs={'ticket_id': ticket.pk}))
+            messages.success(request, 'The ticket has been updated.')
+
+            if user == ticket.creator:
+                return redirect(reverse('support'))
+            else:
+                return redirect(reverse('staff_home'))
+
         else:
             messages.error(request, 'Sorry, we were unable to update your ticket. Please try again.')
 
