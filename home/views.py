@@ -143,10 +143,11 @@ def support_ticket(request, ticket_id):
         if ticket_form.is_valid() and message_form.is_valid():
             ticket.in_thread += 1
             ticket.last_message = timezone.now()
-            if user == ticket.agent:
-                ticket.status = "Awaiting Reply"
-            else:
-                ticket.status = "Active"
+            if not ticket.status == "Closed":
+                if user == ticket.agent:
+                    ticket.status = "Awaiting Reply"
+                else:
+                    ticket.status = "Active"
             ticket.save()
             message = message_form.save(False)
             message.ticket = ticket
