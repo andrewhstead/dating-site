@@ -345,6 +345,7 @@ def profile_views(request):
         if user.id == interaction.person_1:
             interaction.view_date = interaction.p1_latest_view
             interaction.wave_date = interaction.p2_latest_wave
+            last_wave = interaction.p1_latest_wave
             if interaction.p1_favourited:
                 interaction.favourite = True
             else:
@@ -352,10 +353,17 @@ def profile_views(request):
         else:
             interaction.view_date = interaction.p2_latest_view
             interaction.wave_date = interaction.p1_latest_wave
+            last_wave = interaction.p2_latest_wave
             if interaction.p2_favourited:
                 interaction.favourite = True
             else:
                 interaction.favourite = False
+
+            week_ago = last_wave + timedelta(days=7)
+            if timezone.now() > week_ago:
+                interaction.new_wave = True
+            else:
+                interaction.new_wave = False
 
     interactions.order_by('-view_date')
 
