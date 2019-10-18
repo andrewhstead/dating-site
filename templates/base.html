@@ -95,7 +95,7 @@
 	    <a class="menu-link" href="">Contact</a>
 	    <a class="menu-link" href="">Search</a>
 	    <a class="menu-link" href="">Chat</a>
-	    <a class="menu-link" href="">Forum</a>
+	    <a class="menu-link" href="{% url 'forum_home' %}">Forum</a>
         {% if user.is_authenticated %}
             <a class="menu-link" href="{% url 'own_profile' %}">Profile</a>
 	        <a class="menu-link" href="">Settings</a>

@@ -21,6 +21,7 @@ from home import views as home_views
 from users import views as user_views
 from contacts import views as contact_views
 from staff import views as staff_views
+from forum import views as forum_views
 from django.contrib.flatpages import views
 
 urlpatterns = [
@@ -33,6 +34,7 @@ urlpatterns = [
     path('favourites/added_me/', contact_views.favourited_me, name='favourited_me'),
     path('favourites/delete/<int:profile>/', contact_views.delete_favourite, name='delete_favourite'),
     path('favourites/mutual/', contact_views.mutual_favourites, name='mutual_favourites'),
+    path('forum/', forum_views.forum_home, name='forum_home'),
     path('login/', user_views.login, name="login"),
     path('logout/', user_views.logout, name="logout"),
     path('messages/', contact_views.all_messages, name='messages'),
