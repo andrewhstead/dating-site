@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from django.db import models
 from users.models import User
 
@@ -38,7 +39,8 @@ class SupportTicket(models.Model):
     last_message = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.creator, self.started
+        return str(self.creator) + " - " + \
+               str(self.started.year) + "-" + str(self.started.month) + "-" + str(self.started.day)
 
 
 # Messages within a support ticket.
@@ -53,4 +55,5 @@ class SupportMessage(models.Model):
     read_date = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
-        return self.sender, self.recipient, self.created_date
+        return str(self.ticket.id) + " - " + str(self.sender) + " - " + \
+               str(self.created_date.year) + "-" + str(self.created_date.month) + "-" + str(self.created_date.day)

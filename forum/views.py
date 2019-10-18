@@ -6,7 +6,7 @@ from django.utils import timezone
 
 # The home page for the forum.
 def forum_home(request):
-    page_name = "Forum"
+    page_name = "Discussion Forum"
 
     user = request.user
 

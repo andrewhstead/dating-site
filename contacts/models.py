@@ -38,8 +38,8 @@ class Interaction(models.Model):
     p1_has_blocked = models.BooleanField(default=False)
     p2_has_blocked = models.BooleanField(default=False)
 
-    def __unicode__(self):
-        return unicode(self.person_1) + ', ' + unicode(self.person_2)
+    def __str__(self):
+        return str(self.person_1) + ', ' + str(self.person_2)
 
 
 # Message thread model for conversations between users.
@@ -69,7 +69,8 @@ class Message(models.Model):
     read_date = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
-        return self.sender, self.recipient, self.created_date
+        return str(self.sender) + " > " + str(self.recipient) + "; " + \
+               str(self.created_date.year) + "-" + str(self.created_date.month) + "-" + str(self.created_date.day)
 
 
 # An wave, attributed to a user and to a recipient.
