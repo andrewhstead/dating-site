@@ -36,7 +36,7 @@ class SupportTicket(models.Model):
     started = models.DateTimeField(auto_now_add=True)
     in_thread = models.IntegerField(default=0)
     status = models.CharField(max_length=15, choices=STATUS, default="Active", blank=True, null=True)
-    last_message = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return str(self.creator) + " - " + \

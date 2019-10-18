@@ -36,7 +36,7 @@
                     </td>
                     <td>
                         <a class="standard-link" href="{% url 'support_ticket' ticket.id %}">
-                            {{ ticket.last_message|date:'d F Y, H:i' }}
+                            {{ ticket.last_updated|date:'d F Y, H:i' }}
                         </a>
                     </td>
                 </tr>
@@ -79,7 +79,7 @@
                     </td>
                     <td>
                         <a class="standard-link" href="{% url 'support_ticket' ticket.id %}">
-                            {{ ticket.last_message|date:'d F Y, H:i' }}
+                            {{ ticket.last_updated|date:'d F Y, H:i' }}
                         </a>
                     </td>
                 </tr>
@@ -122,7 +122,7 @@
                     </td>
                     <td>
                         <a class="standard-link" href="{% url 'support_ticket' ticket.id %}">
-                            {{ ticket.last_message|date:'d F Y, H:i' }}
+                            {{ ticket.last_updated|date:'d F Y, H:i' }}
                         </a>
                     </td>
                 </tr>

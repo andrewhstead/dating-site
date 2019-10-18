@@ -54,9 +54,9 @@ def support(request):
         user.last_active = timezone.now()
         user.save()
 
-    active_tickets = SupportTicket.objects.filter(creator=user.id, status="Active").order_by('-last_message')
-    reply_tickets = SupportTicket.objects.filter(creator=user.id, status="Awaiting Reply").order_by('-last_message')
-    closed_tickets = SupportTicket.objects.filter(creator=user.id, status="Closed").order_by('-last_message')
+    active_tickets = SupportTicket.objects.filter(creator=user.id, status="Active").order_by('-last_updated')
+    reply_tickets = SupportTicket.objects.filter(creator=user.id, status="Awaiting Reply").order_by('-last_updated')
+    closed_tickets = SupportTicket.objects.filter(creator=user.id, status="Closed").order_by('-last_updated')
 
     args = {
         'active_tickets': active_tickets,
@@ -141,22 +141,23 @@ def support_ticket(request, ticket_id):
         ticket_form = EditTicketForm(request.POST, instance=ticket)
         message_form = TicketMessageForm(request.POST)
         if ticket_form.is_valid() and message_form.is_valid():
-            ticket.in_thread += 1
-            ticket.last_message = timezone.now()
-            if not ticket.status == "Closed":
+            message = message_form.save(False)
+            ticket.last_updated = timezone.now()
+            if message.content:
+                ticket.in_thread += 1
                 if user == ticket.agent:
                     ticket.status = "Awaiting Reply"
                 else:
                     ticket.status = "Active"
             ticket.save()
-            message = message_form.save(False)
-            message.ticket = ticket
-            message.sender = user
-            if user == ticket.creator:
-                message.recipient = ticket.agent
-            else:
-                message.recipient = ticket.creator
-            message_form.save()
+            if message.content:
+                message.ticket = ticket
+                message.sender = user
+                if user == ticket.creator:
+                    message.recipient = ticket.agent
+                else:
+                    message.recipient = ticket.creator
+                message_form.save()
             messages.success(request, 'The ticket has been updated.')
 
             if user == ticket.creator:
