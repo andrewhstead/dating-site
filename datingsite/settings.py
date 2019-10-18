@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'home',
     'world',
     'staff',
+    'forum',
     'tinymce',
     'debug_toolbar',
 ]
