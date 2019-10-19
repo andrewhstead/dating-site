@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.utils import timezone
+from .models import Section, Board, Thread, Post
 
 # Create your views here.
 
@@ -14,6 +15,14 @@ def forum_home(request):
         user.last_active = timezone.now()
         user.save()
 
-    return render(request, "forum_home.html", {
-        'page_name': page_name
-    })
+    sections = Section.objects.all()
+    boards = Board.objects.all()
+
+    args = {
+        'user': user,
+        'page_name': page_name,
+        'sections': sections,
+        'boards': boards,
+    }
+
+    return render(request, "forum_home.html", args)

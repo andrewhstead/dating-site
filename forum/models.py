@@ -12,8 +12,8 @@ from users.models import User
 class Section(models.Model):
     title = models.CharField(max_length=50)
 
-    def __unicode__(self):
-        return self.title
+    def __str__(self):
+        return str(self.title)
 
 
 # The individual boards within the forum. Can be linked to a specific team or be general league-wide boards.
@@ -24,8 +24,8 @@ class Board(models.Model):
     post_count = models.IntegerField(default=0)
     description = HTMLField(blank=True)
 
-    def __unicode__(self):
-        return self.title
+    def __str__(self):
+        return str(self.title)
 
 
 # A thread in the forum. Attributed to the user who created the thread and allocated to the relevant board. The
@@ -39,8 +39,8 @@ class Thread(models.Model):
     last_post = models.DateTimeField(auto_now_add=True)
     views = models.IntegerField(default=0)
 
-    def __unicode__(self):
-        return self.title
+    def __str__(self):
+        return str(self.title)
 
 
 # An individual forum post, attributed to a user an allocated to the relevant thread.
@@ -51,5 +51,5 @@ class Post(models.Model):
     content = HTMLField(blank=True)
     created_date = models.DateTimeField(auto_now_add=True)
 
-    def __unicode__(self):
-        return self.user
+    def __str__(self):
+        return str(self.user) + "; " + str(self.thread)

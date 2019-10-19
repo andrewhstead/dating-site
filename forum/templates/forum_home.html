@@ -6,4 +6,29 @@
         DISCUSSION FORUM
     </div>
 
+    <!-- A logged in user is shown their username. Otherwise, the user is prompted to log in. -->
+    {% if user.is_authenticated %}
+        <div class="sub-header">
+            Logged in as: <a class="standard-link" href="{% url 'own_profile' %}">{{ user.username }}</a>
+        </div>
+    {% else %}
+        <div class="sub-header">
+            NB: You must be <a class="standard-link" href="{% url 'login' %}?next={% url 'forum_home' %}">logged in</a> to post.
+        </div>
+    {% endif %}
+
+    {% for section in sections %}
+
+        <p>
+            {{ section.title }}
+        </p>
+
+        {% for board in section.boards.all %}
+
+            {{ board.title }}<br />
+
+        {% endfor %}
+
+    {% endfor %}
+
 {% endblock %}
