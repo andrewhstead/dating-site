@@ -19,15 +19,34 @@
 
     {% for section in sections %}
 
-        <p>
-            {{ section.title }}
-        </p>
+        <section class="board-section">
 
-        {% for board in section.boards.all %}
+            <div class="section-header">
+                {{ section.title }}
+            </div>
 
-            {{ board.title }}<br />
+            {% for board in section.boards.all %}
 
-        {% endfor %}
+                <div class="board-header">
+                    {{ board.title }}
+                </div>
+
+                <div class="board-description">
+                    {{ board.description|safe }}
+                </div>
+
+                <div class="board-statistics flex-container">
+                    <div class="columns">
+                        Threads: {{ board.thread_count }}
+                    </div>
+                    <div class="columns">
+                        Posts: {{ board.post_count }}
+                    </div>
+                </div>
+
+            {% endfor %}
+
+        </section>
 
     {% endfor %}
 
