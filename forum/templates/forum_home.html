@@ -28,7 +28,7 @@
             {% for board in section.boards.all %}
 
                 <div class="board-header">
-                    {{ board.title }}
+                    <a class="white-link" href="{% url 'board_home' board.id %}">{{ board.title }}</a>
                 </div>
 
                 <div class="board-description">

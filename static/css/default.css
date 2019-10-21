@@ -201,12 +201,12 @@ img.icon {
     color: white;
     -webkit-tap-highlight-color: transparent;
 }
-.contact-link {
+.white-link {
     text-decoration: none;
     color: #ffffff;
     -webkit-tap-highlight-color: transparent;
 }
-.contact-link:hover {
+.white-link:hover {
     text-decoration: underline;
     color: #ffffff;
 }
