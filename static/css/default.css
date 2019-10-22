@@ -122,6 +122,9 @@ input {
     background-color: #566dba;
     color: white;
 }
+.table-row {
+    border-bottom: 1px solid #233a87;
+}
 .table-row:nth-of-type(even) {
     background-color: #eeeeff;
 }
@@ -571,4 +574,26 @@ label[for=id_profile_picture] {
     background-color: #ccccff;
     font-size: 0.8em;
     padding: 2px 5px;
+}
+.forum-table, .store-table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 5px auto;
+}
+.forum-table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 5px auto;
+}
+.forum-table {
+    padding: 2px 5px;
+}
+.forum-count {
+    text-align: center;
+}
+.header-row {
+    border-top: 2px solid #233a87;
+    border-bottom: 2px solid #233a87;
+    background-color: #566dba;
+    color: white;
 }

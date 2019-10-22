@@ -17,4 +17,45 @@
         </div>
     {% endif %}
 
+    <!-- Message to indicate an empty board. -->
+    {% if board.threads.count == 0 %}
+
+        <p>
+            No threads in this forum yet.
+        </p>
+
+    {% else %}
+
+        <!-- Show the threads in a table, indicating who started the thread and when the last post was. Also show
+        the number of posts and the number of times the thread has been viewed. -->
+        <table class="forum-table">
+            <tr class="header-row">
+                <td>Thread</td>
+                <td class="center-text">Posts</td>
+                <td class="center-text">Views</td>
+            </tr>
+            {% for thread in threads %}
+                <tr class="table-row">
+                    <td>
+                        <a class="standard-link" href="">{{ thread.title }}</a><br />
+                        <div class="table-details">
+                            Started By:
+                            <a class="standard-link" href="{% url 'view_profile' thread.user_id %}">
+                                {{ thread.user }}
+                            </a><br />
+                            Last Post: {{ thread.last_post|date:'d M y, H:i' }}
+                        </div>
+                    </td>
+                    <td class="forum-count">
+                        {{ thread.post_count }}
+                    </td>
+                    <td class="forum-count">
+                        {{ thread.views }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+
+    {% endif %}
+
 {% endblock %}
