@@ -36,6 +36,7 @@ urlpatterns = [
     path('favourites/mutual/', contact_views.mutual_favourites, name='mutual_favourites'),
     path('forum/', forum_views.forum_home, name='forum_home'),
     path('forum/<int:board_id>/', forum_views.board_home, name='board_home'),
+    path('forum/<int:board_id>/new/', forum_views.new_thread, name='new_thread'),
     path('login/', user_views.login, name="login"),
     path('logout/', user_views.logout, name="logout"),
     path('messages/', contact_views.all_messages, name='messages'),
