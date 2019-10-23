@@ -3,7 +3,7 @@
     <!-- If the poster has a profile picture, show it next to their post. If they don't, show their favourite
     team's logo. If they have neither, show the default icon. -->
     {% if not post.user.profile_picture %}
-        <img class="contact-picture" alt="Profile Picture" src="{{ post.user.profile_picture.url }}" />
+
     {% else %}
         <img class="contact-picture" alt="Profile Picture" src="{{ post.user.profile_picture.url }}" />
     {% endif %}

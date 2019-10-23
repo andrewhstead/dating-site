@@ -38,6 +38,7 @@ urlpatterns = [
     path('forum/<int:board_id>/', forum_views.board_home, name='board_home'),
     path('forum/<int:board_id>/new/', forum_views.new_thread, name='new_thread'),
     path('forum/thread/<int:thread_id>/', forum_views.view_thread, name='view_thread'),
+    path('forum/thread/<int:thread_id>/new/', forum_views.new_post, name='new_post'),
     path('login/', user_views.login, name="login"),
     path('logout/', user_views.logout, name="logout"),
     path('messages/', contact_views.all_messages, name='messages'),

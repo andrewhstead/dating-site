@@ -141,3 +141,42 @@ def view_thread(request, thread_id):
     }
 
     return render(request, "thread.html", args)
+
+
+# Add a new post to an existing thread.
+@login_required(login_url='/login/')
+def new_post(request, thread_id):
+    thread = get_object_or_404(Thread, pk=thread_id)
+
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+
+            # Don't save the post until it has been allocated to the user and to the relevant thread.
+            post = form.save(False)
+            post.user = request.user
+            post.thread = thread
+            post.board = thread.board
+            post.save()
+            # Update the thread's last_post field with the current time, and increment the post count by one.
+            thread.last_post = timezone.now()
+            thread.post_count += 1
+            thread.save()
+            post.board.post_count += 1
+            post.board.save()
+
+            messages.success(request, "Your post was successful!")
+
+        return redirect(reverse('view_thread', args={thread.pk}))
+
+    else:
+        form = PostForm()
+
+    args = {
+        'form': form,
+        'thread': thread,
+        'button_text': 'Submit Post'
+    }
+    args.update(csrf(request))
+
+    return render(request, 'post_form.html', args)
