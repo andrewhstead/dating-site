@@ -6,10 +6,10 @@
         {{ board.title }}
     </div>
 
-    <!-- A logged in user is shown their username. Otherwise, the user is prompted to log in. -->
+    <!-- A logged in user is shown link to start a new thread. Otherwise, the user is prompted to log in. -->
     {% if user.is_authenticated %}
          <div class="sub-header">
-                    <a class="standard-link" href="{% url 'new_thread' board.id %}">New Thread</a>
+             <a class="standard-link" href="{% url 'new_thread' board.id %}">New Thread</a>
          </div>
     {% else %}
         <div class="sub-header">
@@ -37,7 +37,7 @@
             {% for thread in threads %}
                 <tr class="table-row">
                     <td>
-                        <a class="standard-link" href="">{{ thread.title }}</a><br />
+                        <a class="standard-link" href="{% url 'view_thread' thread.id %}">{{ thread.title }}</a><br />
                         <div class="table-details">
                             Started By:
                             <a class="standard-link" href="{% url 'view_profile' thread.user_id %}">

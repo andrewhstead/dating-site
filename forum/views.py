@@ -112,3 +112,32 @@ def new_thread(request, board_id):
     args.update(csrf(request))
 
     return render(request, "thread_form.html", args)
+
+
+# The page to display an individual thread.
+def view_thread(request, thread_id):
+
+    thread = Thread.objects.get(pk=thread_id)
+    posts = thread.posts.all().order_by('created_date')
+    board = Board.objects.get(pk=thread.board_id)
+
+    thread.views += 1
+    thread.save()
+
+    page_name = "Thread: " + thread.title
+
+    user = request.user
+
+    if user.is_authenticated:
+        user.last_active = timezone.now()
+        user.save()
+
+    args = {
+        'user': user,
+        'page_name': page_name,
+        'board': board,
+        'thread': thread,
+        'posts': posts,
+    }
+
+    return render(request, "thread.html", args)

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div id="page-header">
+        {{ thread.title }}
+    </div>
+
+    <!-- A logged in user is shown their username. Otherwise, the user is prompted to log in. -->
+    {% if user.is_authenticated %}
+        <div class="sub-header">
+            Logged in as: <a class="standard-link" href="{% url 'own_profile' %}">{{ user.username }}</a>
+        </div>
+    {% else %}
+        <div class="sub-header">
+            NB: You must be <a class="standard-link" href="{% url 'login' %}?next={% url 'forum_home' %}">logged in</a> to post.
+        </div>
+    {% endif %}
+
+    <section id="posts">
+
+        <!-- List all the posts in turn. -->
+        {% for post in posts %}
+
+            {% include 'post.html' %}
+
+        {% endfor %}
+
+    </section>
+
+{% endblock %}
