@@ -3,7 +3,7 @@
 {% block content %}
 
     <div id="page-header">
-        {{ thread.title }}
+        <a class="standard-link" href="{% url 'board_home' board.id %}">{{ board.title }}</a> &gt; {{ thread.title }}
     </div>
 
     <!-- A logged in user is shown their username. Otherwise, the user is prompted to log in. -->

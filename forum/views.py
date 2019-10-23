@@ -149,6 +149,8 @@ def new_post(request, thread_id):
     thread = get_object_or_404(Thread, pk=thread_id)
     post_exists = False
 
+    page_name = "New Post in: " + thread.title
+
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
@@ -178,6 +180,7 @@ def new_post(request, thread_id):
         'thread': thread,
         'button_text': 'Submit Post',
         'post_exists': post_exists,
+        'page_name': page_name,
     }
     args.update(csrf(request))
 
@@ -190,6 +193,8 @@ def edit_post(request, thread_id, post_id):
     thread = get_object_or_404(Thread, pk=thread_id)
     post = get_object_or_404(Post, pk=post_id)
     post_exists = True
+
+    page_name = "Edit Post in: " + thread.title
 
     if request.method == 'POST':
         form = PostForm(request.POST, instance=post)
@@ -206,8 +211,10 @@ def edit_post(request, thread_id, post_id):
     args = {
         'form': form,
         'thread': thread,
+        'post': post,
         'button_text': 'Submit Post',
-        'post_exists': 'post_exists'
+        'post_exists': post_exists,
+        'page_name': page_name,
     }
     args.update(csrf(request))
 

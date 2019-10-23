@@ -28,7 +28,8 @@
 
     {% if user == post.user or user.is_staff or not post_exists %}
         <div class="sub-header">
-            Post in:<br />{{ thread.title }}
+            Post in:<br />
+            <a class="standard-link" href="{% url 'view_thread' thread.id %}">{{ thread.title }}</a>
         </div>
 
         <!-- The form to add a new post within a thread or edit an existing post. -->

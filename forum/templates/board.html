@@ -3,7 +3,7 @@
 {% block content %}
 
     <div id="page-header">
-        {{ board.title }}
+        <a class="standard-link " href="{% url 'forum_home' %}">Forum</a> &gt; {{ board.title }}
     </div>
 
     <!-- A logged in user is shown link to start a new thread. Otherwise, the user is prompted to log in. -->
