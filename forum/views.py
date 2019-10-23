@@ -147,6 +147,7 @@ def view_thread(request, thread_id):
 @login_required(login_url='/login/')
 def new_post(request, thread_id):
     thread = get_object_or_404(Thread, pk=thread_id)
+    post_exists = False
 
     if request.method == 'POST':
         form = PostForm(request.POST)
@@ -175,8 +176,73 @@ def new_post(request, thread_id):
     args = {
         'form': form,
         'thread': thread,
-        'button_text': 'Submit Post'
+        'button_text': 'Submit Post',
+        'post_exists': post_exists,
     }
     args.update(csrf(request))
 
     return render(request, 'post_form.html', args)
+
+
+# Add a new post to an existing thread.
+@login_required(login_url='/login/')
+def edit_post(request, thread_id, post_id):
+    thread = get_object_or_404(Thread, pk=thread_id)
+    post = get_object_or_404(Post, pk=post_id)
+    post_exists = True
+
+    if request.method == 'POST':
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            post.save()
+
+            messages.success(request, "Your post was edited!")
+
+        return redirect(reverse('view_thread', args={thread.pk}))
+
+    else:
+        form = PostForm(instance=post)
+
+    args = {
+        'form': form,
+        'thread': thread,
+        'button_text': 'Submit Post',
+        'post_exists': 'post_exists'
+    }
+    args.update(csrf(request))
+
+    return render(request, 'post_form.html', args)
+
+
+# Delete a currently existing post.
+@login_required(login_url='/login/')
+def delete_post(request, thread_id, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    thread = get_object_or_404(Thread, pk=thread_id)
+    board = post.board
+
+    # When the post is deleted, reduce the thread's post count by one.
+    post.delete()
+    thread.post_count -= 1
+
+    # If no posts remain, delete the thread, and reduce the relevant board's thread and post counts by one.
+    if thread.post_count == 0:
+        thread.delete()
+        board.thread_count -= 1
+        board.post_count -= 1
+        board.save()
+
+        messages.success(request, "No posts remaining, thread has been deleted.")
+        return redirect(reverse('forum_home'))
+
+    # If there are posts remaining, recalculate the thread's last_post field to the created_date of the last
+    # remaining post. This is done in case the deleted post is the last one, to ensure that the last_post field
+    # relates to the last remaining post. Also, reduce the relevant board's post count by one.
+    else:
+        thread.last_post = thread.posts.last().created_date
+        thread.save()
+        board.post_count -= 1
+        board.save()
+
+        messages.success(request, "Your post has been deleted.")
+        return redirect(reverse('view_thread', args={thread.pk}))

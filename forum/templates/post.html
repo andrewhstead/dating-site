@@ -31,6 +31,14 @@
         <!-- Show the position of the post in the thread. -->
     <div class="post-detail-right">
         Post {{ forloop.counter }} of {{ thread.posts.count }}
+
+        <!-- The creator of the post or a staff member can edit or delete the post. -->
+        {% if user == post.user or user.is_staff %}
+            <a class="standard-link" href="{% url 'edit_post' thread.id post.id %}">[Edit]</a>
+            <span class="standard-link" onclick="postAlert({{ post.id }})">[Delete]</span>
+        {% endif %}
     </div>
+
+    {% include "confirm_post.html" %}
 
 </div>

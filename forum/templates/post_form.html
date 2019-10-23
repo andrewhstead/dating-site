@@ -19,18 +19,31 @@
 {% block content %}
 
     <div id="page-header">
-        ADD NEW POST
+        {% if post_exists %}
+            EDIT POST
+        {% else %}
+            ADD NEW POST
+        {% endif %}
     </div>
 
-    <div class="sub-header">
-        New Post in:<br />{{ thread.title }}
-    </div>
+    {% if user == post.user or user.is_staff or not post_exists %}
+        <div class="sub-header">
+            Post in:<br />{{ thread.title }}
+        </div>
 
-    <!-- The form to add a new post within a thread. -->
-    <form id="default-form" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button class="default-button" type="submit">{{ button_text }}</button>
-    </form>
+        <!-- The form to add a new post within a thread or edit an existing post. -->
+        <form id="default-form" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="default-button" type="submit">{{ button_text }}</button>
+        </form>
+
+    {% else %}
+
+        <p>
+            Sorry, you are not authorised to view this page.
+        </p>
+
+    {% endif %}
 
 {% endblock %}

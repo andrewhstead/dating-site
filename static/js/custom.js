@@ -30,6 +30,16 @@ function confirmationAlert(type) {
         document.getElementById('block-wrapper').classList.toggle('activate');
         document.getElementById('block-alert').classList.toggle('activate');
     }
+    else if (type == 'post') {
+        document.getElementById('post-wrapper-' + post).classList.toggle('activate');
+        document.getElementById('post-alert-' + post).classList.toggle('activate');
+    }
+}
+
+// Pop-up function for posts to allow for passing through the id of the post.
+function postAlert(post) {
+    document.getElementById('post-wrapper-' + post).classList.toggle('activate');
+    document.getElementById('post-alert-' + post).classList.toggle('activate');
 }
 
 // Functions to toggle sections of code.
