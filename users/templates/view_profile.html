@@ -171,6 +171,19 @@
         </div>
     </section>
 
+    <div class="sub-header">
+        <a class="standard-link" href="{% url 'forum_home' %}">Forum Activity</a>
+    </div>
+
+    <section id="user-statistics" class="flex-container">
+        <div class="columns">
+            <strong>Threads:</strong> {{ threads }}
+        </div>
+        <div class="columns">
+            <strong>Posts:</strong> {{ posts }}
+        </div>
+    </section>
+
     <!-- If the user is viewing their own profile, link to the editing page. -->
     {% if profile.id == user.id %}
         <div class="full-details">

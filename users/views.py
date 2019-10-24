@@ -5,6 +5,7 @@ from django.template.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from contacts.models import MessageThread, ProfileView, Wave, Favourite, Interaction
+from forum.models import Thread, Post
 from .forms import RegistrationForm, LoginForm, EditProfileForm, DeletionForm, \
     ChangePasswordForm, LifestyleForm, AppearanceForm, RelationshipForm
 from .models import User, user_age
@@ -236,6 +237,8 @@ def view_profile(request, user_id):
             favourite = True
         else:
             favourite = False
+    else:
+        favourite = False
 
     try:
         thread = MessageThread.objects \
@@ -294,6 +297,9 @@ def view_profile(request, user_id):
         person_1 = 0
         person_2 = 0
 
+    threads = Thread.objects.filter(user=user.id).count()
+    posts = Post.objects.filter(user=user.id).count()
+
     # Get the age of the user from their date of birth.
     age = user_age(profile)
 
@@ -335,7 +341,7 @@ def view_profile(request, user_id):
             new_view.latest_view = timezone.now()
             new_view.save()
 
-    return render(request, 'view_profile.html', {
+    args = {
         'profile': profile,
         'page_name': page_name,
         'thread_exists': thread_exists,
@@ -346,7 +352,11 @@ def view_profile(request, user_id):
         'age': age,
         'favourite': favourite,
         'is_online': is_online,
-    })
+        'threads': threads,
+        'posts': posts,
+    }
+
+    return render(request, 'view_profile.html', args)
 
 
 # Logged in users can also view their own profile.
@@ -366,10 +376,17 @@ def own_profile(request):
     # Get the age of the user from their date of birth.
     age = user_age(user)
 
-    return render(request, 'view_profile.html', {
+    threads = Thread.objects.filter(user=user.id).count()
+    posts = Post.objects.filter(user=user.id).count()
+
+    args = {
         'profile': profile,
         'page_name': page_name,
         'user': user,
         'age': age,
         'is_online': is_online,
-    })
+        'threads': threads,
+        'posts': posts,
+    }
+
+    return render(request, 'view_profile.html', args)
