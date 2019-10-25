@@ -190,6 +190,11 @@ img.icon {
 }
 
 /* Styles for links */
+.anchor {
+    display: block;
+    padding-top: 35px;
+    margin-top: -35px;
+}
 .standard-link {
     text-decoration: none;
     color: #566dba;
@@ -599,6 +604,9 @@ label[for=id_profile_picture] {
 }
 #posts {
     margin: 10px 0;
+}
+.user-activity {
+    margin-top: 10px;
 }
 
 /* Styles for forum posts. */

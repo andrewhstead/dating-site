@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="sub-header">
+        <a class="standard-link " href="{% url 'forum_home' %}">Forum</a> &gt;
+        Activity &gt;
+        <a class="standard-link" href="{% url 'view_profile' user_to_view.id %}">{{ user_to_view.username }}</a>
+    </div>
+
+    <section id="threads" class="user-activity">
+
+        <div class="sub-header">
+            Threads
+        </div>
+
+        <table class="forum-table">
+            <tr class="header-row">
+                <td>Title</td>
+                <td>Created</td>
+            </tr>
+
+            <!-- List all the threads in turn. -->
+            {% for thread in threads %}
+
+                <tr class="table-row">
+                    <td>
+                        <a class="standard-link" href="{% url 'view_thread' thread.id %}">{{ thread.title }}</a>
+
+                    </td>
+                    <td>
+                        {{ thread.created_date|date:'d M y, H:i' }}
+                    </td>
+                </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </section>
+
+    <section id="posts" class="user-activity">
+
+        <div class="sub-header">
+            Posts
+        </div>
+
+        <table class="forum-table">
+            <tr class="header-row">
+                <td>Thread</td>
+                <td>Date</td>
+            </tr>
+
+            <!-- List all the threads in turn. -->
+            {% for post in posts %}
+
+                <tr class="table-row">
+                    <td>
+                        <a class="standard-link" href="{% url 'view_thread' post.thread.id %}#{{ post.id }}">{{ post.thread }}</a>
+                    </td>
+                    <td>
+                        {{ post.created_date|date:'d M y, H:i' }}
+                    </td>
+                </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </section>
+
+{% endblock %}

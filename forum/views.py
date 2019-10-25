@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.utils import timezone
 from .models import Section, Board, Thread, Post
+from users.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.context_processors import csrf
 from django.contrib.auth.decorators import login_required
@@ -151,6 +152,12 @@ def new_post(request, thread_id):
 
     page_name = "New Post in: " + thread.title
 
+    user = request.user
+
+    if user.is_authenticated:
+        user.last_active = timezone.now()
+        user.save()
+
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
@@ -196,6 +203,12 @@ def edit_post(request, thread_id, post_id):
 
     page_name = "Edit Post in: " + thread.title
 
+    user = request.user
+
+    if user.is_authenticated:
+        user.last_active = timezone.now()
+        user.save()
+
     if request.method == 'POST':
         form = PostForm(request.POST, instance=post)
         if form.is_valid():
@@ -228,6 +241,12 @@ def delete_post(request, thread_id, post_id):
     thread = get_object_or_404(Thread, pk=thread_id)
     board = post.board
 
+    user = request.user
+
+    if user.is_authenticated:
+        user.last_active = timezone.now()
+        user.save()
+
     # When the post is deleted, reduce the thread's post count by one.
     post.delete()
     thread.post_count -= 1
@@ -253,3 +272,32 @@ def delete_post(request, thread_id, post_id):
 
         messages.success(request, "Your post has been deleted.")
         return redirect(reverse('view_thread', args={thread.pk}))
+
+
+# Add a new post to an existing thread.
+def user_activity(request, user_id):
+
+    try:
+        user_to_view = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        user_to_view = None
+
+    threads = Thread.objects.filter(user=user_to_view)
+    posts = Post.objects.filter(user=user_to_view)
+
+    user = request.user
+
+    if user.is_authenticated:
+        user.last_active = timezone.now()
+        user.save()
+
+    page_name = "Forum Activity: " + user_to_view.username
+
+    args = {
+        'user_to_view': user_to_view,
+        'threads': threads,
+        'posts': posts,
+        'page_name': page_name,
+    }
+
+    return render(request, 'user_activity.html', args)

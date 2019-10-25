@@ -297,8 +297,8 @@ def view_profile(request, user_id):
         person_1 = 0
         person_2 = 0
 
-    threads = Thread.objects.filter(user=user.id).count()
-    posts = Post.objects.filter(user=user.id).count()
+    threads = Thread.objects.filter(user=profile.id).count()
+    posts = Post.objects.filter(user=profile.id).count()
 
     # Get the age of the user from their date of birth.
     age = user_age(profile)

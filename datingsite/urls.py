@@ -37,6 +37,7 @@ urlpatterns = [
     path('forum/', forum_views.forum_home, name='forum_home'),
     path('forum/<int:board_id>/', forum_views.board_home, name='board_home'),
     path('forum/<int:board_id>/new/', forum_views.new_thread, name='new_thread'),
+    path('forum/activity/<int:user_id>/', forum_views.user_activity, name='user_activity'),
     path('forum/thread/<int:thread_id>/', forum_views.view_thread, name='view_thread'),
     path('forum/thread/<int:thread_id>/new/', forum_views.new_post, name='new_post'),
     path('forum/thread/<int:thread_id>/edit/<int:post_id>/', forum_views.edit_post, name='edit_post'),
