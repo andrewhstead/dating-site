@@ -218,11 +218,11 @@
 
             {% if thread_exists %}
                 <div class="contact-button">
-                    <a class="contact-link" href="{% url 'message_thread' person_1.id person_2.id %}#latest">Messages</a>
+                    <a class="white-link" href="{% url 'message_thread' person_1.id person_2.id %}#latest">Messages</a>
                 </div>
             {% else %}
                 <div class="contact-button">
-                    <a class="contact-link" href="{% url 'new_thread' user.id profile.id %}">Message</a>
+                    <a class="white-link" href="{% url 'new_thread' user.id profile.id %}">Message</a>
                 </div>
             {% endif %}
 

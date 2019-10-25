@@ -39,7 +39,7 @@
     <div id="notifications" class="flex-container">
 
         <div class="notification-icon">
-            <a class="contact-link" href="{% url 'profile_views' %}">
+            <a class="white-link" href="{% url 'profile_views' %}">
             <img class="icon" src="/media/images/icons/eye.png" />
                 {% if user.new_views > 0 %}
                     <div class="notification-number">
@@ -51,21 +51,21 @@
 
         <div class="notification-icon">
             {% if user.new_favourited > 0 %}
-                <a class="contact-link" href="{% url 'favourited_me' %}">
+                <a class="white-link" href="{% url 'favourited_me' %}">
                     <img class="icon" src="/media/images/icons/star.png" />
                     <div class="notification-number">
                         {{ user.new_favourited }}
                      </div>
                 </a>
             {% else %}
-                <a class="contact-link" href="{% url 'favourites' %}">
+                <a class="white-link" href="{% url 'favourites' %}">
                     <img class="icon" src="/media/images/icons/star.png" />
                 </a>
             {% endif %}
         </div>
 
         <div class="notification-icon">
-            <a class="contact-link" href="{% url 'waves' %}">
+            <a class="white-link" href="{% url 'waves' %}">
             <img class="icon" src="/media/images/icons/wave.png" />
                 {% if user.new_waves > 0 %}
                     <div class="notification-number">
@@ -76,7 +76,7 @@
         </div>
 
         <div class="notification-icon">
-            <a class="contact-link" href="{% url 'messages' %}">
+            <a class="white-link" href="{% url 'messages' %}">
             <img class="icon" src="/media/images/icons/mail.png" />
                 {% if user.new_messages > 0 %}
                     <div class="notification-number">
