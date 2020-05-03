@@ -12,7 +12,8 @@ from home.models import SupportTicket, SupportMessage
 # Create your views here.
 
 
-# The default home page for the site.
+# The home page of the administration area.
+@login_required(login_url='/login/')
 def staff_home(request):
     page_name = "Administration Home"
 

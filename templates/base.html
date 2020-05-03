@@ -93,7 +93,7 @@
 	    <a class="menu-link" href="">About</a>
 	    <a class="menu-link" href="">FAQ</a>
 	    <a class="menu-link" href="">Contact</a>
-	    <a class="menu-link" href="">Search</a>
+	    <a class="menu-link" href="{% url 'search_home' %}">Search</a>
 	    <a class="menu-link" href="">Chat</a>
 	    <a class="menu-link" href="{% url 'forum_home' %}">Forum</a>
         {% if user.is_authenticated %}

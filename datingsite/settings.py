@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'users',
     'home',
     'world',
+    'search',
     'staff',
     'forum',
     'tinymce',
