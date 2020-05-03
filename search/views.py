@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
+from django.template.context_processors import csrf
+from .forms import SearchForm
 
 # Create your views here.
 
@@ -16,8 +18,14 @@ def search_home(request):
         user.last_active = timezone.now()
         user.save()
 
+    form = SearchForm()
+
     args = {
+        'form': form,
+        'button1_text': 'Search and Save',
+        'button2_text': 'Search Without Saving',
         'page_name': page_name,
     }
 
-    return render(request, "search_home.html", args)
+    args.update(csrf(request))
+    return render(request, 'search_home.html', args)
