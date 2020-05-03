@@ -4,6 +4,8 @@ from django.core.exceptions import ValidationError
 from .models import User
 from django.forms.widgets import TextInput
 from .widgets import ThumbnailWidget
+from django.shortcuts import render, redirect, get_object_or_404
+from world.models import Country, State
 
 
 # Form to register a new user.
@@ -64,13 +66,14 @@ class EditProfileForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', 'date_of_birth', 'country',
-                  'profile_picture', 'intro', 'text']
+                  'state', 'profile_picture', 'intro', 'text']
         exclude = ['password']
         help_texts = {
             'username': None,
             'email': None,
         }
         labels = {
+            'state': 'State/Province',
             'first_name': 'First Name',
             'last_name': 'Last Name',
             'profile_picture': 'Profile Picture',

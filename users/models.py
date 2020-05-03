@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
-from world.models import Country
+from world.models import Country, State
 from datetime import date
 from django.shortcuts import get_object_or_404
 
@@ -124,6 +124,7 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
     date_of_birth = models.DateField(blank=True, null=True)
     country = models.ForeignKey(Country, related_name='users', on_delete=models.CASCADE)
+    state = models.ForeignKey(State, related_name='users', on_delete=models.CASCADE, blank=True, null=True)
     city = models.CharField(max_length=50, blank=True, null=True)
     postcode = models.CharField(max_length=10, blank=True, null=True)
     stripe_id = models.CharField(max_length=40, default='', blank=True, null=True)

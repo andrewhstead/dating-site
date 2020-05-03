@@ -43,6 +43,11 @@
             <li>
                 <strong>Country:</strong> {{ profile.country }}
             </li>
+            {% if profile.state %}
+                <li>
+                    <strong>State/Province:</strong> {{ profile.state }}
+                </li>
+            {% endif %}
         </ul>
     </section>
 
