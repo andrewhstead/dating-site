@@ -28,6 +28,7 @@ from django.contrib.flatpages import views
 urlpatterns = [
     path(r'', home_views.home_page, name='home'),
     path('admin/', admin.site.urls),
+    path('ajax/state_options/', user_views.state_options, name='state_options'),
     path('block/<int:profile>/', contact_views.block_user, name='block_user'),
     path('contact/', home_views.contact, name="contact"),
     path('favourite_user/<int:recipient>/', contact_views.favourite_user, name='favourite_user'),

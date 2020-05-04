@@ -12,6 +12,7 @@ from .models import User, user_age
 from datetime import timedelta
 from django.utils import timezone
 from world.models import Country, State
+from django.http import JsonResponse
 
 # Create your views here.
 
@@ -392,3 +393,12 @@ def own_profile(request):
     }
 
     return render(request, 'view_profile.html', args)
+
+
+# Filter the states based on country selection.
+def state_options(request):
+
+    country_id = request.GET.get('country')
+    states = State.objects.filter(country_id=country_id).order_by('name')
+
+    return render(request, 'states.html', {'states': states})

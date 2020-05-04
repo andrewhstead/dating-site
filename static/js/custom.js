@@ -51,3 +51,25 @@ $('.instant-toggle').click(function(){
 });
 
 messageRemove();
+
+// AJAX Function to filter list of states.
+$("#id_country").change(function () {
+
+    var url = $("#default-form").attr("filter-states");
+    var country_id = $(this).val();
+
+    $.ajax({
+
+        url: url,
+
+        data: {
+            'country': country_id
+        },
+
+        success: function (data) {
+            $("#id_state").html(data);
+        }
+
+    });
+
+});

@@ -87,7 +87,6 @@ class EditProfileForm(forms.ModelForm):
         }
 
 
-
 # Form for a user to edit the relationship section of their profile.
 class RelationshipForm(forms.ModelForm):
 

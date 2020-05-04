@@ -6,7 +6,8 @@
         EDIT YOUR PROFILE
     </div>
 
-    <form id="default-form" enctype="multipart/form-data" role="form" method="post">
+    <form id="default-form" filter-states="{% url 'state_options' %}" novalidate
+          enctype="multipart/form-data" role="form" method="post">
         {% csrf_token %}
         {{ form.as_p }}
 
