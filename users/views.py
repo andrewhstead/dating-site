@@ -11,6 +11,7 @@ from .forms import RegistrationForm, LoginForm, EditProfileForm, DeletionForm, \
 from .models import User, user_age
 from datetime import timedelta
 from django.utils import timezone
+from world.models import Country, State
 
 # Create your views here.
 
@@ -116,6 +117,7 @@ def user_profile(request):
 
     else:
         form = EditProfileForm(instance=user)
+        form.fields["state"].queryset = State.objects.filter(country_id=user.country)
         lifestyle = LifestyleForm(instance=user)
         appearance = AppearanceForm(instance=user)
         relationship = RelationshipForm(instance=user)
