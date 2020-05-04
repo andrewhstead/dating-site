@@ -349,7 +349,7 @@ img.icon {
     max-width: 150px;
 }
 
-/* Styles for the profile editing forms */
+/* Styles for forms */
 .form-thumbnail {
     height: 100px;
     width: 100px;
@@ -372,6 +372,19 @@ label[for=id_profile_picture] {
 }
 .form-section {
     margin: 10px 0;
+}
+.form-section li {
+    margin: 5px 0;
+}
+select {
+    width: 100%;
+    background-color: #566dba;
+    color: #ffffff;
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 1em;
+    font-family: 'Farro', sans-serif;
 }
 
 /* Styles for the contacts app */

@@ -118,10 +118,11 @@ def user_profile(request):
 
     else:
         form = EditProfileForm(instance=user)
-        form.fields["state"].queryset = State.objects.filter(country_id=user.country)
         lifestyle = LifestyleForm(instance=user)
         appearance = AppearanceForm(instance=user)
         relationship = RelationshipForm(instance=user)
+
+        form.fields["state"].queryset = State.objects.filter(country_id=user.country)
 
     args = {
         'form': form,
