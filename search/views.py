@@ -5,6 +5,8 @@ from .forms import SearchForm
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from users.models import User
+from django.http import JsonResponse, HttpResponseRedirect
+from .models import Search
 
 # Create your views here.
 
@@ -22,12 +24,18 @@ def search_home(request):
 
     if request.method == 'POST':
 
-        form = SearchForm(request.POST)
+        search_form = SearchForm(request.POST)
 
-        if 'save_yes' in request.POST:
-            form.save()
+        if search_form.is_valid():
+            search = search_form.save(False)
+            search.user = user
+            search.save()
+            search_form.save_m2m()
 
-        return redirect(reverse('search_results'))
+            if 'save_no' in request.POST:
+                request.session['save'] = "No"
+
+            return redirect(reverse('search_results', args=(search.pk,)))
 
     else:
         form = SearchForm()
@@ -45,13 +53,27 @@ def search_home(request):
 
 # The search results page.
 @login_required(login_url='/login/')
-def search_results(request):
+def search_results(request, search_id):
     page_name = "Search Results"
 
     user = request.user
+    search = Search.objects.get(pk=search_id)
+
+    results = User.objects.all()
 
     if user.is_authenticated:
         user.last_active = timezone.now()
         user.save()
 
-    return render(request, 'search_results.html')
+    if request.session['save'] == "No":
+        save = "No"
+    else:
+        save = "Yes"
+
+    args = {
+        'page_name': page_name,
+        'results': results,
+        'save': save,
+    }
+
+    return render(request, 'search_results.html', args)
