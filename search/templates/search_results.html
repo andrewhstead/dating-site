@@ -6,10 +6,14 @@
         SEARCH RESULTS
     </div>
 
-    {% for result in results %}
+    <p>
 
-        {{ result.username }}
+        {% for result in results %}
 
-    {% endfor %}
+            {{ result.username }}<br />
+
+        {% endfor %}
+
+    </p>
 
 {% endblock %}

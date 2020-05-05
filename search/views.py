@@ -4,7 +4,7 @@ from django.template.context_processors import csrf
 from .forms import SearchForm
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from users.models import User
+from users.models import User, Gender
 from django.http import JsonResponse, HttpResponseRedirect
 from .models import Search
 
@@ -59,7 +59,9 @@ def search_results(request, search_id):
     user = request.user
     search = Search.objects.get(pk=search_id)
 
-    results = User.objects.all()
+    gender = search.gender.all()
+
+    results = User.objects.filter(gender__in=gender)
 
     if user.is_authenticated:
         user.last_active = timezone.now()
@@ -73,6 +75,7 @@ def search_results(request, search_id):
     args = {
         'page_name': page_name,
         'results': results,
+        'search': search,
         'save': save,
     }
 
