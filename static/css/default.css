@@ -370,6 +370,10 @@ label[for=id_profile_picture] {
 #default-form li {
     list-style-type: none;
 }
+#default-form ul, p {
+    padding: 0px;
+    margin: 5px 0 0 0;
+}
 .form-section {
     margin: 10px 0;
 }
@@ -385,6 +389,13 @@ select {
     border-radius: 5px;
     font-size: 1em;
     font-family: 'Farro', sans-serif;
+}
+select[multiple] {
+    height: auto;
+}
+input[type='checkbox'] {
+    display: inline;
+    width: auto;
 }
 
 /* Styles for the contacts app */

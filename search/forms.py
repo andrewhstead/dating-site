@@ -10,9 +10,9 @@ class SearchForm(forms.ModelForm):
 
     class Meta:
         model = Search
-        fields = ['last_active', 'age_low', 'age_high', 'country', 'denomination', 'ethnicity',
-                  'hair', 'eyes', 'looking_for', 'gender', 'marital_status', 'profile_picture', 'diet',
-                  'drinks', 'smokes', 'gender', 'has_children', 'wants_children', 'key_words']
+        fields = ['last_active', 'age_low', 'age_high', 'country', 'gender', 'looking_for', 'ethnicity',
+                  'hair', 'eyes', 'marital_status', 'denomination', 'diet', 'drinks', 'smokes',
+                  'has_children', 'wants_children', 'key_words', 'profile_picture']
         exclude = ['password']
         help_texts = {
             'username': None,
@@ -21,8 +21,22 @@ class SearchForm(forms.ModelForm):
         labels = {
             'first_name': 'First Name',
             'last_name': 'Last Name',
-            'profile_picture': 'Profile Picture',
+            'profile_picture': 'Show only users with profile picture:',
             'intro': 'Introduction (max 100 characters)',
             'text': 'Profile Text (max 1000 characters)',
             'date_of_birth': 'Date of Birth',
+        }
+        widgets = {
+            'marital_status': forms.CheckboxSelectMultiple,
+            'denomination': forms.CheckboxSelectMultiple,
+            'gender': forms.CheckboxSelectMultiple,
+            'looking_for': forms.CheckboxSelectMultiple,
+            'ethnicity': forms.CheckboxSelectMultiple,
+            'hair': forms.CheckboxSelectMultiple,
+            'eyes': forms.CheckboxSelectMultiple,
+            'diet': forms.CheckboxSelectMultiple,
+            'drinks': forms.CheckboxSelectMultiple,
+            'smokes': forms.CheckboxSelectMultiple,
+            'has_children': forms.CheckboxSelectMultiple,
+            'wants_children': forms.CheckboxSelectMultiple,
         }

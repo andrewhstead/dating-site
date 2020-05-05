@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div id="page-header">
+        SEARCH RESULTS
+    </div>
+
+    {% for user in users %}
+
+        {{ user.username }}<br />
+
+    {% endfor %}
+
+{% endblock %}
