@@ -4,6 +4,103 @@ from world.models import Country, State
 from datetime import date
 from django.shortcuts import get_object_or_404
 
+# Options for ethnicity of user.
+ETHNICITY = (
+    ('Black', "Black"),
+    ('White', "White"),
+    ('Asian', "Asian"),
+)
+
+# Options for hair colour of user.
+HAIR = (
+    ('Black', "Black"),
+    ('Brown', "Brown"),
+    ('Blonde', "Blonde"),
+    ('Red', "Red"),
+    ('Grey', "Grey"),
+    ('Bald', "Bald"),
+    ('Other', "Other"),
+)
+
+# Options for eye colour of user.
+EYES = (
+    ('Brown', "Brown"),
+    ('Blue', "Blue"),
+    ('Green', "Green"),
+    ('Grey', "Grey"),
+    ('Other', "Other"),
+)
+
+# Options for denomination of user.
+DENOMINATION = (
+    ('Catholic', "Catholic"),
+    ('Anglican', "Anglican"),
+    ('Methodist', "Methodist"),
+    ('Baptist', "Baptist"),
+)
+
+# Options for diet of user.
+DIET = (
+    ('Meat Eater', "Meat Eater"),
+    ('Vegetarian', "Vegetarian"),
+    ('Pescatarian', "Pescatarian"),
+    ('Vegan', "Vegan"),
+    ('Marmite Only', "Marmite Only"),
+)
+
+# Options for drinking habits of user.
+DRINKS = (
+    ('Never', "Never"),
+    ('Occasionally', "Occasionally"),
+    ('Socially', "Socially"),
+    ('Often', "Often"),
+)
+
+# Options for smoking habits of user.
+SMOKES = (
+    ('Never', "Never"),
+    ('Occasionally', "Occasionally"),
+    ('Often', "Often"),
+)
+
+# Options for gender of user and person being sought.
+GENDER = (
+    ('Male', "Male"),
+    ('Female', "Female"),
+)
+
+# Options for type of relationship being sought.
+RELATIONSHIP = (
+    ('Friendship', "Friendship"),
+    ('Fellowship', "Fellowship"),
+    ('Marriage', "Marriage"),
+)
+
+# Options for marital status of user and person being sought.
+STATUS = (
+    ('Single', "Single"),
+    ('Married', "Married"),
+    ('Separated', "Separated"),
+    ('Divorced', "Divorced"),
+    ('Widowed', "Widowed"),
+)
+
+# Options for children of user and person being sought.
+HAS_CHILDREN = (
+    ('Yes, living with me', "Yes, living with me"),
+    ('Yes, living elsewhere', "Yes, living elsewhere"),
+    ('Yes, but grown-up', "Yes, but grown-up"),
+    ('No', "No"),
+)
+
+# Options for family plans of user and person being sought.
+WANTS_CHILDREN = (
+    ('No', "No"),
+    ('One or Two', "One or Two"),
+    ('Lots', "Lots"),
+    ('Undecided', "Undecided"),
+)
+
 
 # A function to calculate a user's age from their date of birth.
 def user_age(user):
@@ -19,115 +116,6 @@ def user_age(user):
     return age
 
 
-# Create your models here.
-# Model to select the user's ethnicity.
-class Ethnicity(models.Model):
-    objects = models.Manager()
-    name = models.CharField(max_length=20, unique=True)
-
-    def __str__(self):
-        return self.name
-
-
-# Model to select the user's hair colour.
-class Hair(models.Model):
-    objects = models.Manager()
-    name = models.CharField(max_length=20, unique=True)
-
-    def __str__(self):
-        return self.name
-
-
-# Model to select the user's eye colour.
-class Eyes(models.Model):
-    objects = models.Manager()
-    name = models.CharField(max_length=20, unique=True)
-
-    def __str__(self):
-        return self.name
-
-
-# Model to select the user's gender.
-class Gender(models.Model):
-    objects = models.Manager()
-    name = models.CharField(max_length=20, unique=True)
-
-    def __str__(self):
-        return self.name
-
-
-# Model to select the user's denomination.
-class Denomination(models.Model):
-    objects = models.Manager()
-    name = models.CharField(max_length=20, unique=True)
-
-    def __str__(self):
-        return self.name
-
-
-# Model to select the user's relationship status.
-class Relationship(models.Model):
-    objects = models.Manager()
-    name = models.CharField(max_length=20, unique=True)
-
-    def __str__(self):
-        return self.name
-
-
-# Model to select the user's marital status.
-class MaritalStatus(models.Model):
-    objects = models.Manager()
-    name = models.CharField(max_length=20, unique=True)
-
-    def __str__(self):
-        return self.name
-
-
-# Model to select the user's diet.
-class Diet(models.Model):
-    objects = models.Manager()
-    name = models.CharField(max_length=20, unique=True)
-
-    def __str__(self):
-        return self.name
-
-
-# Model to select the user's drinking habits.
-class Drinks(models.Model):
-    objects = models.Manager()
-    name = models.CharField(max_length=20, unique=True)
-
-    def __str__(self):
-        return self.name
-
-
-# Model to select the user's smoking habits.
-class Smokes(models.Model):
-    objects = models.Manager()
-    name = models.CharField(max_length=20, unique=True)
-
-    def __str__(self):
-        return self.name
-
-
-# Model to select whether the user has children.
-class HasChildren(models.Model):
-    objects = models.Manager()
-    name = models.CharField(max_length=25, unique=True)
-
-    def __str__(self):
-        return self.name
-
-
-# Model to select whether the user wants children.
-class WantsChildren(models.Model):
-    objects = models.Manager()
-    name = models.CharField(max_length=20, unique=True)
-
-    def __str__(self):
-        return self.name
-
-
 # Additional fields are added to the AbstractUser model.
 class User(AbstractUser):
 
@@ -139,6 +127,7 @@ class User(AbstractUser):
     state = models.ForeignKey(State, related_name='users', on_delete=models.SET_NULL, blank=True, null=True)
     city = models.CharField(max_length=50, blank=True, null=True)
     postcode = models.CharField(max_length=10, blank=True, null=True)
+
     stripe_id = models.CharField(max_length=40, default='', blank=True, null=True)
     subscription_ends = models.DateTimeField(blank=True, null=True)
     subscription_renews = models.BooleanField(default=False)
@@ -149,19 +138,20 @@ class User(AbstractUser):
     text = models.TextField(max_length=1000, blank=True, null=True)
     occupation = models.CharField(max_length=50, blank=True, null=True)
 
-    ethnicity = models.ForeignKey(Ethnicity, related_name='users', on_delete=models.SET_NULL, blank=True, null=True)
-    hair = models.ForeignKey(Hair, related_name='users', on_delete=models.SET_NULL, blank=True, null=True)
-    eyes = models.ForeignKey(Eyes, related_name='users', on_delete=models.SET_NULL, blank=True, null=True)
-    gender = models.ForeignKey(Gender, related_name='user_gender', on_delete=models.SET_NULL, blank=True, null=True)
-    denomination = models.ForeignKey(Denomination, related_name='users', on_delete=models.SET_NULL, blank=True, null=True)
-    looking_for = models.ForeignKey(Gender, related_name='sought_gender', on_delete=models.SET_NULL, blank=True, null=True)
-    relationship = models.ForeignKey(Relationship, related_name='users', on_delete=models.SET_NULL, blank=True, null=True)
-    marital_status = models.ForeignKey(MaritalStatus, related_name='users', on_delete=models.SET_NULL, blank=True, null=True)
-    diet = models.ForeignKey(Diet, related_name='users', on_delete=models.SET_NULL, blank=True, null=True)
-    drinks = models.ForeignKey(Drinks, related_name='users', on_delete=models.SET_NULL, blank=True, null=True)
-    smokes = models.ForeignKey(Smokes, related_name='users', on_delete=models.SET_NULL, blank=True, null=True)
-    has_children = models.ForeignKey(HasChildren, related_name='users', on_delete=models.SET_NULL, blank=True, null=True)
-    wants_children = models.ForeignKey(WantsChildren, related_name='users', on_delete=models.SET_NULL, blank=True, null=True)
+    ethnicity = models.CharField(max_length=25, choices=ETHNICITY, blank=True, null=True)
+    hair = models.CharField(max_length=25, choices=HAIR, blank=True, null=True)
+    eyes = models.CharField(max_length=25, choices=EYES, blank=True, null=True)
+    gender = models.CharField(max_length=25, choices=GENDER, blank=True, null=True)
+    denomination = models.CharField(max_length=25, choices=DENOMINATION, blank=True, null=True)
+    looking_for = models.CharField(max_length=25, choices=GENDER, blank=True, null=True)
+    relationship = models.CharField(max_length=25, choices=RELATIONSHIP, blank=True, null=True)
+    marital_status = models.CharField(max_length=25, choices=STATUS, blank=True, null=True)
+
+    diet = models.CharField(max_length=25, choices=DIET, blank=True, null=True)
+    drinks = models.CharField(max_length=25, choices=DRINKS, blank=True, null=True)
+    smokes = models.CharField(max_length=25, choices=SMOKES, blank=True, null=True)
+    has_children = models.CharField(max_length=25, choices=HAS_CHILDREN, blank=True, null=True)
+    wants_children = models.CharField(max_length=25, choices=WANTS_CHILDREN, blank=True, null=True)
 
     new_messages = models.IntegerField(default=0)
     total_messages = models.IntegerField(default=0)

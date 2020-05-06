@@ -6,12 +6,10 @@
         SEARCH USERS
     </div>
 
-    <form id="default-form" enctype="multipart/form-data" role="form" method="post">
-        {% csrf_token %}
+    <form id="default-form" action="{% url 'search_results' %}" enctype="multipart/form-data" role="form" method="get">
         {{ form.as_p }}
 
-        <button class="default-button" name="save_yes" type="submit">{{ button1_text }}</button>
-        <button class="default-button" name="save_no" type="submit">{{ button2_text }}</button>
+        <button class="default-button" name="submit" type="submit">{{ submit_text }}</button>
     </form>
 
 {% endblock %}

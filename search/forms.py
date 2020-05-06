@@ -1,15 +1,19 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
-from .models import Search
 from django.forms.widgets import TextInput
+from users.models import User
 
 
 # Form to make a new search.
 class SearchForm(forms.ModelForm):
 
+    age_low = forms.IntegerField(required=False)
+    age_high = forms.IntegerField(required=False)
+    key_words = forms.CharField(required=False)
+
     class Meta:
-        model = Search
+        model = User
         fields = ['last_active', 'age_low', 'age_high', 'country', 'gender', 'looking_for', 'ethnicity',
                   'hair', 'eyes', 'marital_status', 'denomination', 'diet', 'drinks', 'smokes',
                   'has_children', 'wants_children', 'key_words', 'profile_picture']
