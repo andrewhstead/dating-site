@@ -4,33 +4,40 @@ from django.core.exceptions import ValidationError
 from django.forms.widgets import TextInput
 from users.models import User
 
+# Options for time period when user was last active.
+ACTIVE = (
+    ('Any Time', "Any Time"),
+    ('Today', "Today"),
+    ('Last 7 Days', "Last 7 Days"),
+    ('Last 14 Days', "Last 14 Days"),
+    ('Last Month', "Last Month"),
+)
+
 
 # Form to make a new search.
 class SearchForm(forms.ModelForm):
 
-    age_low = forms.IntegerField(required=False)
-    age_high = forms.IntegerField(required=False)
-    key_words = forms.CharField(required=False)
+    active = forms.ChoiceField(required=False, choices=ACTIVE, label='Last Active:')
+    age_low = forms.IntegerField(required=False, label='Minimum Age')
+    age_high = forms.IntegerField(required=False, label='Maximum Age:')
+    keywords = forms.CharField(widget=forms.Textarea, required=False)
+    picture = forms.BooleanField(required=False, label='Only users with profile picture:')
 
     class Meta:
         model = User
-        fields = ['last_active', 'age_low', 'age_high', 'country', 'gender', 'looking_for', 'ethnicity',
+        fields = ['age_low', 'age_high', 'country', 'gender', 'looking_for', 'ethnicity',
                   'hair', 'eyes', 'marital_status', 'denomination', 'diet', 'drinks', 'smokes',
-                  'has_children', 'wants_children', 'key_words', 'profile_picture']
+                  'has_children', 'wants_children', 'keywords', 'picture', 'active']
         exclude = ['password']
         help_texts = {
             'username': None,
             'email': None,
         }
         labels = {
-            'first_name': 'First Name',
-            'last_name': 'Last Name',
-            'profile_picture': 'Show only users with profile picture:',
-            'intro': 'Introduction (max 100 characters)',
-            'text': 'Profile Text (max 1000 characters)',
-            'date_of_birth': 'Date of Birth',
+            'country': 'Country (select at least one):'
         }
         widgets = {
+            'country': forms.SelectMultiple,
             'marital_status': forms.CheckboxSelectMultiple,
             'denomination': forms.CheckboxSelectMultiple,
             'gender': forms.CheckboxSelectMultiple,

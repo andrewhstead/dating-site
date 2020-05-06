@@ -397,6 +397,12 @@ input[type='checkbox'] {
     display: inline;
     width: auto;
 }
+input[type='number'] {
+    display: inline;
+    border: 1px solid #566dba;
+    width: 25px;
+    margin: 5px 0;
+}
 
 /* Styles for the contacts app */
 .message-format p{

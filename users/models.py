@@ -45,7 +45,6 @@ DIET = (
     ('Vegetarian', "Vegetarian"),
     ('Pescatarian', "Pescatarian"),
     ('Vegan', "Vegan"),
-    ('Marmite Only', "Marmite Only"),
 )
 
 # Options for drinking habits of user.
@@ -123,7 +122,8 @@ class User(AbstractUser):
     last_active = models.DateTimeField(blank=True, null=True)
     email = models.EmailField(unique=True)
     date_of_birth = models.DateField(blank=True, null=True)
-    country = models.ForeignKey(Country, related_name='users', on_delete=models.SET_NULL, blank=True, null=True)
+    country = models.ForeignKey(Country, related_name='users', on_delete=models.SET_NULL,
+                                default="-", null=True)
     state = models.ForeignKey(State, related_name='users', on_delete=models.SET_NULL, blank=True, null=True)
     city = models.CharField(max_length=50, blank=True, null=True)
     postcode = models.CharField(max_length=10, blank=True, null=True)
@@ -138,20 +138,20 @@ class User(AbstractUser):
     text = models.TextField(max_length=1000, blank=True, null=True)
     occupation = models.CharField(max_length=50, blank=True, null=True)
 
-    ethnicity = models.CharField(max_length=25, choices=ETHNICITY, blank=True, null=True)
-    hair = models.CharField(max_length=25, choices=HAIR, blank=True, null=True)
-    eyes = models.CharField(max_length=25, choices=EYES, blank=True, null=True)
-    gender = models.CharField(max_length=25, choices=GENDER, blank=True, null=True)
-    denomination = models.CharField(max_length=25, choices=DENOMINATION, blank=True, null=True)
-    looking_for = models.CharField(max_length=25, choices=GENDER, blank=True, null=True)
-    relationship = models.CharField(max_length=25, choices=RELATIONSHIP, blank=True, null=True)
-    marital_status = models.CharField(max_length=25, choices=STATUS, blank=True, null=True)
+    ethnicity = models.CharField(max_length=25, choices=ETHNICITY, default="-", null=True)
+    hair = models.CharField(max_length=25, choices=HAIR, default="-", null=True)
+    eyes = models.CharField(max_length=25, choices=EYES, default="-", null=True)
+    gender = models.CharField(max_length=25, choices=GENDER, default="-", null=True)
+    denomination = models.CharField(max_length=25, choices=DENOMINATION, default="-", null=True)
+    looking_for = models.CharField(max_length=25, choices=GENDER, default="-", null=True)
+    relationship = models.CharField(max_length=25, choices=RELATIONSHIP, default="-", null=True)
+    marital_status = models.CharField(max_length=25, choices=STATUS, default="-", null=True)
 
-    diet = models.CharField(max_length=25, choices=DIET, blank=True, null=True)
-    drinks = models.CharField(max_length=25, choices=DRINKS, blank=True, null=True)
-    smokes = models.CharField(max_length=25, choices=SMOKES, blank=True, null=True)
-    has_children = models.CharField(max_length=25, choices=HAS_CHILDREN, blank=True, null=True)
-    wants_children = models.CharField(max_length=25, choices=WANTS_CHILDREN, blank=True, null=True)
+    diet = models.CharField(max_length=25, choices=DIET, default="-", null=True)
+    drinks = models.CharField(max_length=25, choices=DRINKS, default="-", null=True)
+    smokes = models.CharField(max_length=25, choices=SMOKES, default="-", null=True)
+    has_children = models.CharField(max_length=25, choices=HAS_CHILDREN, default="-", null=True)
+    wants_children = models.CharField(max_length=25, choices=WANTS_CHILDREN, default="-", null=True)
 
     new_messages = models.IntegerField(default=0)
     total_messages = models.IntegerField(default=0)
