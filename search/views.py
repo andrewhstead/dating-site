@@ -22,44 +22,15 @@ def search_home(request):
         user.last_active = timezone.now()
         user.save()
 
-    # if request.method == 'POST':
-    #
-    #     search_form = SearchForm(request.POST)
-    #
-    #     if search_form.is_valid():
-    #         search = search_form.save(False)
-    #         search.user = user
-    #         search.save()
-    #         search_form.save_m2m()
-    #
-    #         if 'save_no' in request.POST:
-    #             request.session['save'] = "No"
-    #
-    #         return redirect(reverse('search_results', args=(search.pk,)))
-
     form = SearchForm()
 
-    if form.is_valid():
+    args = {
+        'form': form,
+        'submit_text': 'Search',
+        'page_name': page_name,
+    }
 
-        gender = request.GET.get('q')
-        results = User.objects.filter(Q(gender__icontains=gender))
-
-        args = {
-            "gender": gender,
-            "results": results,
-        }
-
-        return render(request, "search_results.html", args)
-
-    else:
-        args = {
-            'form': form,
-            'submit_text': 'Search',
-            # 'button2_text': 'Search Without Saving',
-            'page_name': page_name,
-        }
-
-        return render(request, 'search_home.html', args)
+    return render(request, 'search_home.html', args)
 
 
 # The search results page.
@@ -73,23 +44,17 @@ def search_results(request):
         user.last_active = timezone.now()
         user.save()
 
-    # search = Search.objects.get(pk=search_id)
-    # results = User.objects.all()
-    # gender = search.gender.all()
-    # hair = search.hair.all()
-    #
-    # if gender:
-    #     results = results.filter(Q(gender__in=gender))
-    # if hair:
-    #     results = results.filter(Q(hair__in=hair))
+    country = request.GET.get('country', '')
+    gender = request.GET.get('gender', '')
 
-    # if request.session['save'] == "No":
-    #     search.delete()
+    results = User.objects.filter(country_id=country)
+
+    if gender:
+        results = results.filter(gender=gender)
 
     args = {
         'page_name': page_name,
-        # 'results': results,
-        # 'search': search,
+        'results': results,
     }
 
     return render(request, 'search_results.html', args)

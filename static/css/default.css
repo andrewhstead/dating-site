@@ -66,6 +66,19 @@ footer {
 	margin-top: 20px;
 }
 
+.dark-section {
+	border: 2px solid #233a87;
+	background-color: #566dba;
+	color: white;
+	border-radius: 20px;
+	padding: 10px 20px;
+	margin-top: 20px;
+}
+
+.dark-section ul, li {
+	margin: 0px;
+}
+
 .section-header {
     text-align: left;
     font-size: 1em;
@@ -76,6 +89,15 @@ footer {
     width: fit-content;
     width: -moz-fit-content;
     padding: 0 5px;
+}
+
+.dark-section-header {
+    text-align: center;
+    font-size: 1em;
+    font-weight: bold;
+    color: white;
+    background-color: #566dba;
+    margin-bottom: 5px;
 }
 
 .section-contents {

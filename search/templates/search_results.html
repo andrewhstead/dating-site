@@ -6,16 +6,10 @@
         SEARCH RESULTS
     </div>
 
-    {{ gender }}
+    {% for result in results %}
 
-    <p>
+        {{ result.username }}<br />
 
-        {% for result in results %}
-
-            {{ result.username }}<br />
-
-        {% endfor %}
-
-    </p>
+    {% endfor %}
 
 {% endblock %}
