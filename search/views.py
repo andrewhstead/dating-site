@@ -61,10 +61,10 @@ def search_results(request):
     if ethnicity:
         results = results.filter(ethnicity=ethnicity)
     if age_low:
-        latest_date = today - timedelta(days=(int(age_low)*365))
+        latest_date = today - timedelta(days=(int(age_low)*365)+(int(age_low)/4))
         results = results.filter(date_of_birth__lte=latest_date)
     if age_high:
-        earliest_date = today - timedelta(days=(int(age_high)*365))
+        earliest_date = today - timedelta(days=(int(age_high)*365)+(int(age_high)/4))
         results = results.filter(date_of_birth__gte=earliest_date)
 
     args = {
