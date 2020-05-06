@@ -6,10 +6,37 @@
         SEARCH RESULTS
     </div>
 
-    {% for result in results %}
+    {% if results %}
 
-        {{ result.username }}<br />
+        {% for result in results %}
 
-    {% endfor %}
+            <div class="search-result">
+                {% if result.profile_picture %}
+                    <img class="search-picture" alt="{{ result.username }}" src="{{ result.profile_picture.url }}" />
+                {% endif %}
+                <a class="standard-link" href="{% url 'view_profile' result.id %}">
+                    {{ result.username }}
+                </a>
+                <div class="search-text">
+                    {{ result.intro }}
+                    <div class="search-result-info">
+                        Last Active: {{ result.last_active|date:'d M y, H:i' }}
+                    </div>
+                </div>
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p>
+            Sorry, your search returned no results.
+        </p>
+
+        <p>
+            Please <a class="standard-link" href="{% url 'search_home' %}">return to the search form</a> and try again.
+        </p>
+
+    {% endif %}
 
 {% endblock %}

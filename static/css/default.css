@@ -710,3 +710,28 @@ input[type='number'] {
     margin: 10px 0 0 0;
     font-size: 0.75em;
 }
+
+/* Styles for search results.*/
+.search-text {
+    margin-left: 60px;
+    font-size: 0.9em;
+}
+.search-result-info {
+    font-size: 0.9em;
+}
+.search-result {
+    padding: 10px 0 0 0;
+}
+.search-picture {
+    height: 50px;
+    width: 50px;
+    border: 1px solid #566dba;
+    overflow: hidden;
+    vertical-align: bottom;
+    display: inline;
+    border-radius: 10px;
+    margin-right: 10px;
+    object-fit: cover;
+    float: left;
+    clear: both;
+}
