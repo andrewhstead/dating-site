@@ -7,6 +7,7 @@ from django.urls import reverse
 from users.models import User, Gender
 from django.http import JsonResponse, HttpResponseRedirect
 from .models import Search
+from django.db.models import Q
 
 # Create your views here.
 
@@ -59,24 +60,26 @@ def search_results(request, search_id):
     user = request.user
     search = Search.objects.get(pk=search_id)
 
+    results = User.objects.all()
     gender = search.gender.all()
+    hair = search.hair.all()
 
-    results = User.objects.filter(gender__in=gender)
+    if gender:
+        results = results.filter(Q(gender__in=gender))
+    if hair:
+        results = results.filter(Q(hair__in=hair))
 
     if user.is_authenticated:
         user.last_active = timezone.now()
         user.save()
 
-    if request.session['save'] == "No":
-        save = "No"
-    else:
-        save = "Yes"
+    # if request.session['save'] == "No":
+    #     search.delete()
 
     args = {
         'page_name': page_name,
         'results': results,
         'search': search,
-        'save': save,
     }
 
     return render(request, 'search_results.html', args)
