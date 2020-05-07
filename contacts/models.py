@@ -34,6 +34,7 @@ class Interaction(models.Model):
     p1_latest_view = models.DateTimeField(blank=True, null=True)
     p2_views = models.IntegerField(default=0)
     p2_latest_view = models.DateTimeField(blank=True, null=True)
+    list_view = models.DateTimeField(blank=True, null=True)
     blocked = models.BooleanField(default=False)
     p1_has_blocked = models.BooleanField(default=False)
     p2_has_blocked = models.BooleanField(default=False)

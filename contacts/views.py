@@ -345,13 +345,16 @@ def profile_views(request):
 
     minute_ago = timezone.now() - timedelta(seconds=60)
 
+    views = ProfileView.objects.filter(viewed_id=user.id).order_by('-latest_view')
+
     interactions = Interaction.objects.filter((Q(person_1=user) & Q(p2_views__gt=0))
-                                              | (Q(person_2=user) & Q(p1_views__gt=0)))
+                                              | (Q(person_2=user) & Q(p1_views__gt=0))).order_by('-list_view')
 
     for interaction in interactions:
 
         if user == interaction.person_1:
-            interaction.view_date = interaction.p2_latest_view
+            interaction.list_view = interaction.p2_latest_view
+            interaction.save()
             interaction.wave_date = interaction.p2_latest_wave
             last_wave = interaction.p1_latest_wave
             if interaction.p1_favourited:
@@ -360,7 +363,8 @@ def profile_views(request):
                 interaction.favourite = False
 
         else:
-            interaction.view_date = interaction.p1_latest_view
+            interaction.list_view = interaction.p1_latest_view
+            interaction.save()
             interaction.wave_date = interaction.p1_latest_wave
             last_wave = interaction.p2_latest_wave
             if interaction.p2_favourited:
@@ -377,7 +381,8 @@ def profile_views(request):
         else:
             interaction.new_wave = True
 
-    interactions.order_by('-view_date')
+    interactions = Interaction.objects.filter((Q(person_1=user) & Q(p2_views__gt=0))
+                                              | (Q(person_2=user) & Q(p1_views__gt=0))).order_by('-list_view')
 
     total_views = user.total_views
 
@@ -386,6 +391,7 @@ def profile_views(request):
     args = {
         'user': user,
         'page_name': page_name,
+        'views': views,
         'interactions': interactions,
         'total_views': total_views,
         'unique_viewers': unique_viewers,
