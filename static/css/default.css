@@ -735,3 +735,7 @@ input[type='number'] {
     float: left;
     clear: both;
 }
+.search-icon {
+    height: 10px;
+    margin-right: 5px;
+}

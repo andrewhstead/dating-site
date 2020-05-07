@@ -296,17 +296,26 @@ def all_messages(request):
 
     for interaction in interactions:
         if user.id == interaction.person_1.id:
-            interaction.wave_date = interaction.p2_latest_wave
+            last_wave = interaction.p1_latest_wave
             if interaction.p1_favourited:
                 interaction.favourite = True
             else:
                 interaction.favourite = False
         else:
-            interaction.wave_date = interaction.p1_latest_wave
+            last_wave = interaction.p2_latest_wave
             if interaction.p2_favourited:
                 interaction.favourite = True
             else:
                 interaction.favourite = False
+
+        if last_wave:
+            week_ago = last_wave + timedelta(days=7)
+            if timezone.now() > week_ago:
+                interaction.new_wave = True
+            else:
+                interaction.new_wave = False
+        else:
+            interaction.new_wave = True
 
     args = {
         'page_name': page_name,
@@ -336,22 +345,22 @@ def profile_views(request):
 
     minute_ago = timezone.now() - timedelta(seconds=60)
 
-    views = ProfileView.objects.filter(viewed_id=user.id).order_by('-latest_view')
-
     interactions = Interaction.objects.filter((Q(person_1=user) & Q(p2_views__gt=0))
                                               | (Q(person_2=user) & Q(p1_views__gt=0)))
 
     for interaction in interactions:
-        if user.id == interaction.person_1:
-            interaction.view_date = interaction.p1_latest_view
+
+        if user == interaction.person_1:
+            interaction.view_date = interaction.p2_latest_view
             interaction.wave_date = interaction.p2_latest_wave
             last_wave = interaction.p1_latest_wave
             if interaction.p1_favourited:
                 interaction.favourite = True
             else:
                 interaction.favourite = False
+
         else:
-            interaction.view_date = interaction.p2_latest_view
+            interaction.view_date = interaction.p1_latest_view
             interaction.wave_date = interaction.p1_latest_wave
             last_wave = interaction.p2_latest_wave
             if interaction.p2_favourited:
@@ -359,11 +368,14 @@ def profile_views(request):
             else:
                 interaction.favourite = False
 
+        if last_wave:
             week_ago = last_wave + timedelta(days=7)
             if timezone.now() > week_ago:
                 interaction.new_wave = True
             else:
                 interaction.new_wave = False
+        else:
+            interaction.new_wave = True
 
     interactions.order_by('-view_date')
 
@@ -374,7 +386,6 @@ def profile_views(request):
     args = {
         'user': user,
         'page_name': page_name,
-        'views': views,
         'interactions': interactions,
         'total_views': total_views,
         'unique_viewers': unique_viewers,

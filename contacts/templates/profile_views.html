@@ -29,7 +29,11 @@
 
             {% if user.id == interaction.person_1.id %}
 
-                <img class="contact-picture" alt="Profile Picture" src="{{ interaction.person_2.profile_picture.url }}" />
+                {% if interaction.person_2.profile_picture %}
+                    <img class="contact-picture" alt="Profile Picture" src="{{ interaction.person_2.profile_picture.url }}" />
+                {% else %}
+                    <img class="contact-picture" alt="Profile Picture" src="/media/images/users/default.png" />
+                {% endif %}
 
                 <div class="contact-details">
 
@@ -48,7 +52,11 @@
 
             {% else %}
 
-                <img class="contact-picture" alt="Profile Picture" src="{{ interaction.person_1.profile_picture.url }}" />
+                {% if interaction.person_1.profile_picture %}
+                    <img class="contact-picture" alt="Profile Picture" src="{{ interaction.person_1.profile_picture.url }}" />
+                {% else %}
+                    <img class="contact-picture" alt="Profile Picture" src="/media/images/users/default.png" />
+                {% endif %}
 
                 <div class="contact-details">
 

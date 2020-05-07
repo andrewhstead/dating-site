@@ -14,6 +14,11 @@
                 {% if result.profile_picture %}
                     <img class="search-picture" alt="{{ result.username }}" src="{{ result.profile_picture.url }}" />
                 {% endif %}
+                {% if result.is_online %}
+                    <img class="search-icon" alt="Online" src="/media/images/icons/online.png" />
+                {% else %}
+                    <img class="search-icon" alt="Offline" src="/media/images/icons/offline.png" />
+                {% endif %}
                 <a class="standard-link" href="{% url 'view_profile' result.id %}">
                     {{ result.username }}
                 </a>

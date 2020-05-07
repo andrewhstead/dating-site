@@ -68,6 +68,13 @@ def search_results(request):
         earliest_date = today - timedelta(days=((int(age_high) + 1)*365)+(int(age_high)/4))
         results = results.filter(date_of_birth__gte=earliest_date)
 
+    for result in results:
+        one_minute = result.last_active + timedelta(seconds=60)
+        if timezone.now() > one_minute:
+            result.is_online = False
+        else:
+            result.is_online = True
+
     args = {
         'page_name': page_name,
         'results': results,
