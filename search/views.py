@@ -8,6 +8,7 @@ from users.models import User, user_age
 from django.http import JsonResponse, HttpResponseRedirect
 from django.db.models import Q
 from datetime import date, timedelta
+from world.models import State
 
 # Create your views here.
 
@@ -61,10 +62,10 @@ def search_results(request):
     if ethnicity:
         results = results.filter(ethnicity=ethnicity)
     if age_low:
-        latest_date = today - timedelta(days=(int(age_low)*365)+(int(age_low)/4))
+        latest_date = today - timedelta(days=(int(age_low)*365)+(int(age_low)/4)+1)
         results = results.filter(date_of_birth__lte=latest_date)
     if age_high:
-        earliest_date = today - timedelta(days=(int(age_high)*365)+(int(age_high)/4))
+        earliest_date = today - timedelta(days=((int(age_high) + 1)*365)+(int(age_high)/4))
         results = results.filter(date_of_birth__gte=earliest_date)
 
     args = {
